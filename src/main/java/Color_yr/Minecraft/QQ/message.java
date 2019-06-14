@@ -40,7 +40,7 @@ public class message {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
                     a.replaceAll("说话", "");
-                    String say = Minecraft_QQ.Minecraft_Say.replaceAll("%Servername%", Minecraft_QQ.Minecraft_ServerName).replaceAll("%Message%", buff);
+                    String say = Minecraft_QQ.Minecraft_Say.replaceAll("%Servername%", Minecraft_QQ.Minecraft_ServerName).replaceAll("%Message%", a);
                     say = ChatColor.translateAlternateColorCodes('&', say);
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
                         player1.sendMessage(new TextComponent(say));
