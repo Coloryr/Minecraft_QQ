@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class socket extends Thread {
-	public static String text = "";
 
 	static PrintWriter pw = null;
 	static OutputStream os = null;

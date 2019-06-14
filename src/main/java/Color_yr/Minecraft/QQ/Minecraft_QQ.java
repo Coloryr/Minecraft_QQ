@@ -48,7 +48,7 @@ public class Minecraft_QQ extends Plugin {
     public static String User_SendSucceedMessage;
     public static Boolean User_NotSendCommder;
 
-    public static String Version = "1.6.5";
+    public static String Version = "2.0.0";
 
     public static Configuration config;
     private static File FileName;
