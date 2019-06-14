@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.json.simple.JSONObject;
 
 import javax.lang.model.type.NullType;
 
@@ -36,6 +37,8 @@ public class message {
 		while (info.indexOf(Head) == 0 && info.indexOf(End) != -1)
 		{
 			String buff = get_string(info, Head, End);
+			JSONObject object = JSONObject.
+					.parseObject("{\"boolean\":true,\"string\":\"string\",\"list\":[1,2,3],\"int\":2}");
 			if (buff.indexOf("[群消息]") == 0) {
 				buff = buff.replaceAll("\\[群消息\\]", "");
 				String say = Minecraft_QQ.Minecraft_Say;
