@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import static Color_yr.Minecraft_QQ.config.config_data;
-
 public class socket extends Thread {
 
     static PrintWriter pw = null;
@@ -28,7 +26,7 @@ public class socket extends Thread {
     public void run() {
         socket_stop = false;
         if (config_bukkit.System_Debug == true)
-            config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]线程开始");
+            config.log.info("§d[Minecraft_QQ]§5[Debug]线程开始");
         if (logs.Socket_log == true) {
             logs logs = new logs();
             logs.log_write("[socket]线程开始");
@@ -44,12 +42,12 @@ public class socket extends Thread {
                     logs.log_write("[socket]正在进行自动重连");
                 }
                 if (config_bukkit.System_Debug == true)
-                    config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]正在进行自动重连");
+                    config.log.info("§d[Minecraft_QQ]§5[Debug]正在进行自动重连");
                 socket_restart socket_restart = new socket_restart();
                 if (socket_restart.socket_restart_start() == true) {
                     if (socket_first == true) {
                         if (config_bukkit.System_Debug == true)
-                            config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-重连销毁");
+                            config.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-重连销毁");
                         if (logs.Socket_log == true) {
                             logs logs = new logs();
                             logs.log_write("[socket]线程销毁-重连销毁");
@@ -71,7 +69,7 @@ public class socket extends Thread {
                 }
             } else if (socket_stop == true) {
                 if (config_bukkit.System_Debug == true)
-                    config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-停止销毁");
+                    config.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-停止销毁");
                 if (logs.Socket_log == true) {
                     logs logs = new logs();
                     logs.log_write("[socket]线程销毁-停止销毁");
@@ -83,7 +81,7 @@ public class socket extends Thread {
                         socket_runFlag = false;
                         while (socket_stop) {
                             if (config_bukkit.System_Debug == true)
-                                config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-断开销毁");
+                                config.log.info("§d[Minecraft_QQ]§5[Debug]线程销毁-断开销毁");
                             if (logs.Socket_log == true) {
                                 logs logs = new logs();
                                 logs.log_write("[socket]线程销毁-断开销毁");
@@ -94,7 +92,7 @@ public class socket extends Thread {
                         is = socket.getInputStream();
                         int len = is.read(buf);
                         if (len <= 0) {
-                            config_bukkit.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
+                            config.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
                             if (logs.Socket_log == true) {
                                 logs logs = new logs();
                                 logs.log_write("[socket]酷Q连接中断");
@@ -103,22 +101,24 @@ public class socket extends Thread {
                         } else {
                             String info = new String(buf, 0, len);
                             if (info != null && !info.isEmpty()) {
+                                if (config_bukkit.System_Debug == true)
+                                    config.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
                                 if (config.is_bungee == true)
                                     config.message_b.message_read(info);
                                 else
-                                    message_bukkit.message_read(info);
+                                    config.message_a.message_read(info);
                             }
                         }
                     }
                 } catch (UnknownHostException e) {
-                    config_bukkit.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
+                    config.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
                     if (logs.Error_log == true) {
                         logs logs = new logs();
                         logs.log_write("[ERROR]" + e.getMessage());
                     }
                     socket_runFlag = false;
                 } catch (IOException e) {
-                    config_bukkit.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
+                    config.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
                     if (logs.Error_log == true) {
                         logs logs = new logs();
                         logs.log_write("[ERROR]" + e.getMessage());
@@ -144,7 +144,7 @@ public class socket extends Thread {
             os = socket.getOutputStream();
             os.write(send.getBytes());
         } catch (IOException e) {
-            config_bukkit.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
+            config.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
             if (logs.Socket_log == true) {
                 logs logs = new logs();
                 logs.log_write("[socket]酷Q连接中断");
@@ -156,7 +156,7 @@ public class socket extends Thread {
             logs.log_write("[socket_send]" + send);
         }
         if (config_bukkit.System_Debug == true)
-            config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
+            config.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
     }
 
     public static void server_close() {
@@ -189,7 +189,7 @@ public class socket extends Thread {
                 if (readThread.isAlive() == true)
                     readThread.stop();
                 if (config_bukkit.System_Debug == true)
-                    config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]线程已关闭");
+                    config.log.info("§d[Minecraft_QQ]§5[Debug]线程已关闭");
                 if (logs.Socket_log == true) {
                     logs logs = new logs();
                     logs.log_write("[socket]线程已关闭");

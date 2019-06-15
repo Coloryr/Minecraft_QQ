@@ -4,9 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import static Color_yr.Minecraft_QQ.config.config_data;
-
 public class commder_bukkit implements CommandExecutor {
+    public commder_bukkit(Minecraft_QQ_bukkit plugin) { }
 
     public void reload(CommandSender sender) {
         sender.sendMessage("§d[Minecraft_QQ]§e机器人IP： " + config_bukkit.System_IP);
@@ -73,7 +72,7 @@ public class commder_bukkit implements CommandExecutor {
                 if (sender.isOp()) {
                     if (args.length > 1) {
                         if (socket.socket_runFlag == true) {
-                            socket.socket_send("[群消息]" + "()" + args[1]);
+                            socket_send.send_data("data","group","无", args[1]);
                             sender.sendMessage("§d[Minecraft_QQ]§2已发送" + args[1]);
                         } else
                             sender.sendMessage("§d[Minecraft_QQ]§c错误，酷Q未连接");

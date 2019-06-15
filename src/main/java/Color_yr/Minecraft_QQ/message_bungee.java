@@ -1,7 +1,6 @@
 package Color_yr.Minecraft_QQ;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -12,7 +11,6 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import static Color_yr.Minecraft_QQ.Minecraft_QQ_bungee.config_data_bungee;
-import static Color_yr.Minecraft_QQ.config.config_data;
 
 public class message_bungee {
 
@@ -23,8 +21,6 @@ public class message_bungee {
     }
 
     public void message_read(String info) {
-        if (config_bukkit.System_Debug == true)
-            config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
         if (logs.Group_log == true) {
             logs logs = new logs();
             logs.log_write("[Group]" + info);

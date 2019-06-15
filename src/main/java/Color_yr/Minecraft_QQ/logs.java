@@ -33,9 +33,9 @@ public class logs {
             pw.close();
             fw.close();
         } catch (FileNotFoundException e) {
-            config_bukkit.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+            config.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
         } catch (IOException e) {
-            config_bukkit.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+            config.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
         }
     }
 }

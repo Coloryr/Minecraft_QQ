@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import static Color_yr.Minecraft_QQ.config.config_data;
-
 public class message_bukkit {
     public static String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
@@ -14,8 +12,6 @@ public class message_bukkit {
     }
 
     public static void message_read(String info) {
-        if (config_bukkit.System_Debug == true)
-            config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
         if (logs.Group_log == true) {
             logs logs = new logs();
             logs.log_write("[Group]" + info);
@@ -60,14 +56,14 @@ public class message_bukkit {
                                 .replaceAll("%player_number%", "" + player_number)
                                 .replaceAll("%player_list%", player);
                     }
-                    socket.socket_send(send);
+                    socket_send.send_data("data", read_bean.getGroup(), "无", send);
                     if (logs.Group_log == true) {
                         logs logs = new logs();
                         logs.log_write("[group]查询在线人数");
                     }
                     if (config_bukkit.System_Debug == true)
-                        config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                } else if (info.indexOf("[服务器状态]") == 0) {
+                        config.log.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                } else if (info.indexOf("服务器状态") == 0) {
                     String send = config_bukkit.Minecraft_ServerOnlineMessage;
                     send = send.replaceAll("%Servername%", config_bukkit.Minecraft_ServerName);
                     socket_send.send_data("data", read_bean.getGroup(), "无", send);
@@ -76,7 +72,7 @@ public class message_bukkit {
                         logs.log_write("[group]查询服务器状态");
                     }
                     if (config_bukkit.System_Debug == true)
-                        config_bukkit.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                        config.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                 }
                 int i = info.indexOf(config_bukkit.End);
                 info = info.substring(i + config_bukkit.End.length());

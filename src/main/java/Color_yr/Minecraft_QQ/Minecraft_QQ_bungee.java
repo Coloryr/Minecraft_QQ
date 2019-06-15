@@ -10,14 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import static Color_yr.Minecraft_QQ.config.*;
-
 public class Minecraft_QQ_bungee extends Plugin {
 
     public static config_bungee config_data_bungee;
 
     public static void loadconfig() {
-        ProxyServer.getInstance().getLogger().info("§d[Minecraft_QQ]§e当前插件版本为：" + Version
+        config.log.info("§d[Minecraft_QQ]§e当前插件版本为：" + config.Version
                 + "，你的配置文件版本为：" + config_data_bungee.config.getString("Version"));
 
         config_bukkit.Join_Message = config_data_bungee.config.getString("Join.Message", "%Player%加入了服务器");
@@ -66,23 +64,23 @@ public class Minecraft_QQ_bungee extends Plugin {
 
     public static void reloadConfig() {
         try {
-            config_data_bungee.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(FileName);
+            config_data_bungee.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config.FileName);
             loadconfig();
         } catch (Exception arg0) {
-            config_bukkit.log.warning("§d[Minecraft_QQ]§c配置文件读取失败:" + arg0);
+            config.log.warning("§d[Minecraft_QQ]§c配置文件读取失败:" + arg0);
         }
     }
 
     public void setConfig() {
-        FileName = new File(getDataFolder(), "config.yml");
+        config.FileName = new File(getDataFolder(), "config.yml");
         logs.file = new File(getDataFolder(), "logs.log");
         if (!getDataFolder().exists())
             getDataFolder().mkdir();
-        if (!FileName.exists()) {
+        if (!config.FileName.exists()) {
             try (InputStream in = getResourceAsStream("config_bungee.yml")) {
-                Files.copy(in, FileName.toPath());
+                Files.copy(in, config.FileName.toPath());
             } catch (IOException e) {
-                config_bukkit.log.warning("§d[Minecraft_QQ]§c配置文件创建失败：" + e);
+                config.log.warning("§d[Minecraft_QQ]§c配置文件创建失败：" + e);
             }
         }
         try {
@@ -90,23 +88,23 @@ public class Minecraft_QQ_bungee extends Plugin {
                 logs.file.createNewFile();
             }
         } catch (IOException e) {
-            config_bukkit.log.warning("§d[Minecraft_QQ]§c日志文件错误：" + e);
+            config.log.warning("§d[Minecraft_QQ]§c日志文件错误：" + e);
         }
     }
 
     @Override
     public void onEnable() {
         config_data_bungee = new config_bungee();
-        message_b = new message_bungee();
-        is_bungee = true;
-        config_bukkit.log = ProxyServer.getInstance().getLogger();
-        config_bukkit.log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
+        config.message_b = new message_bungee();
+        config.is_bungee = true;
+        config.log = ProxyServer.getInstance().getLogger();
+        config.log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         reloadConfig();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Event_bungee());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command_bungee());
-        config_bukkit.log.info("§d[Minecraft_QQ]§e已启动-" + Version);
-        config_bukkit.log.info("§d[Minecraft_QQ]§eDebug模式" + config_bukkit.System_Debug);
+        config.log.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
+        config.log.info("§d[Minecraft_QQ]§eDebug模式" + config_bukkit.System_Debug);
         socket socket = new socket();
         socket.socket_start();
     }
@@ -125,6 +123,6 @@ public class Minecraft_QQ_bungee extends Plugin {
             }
         }
         socket.server_close();
-        config_bukkit.log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
+        config.log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

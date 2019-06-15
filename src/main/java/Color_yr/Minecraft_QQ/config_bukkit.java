@@ -34,5 +34,4 @@ public class config_bukkit {
     public static String Head;
     public static String End;
 
-    static Logger log;
 }

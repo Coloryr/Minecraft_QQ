@@ -42,8 +42,8 @@ public class command_bungee extends Command {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录群发来的消息 " + logs.Group_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录发送至群的消息 " + logs.Send_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log));
-            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测头 " + config_data.Head));
-            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测尾 " + config_data.End));
+            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测头 " + config_bukkit.Head));
+            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测尾 " + config_bukkit.End));
         }
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e重载成功"));
     }
@@ -85,7 +85,7 @@ public class command_bungee extends Command {
             if (sender.hasPermission("qq.admin")) {
                 if (args[1] != "") {
                     if (socket.socket_runFlag == true) {
-                        socket.socket_send("[群消息]" + "()" + args[1]);
+                        socket_send.send_data("data","group","无", args[1]);
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2已发送" + args[1]));
                     } else
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，酷Q未连接"));
