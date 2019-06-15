@@ -1,9 +1,6 @@
-package Color_yr.Minecraft.QQ;
+package Color_yr.Minecraft_QQ;
 
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.config.Configuration;
-
-import java.util.logging.Logger;
 
 public class config_bungee {
 
@@ -15,6 +12,7 @@ public class config_bungee {
     public Boolean Minecraft_SendOneByOne;
     public String Minecraft_SendOneByOneMessage;
     public Boolean Minecraft_HideEmptyServer;
+    public Boolean Minecraft_HideList;
 
     public Boolean SendAllServer_Enable;
     public String SendAllServer_Message;

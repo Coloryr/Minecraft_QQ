@@ -1,6 +1,5 @@
-package Color_yr.Minecraft.QQ;
+package Color_yr.Minecraft_QQ;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.logging.Logger;
@@ -32,7 +31,8 @@ public class config_bukkit {
     public static String User_SendSucceedMessage;
     public static Boolean User_NotSendCommder;
 
-    public static FileConfiguration config;
+    public static String Head;
+    public static String End;
 
     static Logger log;
 }

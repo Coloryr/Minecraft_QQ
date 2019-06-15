@@ -35,7 +35,10 @@ Minecraft:
   HideEmptyServer: true
   #在线人数文本
   #变量：%Servername%服务器名字，%player_number%玩家数量，%player_list%所有玩家列表
-  PlayerListMessage: "%Servername%当前在线人数：%player_number%，玩家列表：%player_list%"  
+  PlayerListMessage: "%Servername%当前在线人数：%player_number%，玩家列表：%player_list%"
+  #合并显示
+  #例如你的信息是"%player_number%%player_list%"则设置开启
+  HideList: false
   #服务器状态文本
   ServerOnlineMessage: "%Servername%服务器在线"
 #子服名称设置

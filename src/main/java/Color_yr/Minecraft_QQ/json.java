@@ -1,4 +1,4 @@
-package Color_yr.Minecraft.QQ;
+package Color_yr.Minecraft_QQ;
 
 class Read_Json {
     private String group;
@@ -22,6 +22,7 @@ class Read_Json {
         return is_commder;
     }
 }
+
 class Send_Json {
     private String group;
     private String message;
