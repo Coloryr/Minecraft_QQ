@@ -1,5 +1,6 @@
 package Color_yr.Minecraft.QQ;
 
+import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -19,7 +20,13 @@ public class Event implements Listener {
 			String playerName = event.getPlayer().getName();
 			message = message.replaceAll("%Player%", playerName);
 			message = ChatColor.translateAlternateColorCodes('&', message);
-			socket.socket_send("[群消息]" + "()" + message);
+			Send_Json_player send_bean = new Send_Json_player();
+			Gson send_gson = new Gson();
+			send_bean.setData("data");
+			send_bean.setGroup("group");
+			send_bean.setPlayer("无");
+			send_bean.setMessage(message);
+			socket.socket_send(send_gson.toJson(send_bean));
 		}
 	}
 
@@ -30,7 +37,13 @@ public class Event implements Listener {
 			String playerName = event.getPlayer().getName();
 			message = message.replaceAll("%Player%", playerName);
 			message = ChatColor.translateAlternateColorCodes('&', message);
-			socket.socket_send("[群消息]" + "()" + message);
+			Send_Json_player send_bean = new Send_Json_player();
+			Gson send_gson = new Gson();
+			send_bean.setData("data");
+			send_bean.setGroup("group");
+			send_bean.setPlayer("无");
+			send_bean.setMessage(message);
+			socket.socket_send(send_gson.toJson(send_bean));
 		}
 	}
 
@@ -38,7 +51,7 @@ public class Event implements Listener {
 	public void onPlayerChangeServer(ServerSwitchEvent event) {
 		if (socket.socket_runFlag == true && Minecraft_QQ.ChangeServer_sendQQ == true) {
 			String message = Minecraft_QQ.ChangeServer_Message;
-			ProxiedPlayer player = (ProxiedPlayer) event.getPlayer();
+			ProxiedPlayer player = event.getPlayer();
 			String playerName = player.getName();
 			String Server = Minecraft_QQ.config.getString("Servers." + player.getServer().getInfo().getName());
 			if (Server == "" || Server == null) {
@@ -46,7 +59,13 @@ public class Event implements Listener {
 			}
 			message = message.replaceAll("%Player%", playerName).replaceAll("%Server%", Server);
 			message = ChatColor.translateAlternateColorCodes('&', message);
-			socket.socket_send("[群消息]" + "()" + message);
+			Send_Json_player send_bean = new Send_Json_player();
+			Gson send_gson = new Gson();
+			send_bean.setData("data");
+			send_bean.setGroup("group");
+			send_bean.setPlayer("无");
+			send_bean.setMessage(message);
+			socket.socket_send(send_gson.toJson(send_bean));
 		}
 	}
 
@@ -74,10 +93,22 @@ public class Event implements Listener {
 					&& Minecraft_QQ.Minecraft_Mode == 1) {
 				player_message = player_message.replaceFirst(Minecraft_QQ.Minecraft_Check, "");
 				message = message.replaceAll("%Message%", player_message);
-				socket.socket_send("[群消息]" + '(' + playerName + ')' + message);
+				Send_Json_player send_bean = new Send_Json_player();
+				Gson send_gson = new Gson();
+				send_bean.setData("data");
+				send_bean.setGroup("group");
+				send_bean.setPlayer(playerName);
+				send_bean.setMessage(message);
+				socket.socket_send(send_gson.toJson(send_bean));
 			} else if (Minecraft_QQ.Minecraft_Mode == 2) {
 				message = message.replaceAll("%Message%", player_message);
-				socket.socket_send("[群消息]" + '(' + playerName + ')' + message);
+				Send_Json_player send_bean = new Send_Json_player();
+				Gson send_gson = new Gson();
+				send_bean.setData("data");
+				send_bean.setGroup("group");
+				send_bean.setPlayer(playerName);
+				send_bean.setMessage(message);
+				socket.socket_send(send_gson.toJson(send_bean));
 			}
 			if (Minecraft_QQ.SendAllServer_Enable == true) {
 				String SendAllServer_send = Minecraft_QQ.SendAllServer_Message;
@@ -103,5 +134,24 @@ public class Event implements Listener {
 				player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
 						"§d[Minecraft_QQ]" + Minecraft_QQ.User_SendSucceedMessage)));
 		}
+	}
+}
+
+class Send_Json_player {
+	private String group;
+	private String message;
+	private String data;
+	private String player;
+	public void setGroup(String group) {
+		this.group = group;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	public void setPlayer(String player) {
+		this.player = player;
 	}
 }

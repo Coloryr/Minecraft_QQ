@@ -39,8 +39,10 @@ public class message {
             if (read_bean.getIs_commder() == "false") {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
-                    a.replaceAll("说话", "");
-                    String say = Minecraft_QQ.Minecraft_Say.replaceAll("%Servername%", Minecraft_QQ.Minecraft_ServerName).replaceAll("%Message%", a);
+                    a = a.replaceFirst("说话", "");
+                    String say = Minecraft_QQ.Minecraft_Say.
+                            replaceFirst("%Servername%", Minecraft_QQ.Minecraft_ServerName).
+                            replaceFirst("%Message%", a);
                     say = ChatColor.translateAlternateColorCodes('&', say);
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
                         player1.sendMessage(new TextComponent(say));
@@ -178,6 +180,7 @@ class Send_Json {
     private String group;
     private String message;
     private String data;
+    private String player;
     public void setGroup(String group) {
         this.group = group;
     }
@@ -187,5 +190,7 @@ class Send_Json {
     public void setData(String data) {
         this.data = data;
     }
-
+    public void setPlayer(String player) {
+        this.player = player;
+    }
 }
