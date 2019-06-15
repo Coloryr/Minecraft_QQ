@@ -11,7 +11,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-public class message {
+import static Color_yr.Minecraft.QQ.Minecraft_QQ.config_data;
+import static Color_yr.Minecraft.QQ.Minecraft_QQ_bungee.config_data_bungee;
+
+public class message_bungee {
     public static String Head;
     public static String End;
 
@@ -22,8 +25,8 @@ public class message {
     }
 
     public static void message_read(String info) {
-        if (Minecraft_QQ.System_Debug == true)
-            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
+        if (config_data.System_Debug == true)
+            config_data.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
         if (logs.Group_log == true) {
             logs logs = new logs();
             logs.log_write("[Group]" + info);
@@ -40,8 +43,8 @@ public class message {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
                     a = a.replaceFirst("说话", "");
-                    String say = Minecraft_QQ.Minecraft_Say.
-                            replaceFirst("%Servername%", Minecraft_QQ.Minecraft_ServerName).
+                    String say = config_data.Minecraft_Say.
+                            replaceFirst("%Servername%", config_data.Minecraft_ServerName).
                             replaceFirst("%Message%", a);
                     say = ChatColor.translateAlternateColorCodes('&', say);
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
@@ -52,8 +55,8 @@ public class message {
                     int one_player_number;
                     String one_server_player = "";
                     String all_server_player = null;
-                    String send = Minecraft_QQ.Minecraft_PlayerListMessage;
-                    if (Minecraft_QQ.Minecraft_SendOneByOne == true) {
+                    String send = config_data.Minecraft_PlayerListMessage;
+                    if (config_data_bungee.Minecraft_SendOneByOne == true) {
                         Map<String, ServerInfo> Server = proxyserver.getServers();
                         Collection<ServerInfo> values = Server.values();
                         Iterator<ServerInfo> iterator2 = values.iterator();
@@ -62,15 +65,15 @@ public class message {
                             String player_onserver = serverinfo.getPlayers().toString();
                             if (player_onserver == "[]") {
                                 one_player_number = 0;
-                                if (Minecraft_QQ.Minecraft_HideEmptyServer == true) {
+                                if (config_data_bungee.Minecraft_HideEmptyServer == true) {
                                     one_server_player = "";
                                 } else {
-                                    String Server_name = Minecraft_QQ.config.getString("Servers." + serverinfo.getName());
+                                    String Server_name = config_data.config.getString("Servers." + serverinfo.getName());
                                     if (Server_name == "" || Server_name == null) {
                                         Server_name = serverinfo.getName();
                                         Server_name = Server_name.replace("null", "");
                                     }
-                                    one_server_player = Minecraft_QQ.Minecraft_SendOneByOneMessage
+                                    one_server_player = config_data_bungee.Minecraft_SendOneByOneMessage
                                             .replaceAll("%Server%", Server_name)
                                             .replaceAll("%player_number%", "0")
                                             .replaceAll("%player_list%", "无");
@@ -82,12 +85,12 @@ public class message {
                                     if (player_onserver.charAt(i) == ',')
                                         one_player_number++;
                                 }
-                                String Server_name = Minecraft_QQ.config.getString("Servers." + serverinfo.getName());
+                                String Server_name = config_data.config.getString("Servers." + serverinfo.getName());
                                 if (Server_name == "" || Server_name == null) {
                                     Server_name = serverinfo.getName();
                                     Server_name = Server_name.replace("null", "");
                                 }
-                                one_server_player = Minecraft_QQ.Minecraft_SendOneByOneMessage
+                                one_server_player = config_data_bungee.Minecraft_SendOneByOneMessage
                                         .replaceAll("%Server%", Server_name)
                                         .replaceAll("%player_number%", "" + one_player_number)
                                         .replaceAll("%player_list%", player_onserver.replace("[", "").replace("]", ""));
@@ -118,7 +121,7 @@ public class message {
                             send = send.replaceAll("%player_list%", all_server_player.replace("[", "").replace("]", ""));
                         }
                     }
-                    send = send.replace("%Servername%", Minecraft_QQ.Minecraft_ServerName);
+                    send = send.replace("%Servername%", config_data.Minecraft_ServerName);
                     Send_Json send_bean = new Send_Json();
                     Gson send_gson = new Gson();
                     send_bean.setData("data");
@@ -130,8 +133,8 @@ public class message {
                         logs.log_write("[group]查询在线人数");
                     }
                 } else if (a.indexOf("服务器状态") == 0) {
-                    String send = Minecraft_QQ.Minecraft_ServerOnlineMessage;
-                    send = send.replaceAll("%Servername%", Minecraft_QQ.Minecraft_ServerName);
+                    String send = config_data.Minecraft_ServerOnlineMessage;
+                    send = send.replaceAll("%Servername%", config_data.Minecraft_ServerName);
                     Send_Json send_bean = new Send_Json();
                     Gson send_gson = new Gson();
                     send_bean.setData("data");
@@ -155,42 +158,5 @@ public class message {
             int i = info.indexOf(End);
             info = info.substring(i + End.length());
         }
-    }
-}
-
-class Read_Json {
-	private String group;
-	private String message;
-	private String player;
-	private String is_commder;
-	public String getGroup() {
-		return group;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public String getPlayer() {
-		return player;
-	}
-	public String getIs_commder() {
-		return is_commder;
-	}
-}
-class Send_Json {
-    private String group;
-    private String message;
-    private String data;
-    private String player;
-    public void setGroup(String group) {
-        this.group = group;
-    }
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    public void setData(String data) {
-        this.data = data;
-    }
-    public void setPlayer(String player) {
-        this.player = player;
     }
 }

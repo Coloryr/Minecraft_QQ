@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
+import static Color_yr.Minecraft.QQ.Minecraft_QQ.config_data;
+
 public class logs {
 	public static File file;
 
@@ -30,9 +32,9 @@ public class logs {
 			pw.close();
 			fw.close();
 		} catch (FileNotFoundException e) {
-			Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+			config_data.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
 		} catch (IOException e) {
-			Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+			config_data.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
 		}
 	}
 }
