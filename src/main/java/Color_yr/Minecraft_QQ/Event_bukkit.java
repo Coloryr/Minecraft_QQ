@@ -51,10 +51,10 @@ public class Event_bukkit implements Listener {
             if (player_message.indexOf(config_bukkit.Minecraft_Check) == 0 && config_bukkit.Minecraft_Mode == 1) {
                 player_message = player_message.replaceFirst(config_bukkit.Minecraft_Check, "");
                 message = message.replaceAll("%Message%", player_message);
-                socket.socket_send("[群消息]" + '(' + playerName + ')' + message);
+                socket_send.send_data("data", "group", playerName, message);
             } else if (config_bukkit.Minecraft_Mode == 2) {
                 message = message.replaceAll("%Message%", player_message);
-                socket.socket_send("[群消息]" + '(' + playerName + ')' + message);
+                socket_send.send_data("data", "group", playerName, message);
             }
             if (config_bukkit.User_SendSucceed == true)
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',

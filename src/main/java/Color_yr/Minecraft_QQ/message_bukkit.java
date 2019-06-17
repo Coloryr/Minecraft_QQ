@@ -3,6 +3,16 @@ package Color_yr.Minecraft_QQ;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
+
+import java.util.Set;
 
 public class message_bukkit {
     public static String get_string(String a, String b, String c) {
@@ -73,10 +83,112 @@ public class message_bukkit {
                     }
                     if (config_bukkit.System_Debug == true)
                         config.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                } else if (read_bean.getIs_commder() == "true") {
+                    Player p = Bukkit.getPlayer(read_bean.getPlayer());
+                    if (p != null) {
+                        Bukkit.dispatchCommand(p, read_bean.getMessage());
+                        socket_send.send_data("data", read_bean.getGroup(),
+                                read_bean.getPlayer(), "命令已通过玩家执行");
+                    }
+                    else
+                    {
+                        Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
+                        socket_send.send_data("data", read_bean.getGroup(),
+                                "控制台", send.message);
+                    }
                 }
-                int i = info.indexOf(config_bukkit.End);
-                info = info.substring(i + config_bukkit.End.length());
             }
+            int i = info.indexOf(config_bukkit.End);
+            info = info.substring(i + config_bukkit.End.length());
         }
     }
+}
+class send{
+    public static String message;
+    public static CommandSender sender = new CommandSender() {
+        @Override
+        public void sendMessage(String message) {
+            send.message = message;
+        }
+
+        @Override
+        public void sendMessage(String[] messages) {
+            send.message = messages[0];
+        }
+
+        @Override
+        public Server getServer() {
+            return Bukkit.getServer();
+        }
+
+        @Override
+        public String getName() {
+            return "Minecraft_QQ";
+        }
+
+        @Override
+        public boolean isPermissionSet(String name) {
+            return false;
+        }
+
+        @Override
+        public boolean isPermissionSet(Permission perm) {
+            return false;
+        }
+
+        @Override
+        public boolean hasPermission(String name) {
+            return false;
+        }
+
+        @Override
+        public boolean hasPermission(Permission perm) {
+            return false;
+        }
+
+        @Override
+        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
+            return null;
+        }
+
+        @Override
+        public PermissionAttachment addAttachment(Plugin plugin) {
+            return null;
+        }
+
+        @Override
+        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
+            return null;
+        }
+
+        @Override
+        public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
+            return null;
+        }
+
+        @Override
+        public void removeAttachment(PermissionAttachment attachment) {
+
+        }
+
+        @Override
+        public void recalculatePermissions() {
+
+        }
+
+        @Override
+        public Set<PermissionAttachmentInfo> getEffectivePermissions() {
+            return null;
+        }
+
+        @Override
+        public boolean isOp() {
+            return true;
+        }
+
+        @Override
+        public void setOp(boolean value) {
+
+        }
+    };
 }
