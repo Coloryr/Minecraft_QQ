@@ -130,7 +130,7 @@ public class message_bungee {
                         logs.log_write("[group]查询服务器状态");
                     }
                 }
-            } else if (read_bean.getIs_commder() == "true") {
+            } else {
                 socket_send.send_data("data", read_bean.getGroup(),
                         "无", "BC不支持使用指令");
             }

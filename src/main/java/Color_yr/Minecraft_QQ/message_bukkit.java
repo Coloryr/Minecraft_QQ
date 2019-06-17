@@ -32,7 +32,7 @@ public class message_bukkit {
             String buff = get_string(info, config_bukkit.Head, config_bukkit.End);
             Gson read_gson = new Gson();
             Read_Json read_bean = read_gson.fromJson(buff, Read_Json.class);
-            if (read_bean.getIs_commder() == "false") {
+            if (read_bean.getIs_commder().equals("false") == true) {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
                     a = a.replaceFirst("说话", "");
@@ -83,18 +83,18 @@ public class message_bukkit {
                     }
                     if (config_bukkit.System_Debug == true)
                         config.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
-                } else if (read_bean.getIs_commder() == "true") {
+                }
+            } else if (read_bean.getIs_commder().equals("true") == true) {
+                if (read_bean.getPlayer().equals("后台") == true) {
+                    Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
+                    socket_send.send_data("data", read_bean.getGroup(),
+                            "控制台", send.message);
+                } else {
                     Player p = Bukkit.getPlayer(read_bean.getPlayer());
                     if (p != null) {
                         Bukkit.dispatchCommand(p, read_bean.getMessage());
                         socket_send.send_data("data", read_bean.getGroup(),
                                 read_bean.getPlayer(), "命令已通过玩家执行");
-                    }
-                    else
-                    {
-                        Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
-                        socket_send.send_data("data", read_bean.getGroup(),
-                                "控制台", send.message);
                     }
                 }
             }
@@ -123,47 +123,47 @@ class send{
 
         @Override
         public String getName() {
-            return "Minecraft_QQ";
+            return Bukkit.getConsoleSender().getName();
         }
 
         @Override
         public boolean isPermissionSet(String name) {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isPermissionSet(Permission perm) {
-            return false;
+            return true;
         }
 
         @Override
         public boolean hasPermission(String name) {
-            return false;
+            return true;
         }
 
         @Override
         public boolean hasPermission(Permission perm) {
-            return false;
+            return true;
         }
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
-            return null;
+            return Bukkit.getConsoleSender().addAttachment(plugin,name,value);
         }
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin) {
-            return null;
+            return Bukkit.getConsoleSender().addAttachment(plugin);
         }
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
-            return null;
+            return Bukkit.getConsoleSender().addAttachment(plugin,name,value,ticks);
         }
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
-            return null;
+            return Bukkit.getConsoleSender().addAttachment(plugin,ticks);
         }
 
         @Override
@@ -178,7 +178,7 @@ class send{
 
         @Override
         public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-            return null;
+            return Bukkit.getConsoleSender().getEffectivePermissions();
         }
 
         @Override

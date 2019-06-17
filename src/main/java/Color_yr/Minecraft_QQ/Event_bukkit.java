@@ -18,7 +18,7 @@ public class Event_bukkit implements Listener {
             String playerName = event.getPlayer().getName();
             message = message.replaceAll("%Player%", playerName);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            socket.socket_send("[群消息]" + "()" + message);
+            socket_send.send_data("data", "group", playerName, message);
         }
     }
 
@@ -29,7 +29,7 @@ public class Event_bukkit implements Listener {
             String playerName = event.getPlayer().getName();
             message = message.replaceAll("%Player%", playerName);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            socket.socket_send("[群消息]" + "()" + message);
+            socket_send.send_data("data", "group", playerName, message);
         }
     }
 
