@@ -30,8 +30,14 @@ public class message_bungee {
         ProxyServer proxyserver = ProxyServer.getInstance();
         while (info.indexOf(config_bukkit.Head) == 0 && info.indexOf(config_bukkit.End) != -1) {
             String buff = get_string(info, config_bukkit.Head, config_bukkit.End);
-            Gson read_gson = new Gson();
-            Read_Json read_bean = read_gson.fromJson(buff, Read_Json.class);
+            Read_Json read_bean;
+            try {
+                Gson read_gson = new Gson();
+                read_bean = read_gson.fromJson(buff, Read_Json.class);
+            }catch(Exception e){
+                config.log.warning("数据传输发生错误:" + e.getMessage());
+                return;
+            }
             if (read_bean.getIs_commder() == "false") {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
