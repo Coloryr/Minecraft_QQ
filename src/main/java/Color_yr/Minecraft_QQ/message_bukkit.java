@@ -79,7 +79,7 @@ public class message_bukkit {
                     }
                     if (config_bukkit.System_Debug == true)
                         config.log.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                } else if (info.indexOf("服务器状态") == 0) {
+                } else if (a.indexOf("服务器状态") == 0) {
                     String send = config_bukkit.Minecraft_ServerOnlineMessage;
                     send = send.replaceAll("%Servername%", config_bukkit.Minecraft_ServerName);
                     socket_send.send_data("data", read_bean.getGroup(), "无", send);
