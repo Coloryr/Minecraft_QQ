@@ -1,18 +1,21 @@
 package Color_yr.Minecraft_QQ;
 
 import com.google.gson.Gson;
+import javafx.concurrent.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class message_bukkit {
     public static String get_string(String a, String b, String c) {
@@ -34,7 +37,7 @@ public class message_bukkit {
             try {
                 Gson read_gson = new Gson();
                 read_bean = read_gson.fromJson(buff, Read_Json.class);
-            }catch(Exception e){
+            } catch (Exception e) {
                 config.log.warning("数据传输发生错误:" + e.getMessage());
                 return;
             }
@@ -49,7 +52,7 @@ public class message_bukkit {
                     String player;
                     String send = config_bukkit.Minecraft_PlayerListMessage;
                     player = Bukkit.getOnlinePlayers().toString();
-                    if (player == "[]") {
+                    if (player.equals("[]")) {
                         try {
                             send = send.replaceAll("%Servername%", config_bukkit.Minecraft_ServerName)
                                     .replaceAll("%player_number%", "0")
@@ -92,9 +95,32 @@ public class message_bukkit {
                 }
             } else if (read_bean.getIs_commder().equals("true") == true) {
                 if (read_bean.getPlayer().equals("后台") == true) {
-                    Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
+                    String send_message;
+                    boolean success;
+                    try {
+                        success = Bukkit.getScheduler().callSyncMethod(Minecraft_QQ_bukkit.Minecraft_QQ, new Callable<Boolean>() {
+                            @Override
+                            public Boolean call() {
+                                return Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
+                            }
+                        }).get();
+                    } catch (Exception e) {
+                        config.log.warning(e.toString());
+                    }
+                    if (send.message.size() == 1)
+                    {
+                        send_message = send.message.get(0);
+                    }
+                    else if (send.message.size() > 1) {
+                            send_message = send.message.get(0);
+                            for (int i = 1; i < send.message.size(); i++) {
+                                send_message = send_message + "\n";
+                                send_message = send_message + send.message.get(i);
+                            }
+                    } else
+                        send_message = "指令执行失败";
                     socket_send.send_data("data", read_bean.getGroup(),
-                            "控制台", send.message);
+                            "控制台", send_message);
                 } else {
                     Player p = Bukkit.getPlayer(read_bean.getPlayer());
                     if (p != null) {
@@ -109,17 +135,19 @@ public class message_bukkit {
         }
     }
 }
-class send{
-    public static String message;
+
+class send {
+    public static List<String> message = new ArrayList<String>();
     public static CommandSender sender = new CommandSender() {
         @Override
         public void sendMessage(String message) {
-            send.message = message;
+            send.message.add(message);
         }
 
         @Override
         public void sendMessage(String[] messages) {
-            send.message = messages[0];
+            for (int i = 0; i < messages.length; i++)
+                send.message.add(messages[i]);
         }
 
         @Override
@@ -154,7 +182,7 @@ class send{
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
-            return Bukkit.getConsoleSender().addAttachment(plugin,name,value);
+            return Bukkit.getConsoleSender().addAttachment(plugin, name, value);
         }
 
         @Override
@@ -164,12 +192,12 @@ class send{
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
-            return Bukkit.getConsoleSender().addAttachment(plugin,name,value,ticks);
+            return Bukkit.getConsoleSender().addAttachment(plugin, name, value, ticks);
         }
 
         @Override
         public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
-            return Bukkit.getConsoleSender().addAttachment(plugin,ticks);
+            return Bukkit.getConsoleSender().addAttachment(plugin, ticks);
         }
 
         @Override

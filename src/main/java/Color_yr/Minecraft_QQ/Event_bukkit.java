@@ -8,8 +8,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import static Color_yr.Minecraft_QQ.config.config_data;
-
 public class Event_bukkit implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -42,6 +40,7 @@ public class Event_bukkit implements Listener {
                 return;
         }
         if (config_bukkit.Minecraft_Mode != 0 && socket.socket_runFlag == true) {
+            boolean send_ok = false;
             Player player = event.getPlayer();
             String message = config_bukkit.Minecraft_Message;
             String playerName = player.getName();
@@ -51,12 +50,12 @@ public class Event_bukkit implements Listener {
             if (player_message.indexOf(config_bukkit.Minecraft_Check) == 0 && config_bukkit.Minecraft_Mode == 1) {
                 player_message = player_message.replaceFirst(config_bukkit.Minecraft_Check, "");
                 message = message.replaceAll("%Message%", player_message);
-                socket_send.send_data("data", "group", playerName, message);
+                send_ok = socket_send.send_data("data", "group", playerName, message);
             } else if (config_bukkit.Minecraft_Mode == 2) {
                 message = message.replaceAll("%Message%", player_message);
-                socket_send.send_data("data", "group", playerName, message);
+                send_ok = socket_send.send_data("data", "group", playerName, message);
             }
-            if (config_bukkit.User_SendSucceed == true)
+            if (config_bukkit.User_SendSucceed == true && send_ok == true)
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         "§d[Minecraft_QQ]" + config_bukkit.User_SendSucceedMessage));
         }

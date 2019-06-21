@@ -1,14 +1,14 @@
 package Color_yr.Minecraft_QQ;
 
-import java.util.Collection;
-import java.util.Map;
-
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.util.Collection;
+import java.util.Map;
 
 import static Color_yr.Minecraft_QQ.Minecraft_QQ_bungee.config_data_bungee;
 
@@ -34,11 +34,11 @@ public class message_bungee {
             try {
                 Gson read_gson = new Gson();
                 read_bean = read_gson.fromJson(buff, Read_Json.class);
-            }catch(Exception e){
+            } catch (Exception e) {
                 config.log.warning("数据传输发生错误:" + e.getMessage());
                 return;
             }
-            if (read_bean.getIs_commder() == "false") {
+            if (read_bean.getIs_commder().equals("false")) {
                 String a = read_bean.getMessage();
                 if (a.indexOf("说话") == 0) {
                     a = a.replaceFirst("说话", "");
@@ -57,14 +57,14 @@ public class message_bungee {
                         final Collection<ServerInfo> values = Server.values();
                         for (final ServerInfo serverinfo : values) {
                             final String player_onserver = serverinfo.getPlayers().toString();
-                            if (player_onserver == "[]") {
+                            if (player_onserver.equals("[]")) {
                                 int one_player_number = 0;
                                 if (config_data_bungee.Minecraft_HideEmptyServer) {
                                     one_player_number = 0;
                                     one_server_player = "";
                                 } else {
                                     String Server_name = config_data_bungee.config.getString("Servers." + serverinfo.getName());
-                                    if (Server_name == "" || Server_name == null) {
+                                    if (Server_name.equals("") || Server_name == null) {
                                         Server_name = serverinfo.getName();
                                         Server_name = Server_name.replace("null", "");
                                     }
@@ -82,7 +82,7 @@ public class message_bungee {
                                     }
                                 }
                                 String Server_name = config_data_bungee.config.getString("Servers." + serverinfo.getName());
-                                if (Server_name == "" || Server_name == null) {
+                                if (Server_name.equals("") || Server_name == null) {
                                     Server_name = serverinfo.getName();
                                     Server_name = Server_name.replace("null", "");
                                 }
@@ -107,7 +107,7 @@ public class message_bungee {
                         }
                     } else {
                         all_server_player = proxyserver.getPlayers().toString();
-                        if (all_server_player == "[]") {
+                        if (all_server_player.equals("[]")) {
                             send = send.replaceAll("%player_number%", "0");
                             send = send.replaceAll("%player_list%", "无");
                         } else {

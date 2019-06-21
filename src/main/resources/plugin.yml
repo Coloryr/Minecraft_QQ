@@ -6,6 +6,6 @@ version: 2.0.0
 commands:
   qq:
     description: Minecraft_QQ的主要指令
-    permission: QQ
+    permission: Minecraft_QQ.admin
     permission-message: 你没有这个权限
     usage: §4[Minecraft_QQ]§6/qq help来查看帮助

@@ -1,25 +1,18 @@
 package Color_yr.Minecraft_QQ;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Date;
-
-import static Color_yr.Minecraft_QQ.config.config_data;
-
 
 public class logs {
     public static File file;
 
-    public static Boolean Socket_log = false;
-    public static Boolean Group_log = false;
-    public static Boolean Send_log = false;
-    public static Boolean Error_log = false;
+    public static boolean Socket_log = false;
+    public static boolean Group_log = false;
+    public static boolean Send_log = false;
+    public static boolean Error_log = false;
 
     public void log_write(String text) {
-        FileWriter fw = null;
+        FileWriter fw;
         try {
             fw = new FileWriter(file, true);
             Date date = new Date();

@@ -7,15 +7,15 @@ public class config_bungee {
     public Configuration config;
 
     public String ChangeServer_Message;
-    public Boolean ChangeServer_sendQQ;
+    public boolean ChangeServer_sendQQ;
 
-    public Boolean Minecraft_SendOneByOne;
+    public boolean Minecraft_SendOneByOne;
     public String Minecraft_SendOneByOneMessage;
-    public Boolean Minecraft_HideEmptyServer;
-    public Boolean Minecraft_HideList;
+    public boolean Minecraft_HideEmptyServer;
+    public boolean Minecraft_HideList;
 
-    public Boolean SendAllServer_Enable;
+    public boolean SendAllServer_Enable;
     public String SendAllServer_Message;
-    public Boolean SendAllServer_OnlySideServer;
+    public boolean SendAllServer_OnlySideServer;
 
 }

@@ -100,13 +100,13 @@ public class socket extends Thread {
                             socket_runFlag = false;
                         } else {
                             String info = new String(buf, 0, len);
-                            if (info != null && !info.isEmpty()) {
+                            if (!info.isEmpty()) {
                                 if (config_bukkit.System_Debug == true)
                                     config.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
                                 if (config.is_bungee == true)
                                     config.message_b.message_read(info);
                                 else
-                                    config.message_a.message_read(info);
+                                    message_bukkit.message_read(info);
                             }
                         }
                     }
@@ -138,11 +138,18 @@ public class socket extends Thread {
         }
     }
 
-    public static void socket_send(String send) {
+    public static boolean socket_send(String send) {
         try {
             send = config_bukkit.Head + send + config_bukkit.End;
             os = socket.getOutputStream();
             os.write(send.getBytes());
+            if (logs.Send_log == true) {
+                logs logs = new logs();
+                logs.log_write("[socket_send]" + send);
+            }
+            if (config_bukkit.System_Debug == true)
+                config.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
+            return true;
         } catch (IOException e) {
             config.log.warning("§d[Minecraft_QQ]§c酷Q连接中断");
             if (logs.Socket_log == true) {
@@ -151,12 +158,7 @@ public class socket extends Thread {
             }
             socket_runFlag = false;
         }
-        if (logs.Send_log == true) {
-            logs logs = new logs();
-            logs.log_write("[socket_send]" + send);
-        }
-        if (config_bukkit.System_Debug == true)
-            config.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
+        return false;
     }
 
     public static void server_close() {

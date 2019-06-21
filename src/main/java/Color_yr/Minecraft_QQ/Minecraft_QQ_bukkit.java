@@ -3,7 +3,7 @@ package Color_yr.Minecraft_QQ;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Event;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -14,6 +14,7 @@ import java.nio.file.Files;
 public class Minecraft_QQ_bukkit extends JavaPlugin {
 
     public static FileConfiguration config_data_bukkit;
+    public static Plugin Minecraft_QQ;
 
     public static void loadconfig() {
         config.log.info("§d[Minecraft_QQ]§e当前插件版本为：" + config.Version
@@ -86,12 +87,13 @@ public class Minecraft_QQ_bukkit extends JavaPlugin {
     public void onEnable() {
         config.log = Bukkit.getLogger();
         config.message_a = new message_bukkit();
-        config.is_bungee=false;
+        config.is_bungee = false;
         config.log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         Config_reload();
         Bukkit.getPluginManager().registerEvents(new Event_bukkit(), this);
         Bukkit.getPluginCommand("qq").setExecutor(new commder_bukkit(this));
+        Minecraft_QQ = this;
         config.log.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
         config.log.info("§d[Minecraft_QQ]§eDebug模式" + config_bukkit.System_Debug);
         socket socket = new socket();

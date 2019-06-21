@@ -43,7 +43,7 @@ public class Event_bungee implements Listener {
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
-            if (Server == "" || Server == null) {
+            if (Server.equals("") == true || Server == null) {
                 Server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll("%Player%", playerName).replaceAll("%Server%", Server);
@@ -61,11 +61,12 @@ public class Event_bungee implements Listener {
                 return;
         }
         if (config_bukkit.Minecraft_Mode != 0 && socket.socket_runFlag == true) {
+            boolean send_ok = false;
             ProxiedPlayer player = (ProxiedPlayer) event.getSender();
             String message = config_bukkit.Minecraft_Message;
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
-            if (Server == "" || Server == null) {
+            if (Server.equals("") == true || Server == null) {
                 Server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll("%Player%", playerName)
@@ -76,10 +77,10 @@ public class Event_bungee implements Listener {
                     && config_bukkit.Minecraft_Mode == 1) {
                 player_message = player_message.replaceFirst(config_bukkit.Minecraft_Check, "");
                 message = message.replaceAll("%Message%", player_message);
-                socket_send.send_data("data", "group", playerName, message);
+                send_ok = socket_send.send_data("data", "group", playerName, message);
             } else if (config_bukkit.Minecraft_Mode == 2) {
                 message = message.replaceAll("%Message%", player_message);
-                socket_send.send_data("data", "group", playerName, message);
+                send_ok = socket_send.send_data("data", "group", playerName, message);
             }
             if (config_data_bungee.SendAllServer_Enable == true) {
                 String SendAllServer_send = config_data_bungee.SendAllServer_Message;
@@ -91,7 +92,7 @@ public class Event_bungee implements Listener {
                 SendAllServer_send = ChatColor.translateAlternateColorCodes('&', SendAllServer_send);
                 if (config_data_bungee.SendAllServer_OnlySideServer == true) {
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
-                        if (player1.getServer().getInfo().getName() != player.getServer().getInfo().getName())
+                        if (player1.getServer().getInfo().getName().equals(player.getServer().getInfo().getName()) == false)
                             player1.sendMessage(new TextComponent(SendAllServer_send));
                     }
                 } else {
@@ -101,7 +102,7 @@ public class Event_bungee implements Listener {
                     event.setCancelled(true);
                 }
             }
-            if (config_bukkit.User_SendSucceed == true)
+            if (config_bukkit.User_SendSucceed == true && send_ok == true)
                 player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
                         "§d[Minecraft_QQ]" + config_bukkit.User_SendSucceedMessage)));
         }
