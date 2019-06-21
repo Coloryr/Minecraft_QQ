@@ -1,7 +1,6 @@
 package Color_yr.Minecraft_QQ;
 
 import com.google.gson.Gson;
-import javafx.concurrent.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -94,41 +93,31 @@ public class message_bukkit {
                         config.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                 }
             } else if (read_bean.getIs_commder().equals("true") == true) {
-                if (read_bean.getPlayer().equals("后台") == true) {
-                    String send_message;
-                    boolean success;
-                    try {
-                        success = Bukkit.getScheduler().callSyncMethod(Minecraft_QQ_bukkit.Minecraft_QQ, new Callable<Boolean>() {
-                            @Override
-                            public Boolean call() {
-                                return Bukkit.dispatchCommand(send.sender, read_bean.getMessage());
-                            }
-                        }).get();
-                    } catch (Exception e) {
-                        config.log.warning(e.toString());
-                    }
-                    if (send.message.size() == 1)
-                    {
-                        send_message = send.message.get(0);
-                    }
-                    else if (send.message.size() > 1) {
-                            send_message = send.message.get(0);
-                            for (int i = 1; i < send.message.size(); i++) {
-                                send_message = send_message + "\n";
-                                send_message = send_message + send.message.get(i);
-                            }
-                    } else
-                        send_message = "指令执行失败";
-                    socket_send.send_data("data", read_bean.getGroup(),
-                            "控制台", send_message);
-                } else {
-                    Player p = Bukkit.getPlayer(read_bean.getPlayer());
-                    if (p != null) {
-                        Bukkit.dispatchCommand(p, read_bean.getMessage());
-                        socket_send.send_data("data", read_bean.getGroup(),
-                                read_bean.getPlayer(), "命令已通过玩家执行");
-                    }
+                String send_message;
+                send_bukkit.player = read_bean.getPlayer();
+                try {
+                    Bukkit.getScheduler().callSyncMethod(Minecraft_QQ_bukkit.Minecraft_QQ, new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() {
+                            return Bukkit.dispatchCommand(send_bukkit.sender, read_bean.getMessage());
+                        }
+                    }).get();
+                } catch (Exception e) {
+                    config.log.warning(e.toString());
                 }
+                if (send_bukkit.message.size() == 1) {
+                    send_message = send_bukkit.message.get(0);
+                } else if (send_bukkit.message.size() > 1) {
+                    send_message = send_bukkit.message.get(0);
+                    for (int i = 1; i < send_bukkit.message.size(); i++) {
+                        send_message = send_message + "\n";
+                        send_message = send_message + send_bukkit.message.get(i);
+                    }
+                } else
+                    send_message = "指令执行失败";
+                socket_send.send_data("data", read_bean.getGroup(),
+                        "控制台", send_message);
+                send_bukkit.message.clear();
             }
             int i = info.indexOf(config_bukkit.End);
             info = info.substring(i + config_bukkit.End.length());
@@ -136,18 +125,19 @@ public class message_bukkit {
     }
 }
 
-class send {
+class send_bukkit {
     public static List<String> message = new ArrayList<String>();
+    public static String player;
     public static CommandSender sender = new CommandSender() {
         @Override
         public void sendMessage(String message) {
-            send.message.add(message);
+            send_bukkit.message.add(message);
         }
 
         @Override
         public void sendMessage(String[] messages) {
             for (int i = 0; i < messages.length; i++)
-                send.message.add(messages[i]);
+                send_bukkit.message.add(messages[i]);
         }
 
         @Override
@@ -157,7 +147,7 @@ class send {
 
         @Override
         public String getName() {
-            return Bukkit.getConsoleSender().getName();
+            return player;
         }
 
         @Override

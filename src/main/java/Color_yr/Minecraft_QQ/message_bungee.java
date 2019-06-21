@@ -2,12 +2,16 @@ package Color_yr.Minecraft_QQ;
 
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static Color_yr.Minecraft_QQ.Minecraft_QQ_bungee.config_data_bungee;
@@ -136,12 +140,93 @@ public class message_bungee {
                         logs.log_write("[group]查询服务器状态");
                     }
                 }
-            } else {
+            } else if (read_bean.getIs_commder().equals("true") == true) {
+                String send_message;
+                send_bungee.player = read_bean.getPlayer();
+                try {
+                    proxyserver.getPluginManager().dispatchCommand(send_bungee.sender, read_bean.getMessage());
+                } catch (Exception e) {
+                    config.log.warning(e.toString());
+                }
+                if (send_bungee.message.size() == 1) {
+                    send_message = send_bungee.message.get(0);
+                } else if (send_bungee.message.size() > 1) {
+                    send_message = send_bungee.message.get(0);
+                    for (int i = 1; i < send_bungee.message.size(); i++) {
+                        send_message = send_message + "\n";
+                        send_message = send_message + send_bungee.message.get(i);
+                    }
+                } else
+                    send_message = "指令执行失败";
                 socket_send.send_data("data", read_bean.getGroup(),
-                        "无", "BC不支持使用指令");
+                        "控制台", send_message);
+                send_bungee.message.clear();
             }
             int i = info.indexOf(config_bukkit.End);
             info = info.substring(i + config_bukkit.End.length());
         }
     }
+}
+class send_bungee
+{
+    public static List<String> message = new ArrayList<String>();
+    public static String player;
+    public static CommandSender sender = new CommandSender() {
+        @Override
+        public String getName() {
+            return player;
+        }
+
+        @Override
+        public void sendMessage(String message) {
+            send_bungee.message.add(message);
+        }
+
+        @Override
+        public void sendMessages(String... messages) {
+            for (int i = 0; i < messages.length; i++)
+                send_bungee.message.add(messages[i]);
+        }
+
+        @Override
+        public void sendMessage(BaseComponent... message) {
+            send_bungee.message.add(message.toString());
+        }
+
+        @Override
+        public void sendMessage(BaseComponent message) {
+            send_bungee.message.add(message.toLegacyText());
+            //send_bungee.message.add(message.toPlainText());
+        }
+
+        @Override
+        public Collection<String> getGroups() {
+             return null;
+        }
+
+        @Override
+        public void addGroups(String... groups) {
+
+        }
+
+        @Override
+        public void removeGroups(String... groups) {
+
+        }
+
+        @Override
+        public boolean hasPermission(String permission) {
+            return true;
+        }
+
+        @Override
+        public void setPermission(String permission, boolean value) {
+
+        }
+
+        @Override
+        public Collection<String> getPermissions() {
+            return null;
+        }
+    };
 }
