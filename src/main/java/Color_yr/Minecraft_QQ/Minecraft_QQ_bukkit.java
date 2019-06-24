@@ -42,6 +42,7 @@ public class Minecraft_QQ_bukkit extends JavaPlugin {
         config_bukkit.System_Debug = config_data_bukkit.getBoolean("System.Debug", false);
         config_bukkit.Head = config_data_bukkit.getString("System.Head", "[Head]");
         config_bukkit.End = config_data_bukkit.getString("System.End", "[End]");
+        config_bukkit.System_Sleep = config_data_bukkit.getInt("System.Sleep", 50);
 
         config_bukkit.User_SendSucceed = config_data_bukkit.getBoolean("User.SendSucceed", true);
         config_bukkit.User_SendSucceedMessage = config_data_bukkit.getString("User.SendSucceedMessage", "已发送消息至群内");
@@ -86,11 +87,12 @@ public class Minecraft_QQ_bukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         config.log = Bukkit.getLogger();
-        config.message_a = new message_bukkit();
         config.is_bungee = false;
         config.log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         Config_reload();
+        config.read_thread = new message_bukkit();
+        config.read_thread.start();
         Bukkit.getPluginManager().registerEvents(new Event_bukkit(), this);
         Bukkit.getPluginCommand("qq").setExecutor(new commder_bukkit(this));
         Minecraft_QQ = this;
@@ -104,16 +106,18 @@ public class Minecraft_QQ_bukkit extends JavaPlugin {
     public void onDisable() {
         if (socket.socket_runFlag == true) {
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                socket.server_close();
+                if(config.read_thread.isAlive()) {
+                    config.read_thread.stop();
+                }
+            } catch(Exception e) {
+                e.getMessage();
                 if (logs.Error_log == true) {
                     logs logs = new logs();
                     logs.log_write("[ERROR]" + e.getMessage());
                 }
             }
         }
-        socket.server_close();
         config.log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

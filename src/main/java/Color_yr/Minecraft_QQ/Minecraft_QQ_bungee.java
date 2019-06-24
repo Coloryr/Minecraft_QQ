@@ -51,6 +51,7 @@ public class Minecraft_QQ_bungee extends Plugin {
         config_bukkit.System_Debug = config_data_bungee.config.getBoolean("System.Debug", false);
         config_bukkit.Head = config_data_bungee.config.getString("System.Head", "[Head]");
         config_bukkit.End = config_data_bungee.config.getString("System.End", "[End]");
+        config_bukkit.System_Sleep = config_data_bungee.config.getInt("System.Sleep", 50);
 
         config_bukkit.User_SendSucceed = config_data_bungee.config.getBoolean("User.SendSucceed", true);
         config_bukkit.User_SendSucceedMessage = config_data_bungee.config.getString("User.SendSucceedMessage", "已发送消息至群内");
@@ -95,12 +96,13 @@ public class Minecraft_QQ_bungee extends Plugin {
     @Override
     public void onEnable() {
         config_data_bungee = new config_bungee();
-        config.message_b = new message_bungee();
         config.is_bungee = true;
         config.log = ProxyServer.getInstance().getLogger();
         config.log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         reloadConfig();
+        config.read_thread = new message_bungee();
+        config.read_thread.start();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Event_bungee());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command_bungee());
         config.log.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
@@ -113,16 +115,18 @@ public class Minecraft_QQ_bungee extends Plugin {
     public void onDisable() {
         if (socket.socket_runFlag == true) {
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                socket.server_close();
+                if(config.read_thread.isAlive()) {
+                    config.read_thread.stop();
+                }
+            } catch(Exception e) {
+                e.getMessage();
                 if (logs.Error_log == true) {
                     logs logs = new logs();
                     logs.log_write("[ERROR]" + e.getMessage());
                 }
             }
         }
-        socket.server_close();
         config.log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

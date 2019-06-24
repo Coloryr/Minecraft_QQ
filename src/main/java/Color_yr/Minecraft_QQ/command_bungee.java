@@ -47,6 +47,7 @@ public class command_bungee extends Command implements TabExecutor {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测头 " + config_bukkit.Head));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测尾 " + config_bukkit.End));
+            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e线程休眠时间 " + config_bukkit.System_Sleep));
         }
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e重载成功"));
     }

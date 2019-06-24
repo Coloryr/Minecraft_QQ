@@ -36,6 +36,7 @@ public class commder_bukkit implements CommandExecutor, TabExecutor {
             sender.sendMessage("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log);
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测头 " + config_bukkit.Head);
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测尾 " + config_bukkit.End);
+            sender.sendMessage("§d[Minecraft_QQ]§e线程休眠时间 " + config_bukkit.System_Sleep);
         }
         sender.sendMessage("§d[Minecraft_QQ]§e重载成功");
     }

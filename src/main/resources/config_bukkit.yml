@@ -41,6 +41,8 @@ System:
   Head: "[Head]"
   #数据包尾
   End: "[End]"
+  #线程休眠，默认即可，如果你聊天的数量较多，请改小，单位毫秒
+  Sleep: 50
 User:
   #完成发送后是否提醒
   SendSucceed: true
@@ -58,4 +60,4 @@ Logs:
   #是否记录错误内容
   Error: false
 #配置文件版本号
-Version: 2.0.0
+Version: 2.0.0-beta6

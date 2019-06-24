@@ -21,7 +21,11 @@ public class socket extends Thread {
 
     static byte[] buf = new byte[1024];
 
-    public static socket readThread = null;
+    static boolean have_message = false;
+    static boolean is_can_go = false;
+    static String info;
+
+    static socket readThread = null;
 
     public void run() {
         socket_stop = false;
@@ -99,14 +103,21 @@ public class socket extends Thread {
                             }
                             socket_runFlag = false;
                         } else {
-                            String info = new String(buf, 0, len);
+                            info = new String(buf, 0, len);
                             if (!info.isEmpty()) {
                                 if (config_bukkit.System_Debug == true)
                                     config.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + info);
-                                if (config.is_bungee == true)
-                                    config.message_b.message_read(info);
-                                else
-                                    message_bukkit.message_read(info);
+                                have_message = true;
+                                is_can_go = false;
+                                while(is_can_go == false) {
+                                    try {
+                                        Thread.sleep(config_bukkit.System_Sleep);
+                                    } catch (Exception e) {
+                                        config.log.warning("发生错误" + e.getMessage());
+                                    }
+                                }
+                                is_can_go = false;
+                                have_message = false;
                             }
                         }
                     }
@@ -174,7 +185,6 @@ public class socket extends Thread {
         }
     }
 
-    @SuppressWarnings("deprecation")
     public static void socket_stop() {
         socket_stop = true;
         socket_runFlag = false;

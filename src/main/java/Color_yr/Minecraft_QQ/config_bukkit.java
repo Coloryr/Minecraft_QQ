@@ -22,6 +22,7 @@ public class config_bukkit {
     public static boolean System_AutoConnet;
     public static int System_AutoConnetTime;
     public static boolean System_Debug;
+    public static int System_Sleep;
 
     public static boolean User_SendSucceed;
     public static String User_SendSucceedMessage;
