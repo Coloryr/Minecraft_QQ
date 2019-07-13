@@ -1,6 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
 import com.google.gson.Gson;
+import com.sun.jmx.snmp.tasks.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -9,6 +10,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,17 @@ public class message_bukkit extends Thread{
                             a = a.replaceFirst("说话", "");
                             String say = config_bukkit.Minecraft_Say.replaceFirst("%Servername%", config_bukkit.Minecraft_ServerName).replaceFirst("%Message%", a);
                             say = ChatColor.translateAlternateColorCodes('&', say);
-                            Bukkit.broadcastMessage(say);
+                            final String m = say;
+                            try {
+                                Bukkit.getScheduler().runTask(Minecraft_QQ_bukkit.Minecraft_QQ, new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Bukkit.broadcastMessage(m);
+                                    }
+                                });
+                            } catch (Exception e) {
+                                config.log.warning(e.toString());
+                            }
                         } else if (a.indexOf("在线人数") == 0) {
                             String player;
                             String send = config_bukkit.Minecraft_PlayerListMessage;
