@@ -8,7 +8,7 @@ Quit:
   sendQQ: true
 Minecraft:
   #发送群的服务器名字
-  name: "[MC服务器]"
+  ServerName: "[MC服务器]"
   #触发文本
   Check: "群："
   #发送至QQ群的文本
@@ -60,4 +60,4 @@ Logs:
   #是否记录错误内容
   Error: false
 #配置文件版本号
-Version: 2.0.0-beta6
+Version: 2.0.0-beta7
