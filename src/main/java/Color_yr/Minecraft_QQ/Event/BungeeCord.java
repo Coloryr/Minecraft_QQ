@@ -1,5 +1,9 @@
-package Color_yr.Minecraft_QQ;
+package Color_yr.Minecraft_QQ.Event;
 
+import Color_yr.Minecraft_QQ.API.Placeholder;
+import Color_yr.Minecraft_QQ.Config.Bukkit;
+import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -11,34 +15,37 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import static Color_yr.Minecraft_QQ.Minecraft_QQ_bungee.config_data_bungee;
+import static Color_yr.Minecraft_QQ.Main.Bungeecord.config_data_bungee;
 
-public class Event_bungee implements Listener {
+public class BungeeCord implements Listener {
+
+    private String message(String message, String playerName) {
+        message = message.replaceAll(Placeholder.Player, playerName);
+        message = ChatColor.translateAlternateColorCodes('&', message);
+        return message;
+    }
+
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (socket.socket_runFlag == true && config_bukkit.Join_sendQQ == true) {
-            String message = config_bukkit.Join_Message;
+        if (socket.hand.socket_runFlag == true && Bukkit.Join_sendQQ == true) {
             String playerName = event.getPlayer().getName();
-            message = message.replaceAll("%Player%", playerName);
-            message = ChatColor.translateAlternateColorCodes('&', message);
-            socket_send.send_data("data", "group", playerName, message);
+            socket_send.send_data(Placeholder.data, Placeholder.group,
+                    playerName, message(Bukkit.Join_Message, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (socket.socket_runFlag == true && config_bukkit.Quit_sendQQ == true) {
-            String message = config_bukkit.Quit_Message;
+        if (socket.hand.socket_runFlag == true && Bukkit.Quit_sendQQ == true) {
             String playerName = event.getPlayer().getName();
-            message = message.replaceAll("%Player%", playerName);
-            message = ChatColor.translateAlternateColorCodes('&', message);
-            socket_send.send_data("data", "group", playerName, message);
+            socket_send.send_data(Placeholder.data, Placeholder.group,
+                    playerName, message(Bukkit.Quit_Message, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (socket.socket_runFlag == true && config_data_bungee.ChangeServer_sendQQ == true) {
+        if (socket.hand.socket_runFlag == true && config_data_bungee.ChangeServer_sendQQ == true) {
             String message = config_data_bungee.ChangeServer_Message;
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
@@ -46,9 +53,9 @@ public class Event_bungee implements Listener {
             if (Server.equals("") == true || Server == null) {
                 Server = player.getServer().getInfo().getName();
             }
-            message = message.replaceAll("%Player%", playerName).replaceAll("%Server%", Server);
+            message = message.replaceAll(Placeholder.Player, playerName).replaceAll(Placeholder.Server, Server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            socket_send.send_data("data", "group", playerName, message);
+            socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
         }
     }
 
@@ -56,39 +63,39 @@ public class Event_bungee implements Listener {
     public void onChar(ChatEvent event) {
         String player_message;
         player_message = event.getMessage();
-        if (config_bukkit.User_NotSendCommder == true) {
+        if (Bukkit.User_NotSendCommder == true) {
             if (player_message.indexOf("/") == 0)
                 return;
         }
-        if (config_bukkit.Minecraft_Mode != 0 && socket.socket_runFlag == true) {
+        if (Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
             boolean send_ok = false;
             ProxiedPlayer player = (ProxiedPlayer) event.getSender();
-            String message = config_bukkit.Minecraft_Message;
+            String message = Bukkit.Minecraft_Message;
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
             if (Server.equals("") == true || Server == null) {
                 Server = player.getServer().getInfo().getName();
             }
-            message = message.replaceAll("%Player%", playerName)
-                    .replaceAll("%Servername%", config_bukkit.Minecraft_ServerName)
-                    .replaceAll("%Server%", Server);
+            message = message.replaceAll(Placeholder.Player, playerName)
+                    .replaceAll(Placeholder.Servername, Bukkit.Minecraft_ServerName)
+                    .replaceAll(Placeholder.Server, Server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(config_bukkit.Minecraft_Check) == 0
-                    && config_bukkit.Minecraft_Mode == 1) {
-                player_message = player_message.replaceFirst(config_bukkit.Minecraft_Check, "");
-                message = message.replaceAll("%Message%", player_message);
-                send_ok = socket_send.send_data("data", "group", playerName, message);
-            } else if (config_bukkit.Minecraft_Mode == 2) {
-                message = message.replaceAll("%Message%", player_message);
-                send_ok = socket_send.send_data("data", "group", playerName, message);
+            if (player_message.indexOf(Bukkit.Minecraft_Check) == 0
+                    && Bukkit.Minecraft_Mode == 1) {
+                player_message = player_message.replaceFirst(Bukkit.Minecraft_Check, "");
+                message = message.replaceAll(Placeholder.Message, player_message);
+                send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
+            } else if (Bukkit.Minecraft_Mode == 2) {
+                message = message.replaceAll(Placeholder.Message, player_message);
+                send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
             if (config_data_bungee.SendAllServer_Enable == true) {
                 String SendAllServer_send = config_data_bungee.SendAllServer_Message;
                 SendAllServer_send = SendAllServer_send
-                        .replaceAll("%Servername%", config_bukkit.Minecraft_ServerName)
-                        .replaceAll("%Server%", Server)
-                        .replaceAll("%Player%", playerName)
-                        .replaceAll("%Message%", player_message);
+                        .replaceAll(Placeholder.Servername, Bukkit.Minecraft_ServerName)
+                        .replaceAll(Placeholder.Server, Server)
+                        .replaceAll(Placeholder.Player, playerName)
+                        .replaceAll(Placeholder.Message, player_message);
                 SendAllServer_send = ChatColor.translateAlternateColorCodes('&', SendAllServer_send);
                 if (config_data_bungee.SendAllServer_OnlySideServer == true) {
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
@@ -102,9 +109,9 @@ public class Event_bungee implements Listener {
                     event.setCancelled(true);
                 }
             }
-            if (config_bukkit.User_SendSucceed == true && send_ok == true)
+            if (Bukkit.User_SendSucceed == true && send_ok == true)
                 player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-                        "§d[Minecraft_QQ]" + config_bukkit.User_SendSucceedMessage)));
+                        "§d[Minecraft_QQ]" + Bukkit.User_SendSucceedMessage)));
         }
     }
 }

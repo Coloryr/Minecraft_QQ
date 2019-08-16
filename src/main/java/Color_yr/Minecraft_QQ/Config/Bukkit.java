@@ -1,6 +1,6 @@
-package Color_yr.Minecraft_QQ;
+package Color_yr.Minecraft_QQ.Config;
 
-public class config_bukkit {
+public class Bukkit {
 
     public static String Join_Message;
     public static boolean Join_sendQQ;

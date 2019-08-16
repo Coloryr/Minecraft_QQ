@@ -1,13 +1,14 @@
-package Color_yr.Minecraft_QQ;
+package Color_yr.Minecraft_QQ.Config;
 
 import java.io.File;
 import java.util.logging.Logger;
 
 public class config {
-    public static String Version = "2.0.0-beta7";
+    public final static String Version = "2.1.0-beta1";
     public static File FileName;
     public static boolean is_bungee;
-    public static Logger log;
+    public static boolean is_forge;
+    public static Logger log_b;
     public static Thread read_thread;
 
 }

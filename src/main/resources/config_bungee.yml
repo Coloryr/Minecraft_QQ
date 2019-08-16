@@ -57,7 +57,7 @@ System:
   IP: "localhost"
   #机器人链接端口
   Port: 25555
-  #是否启用自动重连，重启后生效
+  #是否启用自动重连
   AutoConnet: false
   #自动重连时间间隔
   AutoConnetTime: 10000
@@ -84,6 +84,6 @@ Logs:
   #是否记录发送至群的消息
   Send: true
   #是否记录错误内容
-  Error: false
+  Error: true
 #配置文件版本号
-Version: 2.0.0-beta7
+Version: "2.1.0-beta1"

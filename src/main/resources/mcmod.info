@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minecraft_qq",
+  "name": "Minecraft_QQ",
+  "description": "A plugins chat on QQ",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Color_yr"],
+  "credits": "This mod is use in Minecraft Server.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
