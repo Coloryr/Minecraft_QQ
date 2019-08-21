@@ -1,0 +1,38 @@
+{
+  "Minecraft":
+  {
+    "ServerName": "[MC服务器]",
+    "Check": "群：",
+    "Message": "%Servername%-%Player%:%Message%",
+    "Say": "[%Servername%][群消息]%Message%",
+    "Mode": 1,
+    "SendMode": true,
+    "PlayerListMessage": "%Servername%当前在线人数：%player_number%，玩家列表：%player_list%",
+    "ServerOnlineMessage": "%Servername%服务器在线"
+  },
+  "System":
+  {
+    "IP": "localhost",
+    "Port": 25555,
+    "AutoConnet": false,
+    "AutoConnetTime": 10000,
+    "Debug": false,
+    "Head": "[Head]",
+    "End": "[End]",
+    "Sleep": 50
+  },
+  "User":
+  {
+    "SendSucceed": true,
+    "SendSucceedMessage": "已发送消息至群内",
+    "NotSendCommder": true
+  },
+  "Logs":
+  {
+    "Socket": true,
+    "Group": true,
+    "Send": true,
+    "Error": true
+  },
+  "Version": "2.1.0-beta1"
+}

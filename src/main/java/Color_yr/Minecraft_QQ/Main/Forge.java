@@ -3,10 +3,8 @@ package Color_yr.Minecraft_QQ.Main;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
@@ -28,7 +26,8 @@ public class Forge {
     @SideOnly(Side.SERVER)
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        new Color_yr.Minecraft_QQ.Config.Forge(event);
+        Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
+        config_read.init();
         config.is_forge = true;
     }
 
@@ -40,10 +39,10 @@ public class Forge {
         event.registerServerCommand(new Color_yr.Minecraft_QQ.Command.Forge());
         config.read_thread = new Color_yr.Minecraft_QQ.Message.Forge();
         config.read_thread.start();
-        logger.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
-        logger.info("§d[Minecraft_QQ]§eDebug模式" + Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug);
         socket socket = new socket();
         socket.socket_start();
+        logger.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
+        logger.info("§d[Minecraft_QQ]§eDebug模式" + Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug);
     }
 
     @SideOnly(Side.SERVER)

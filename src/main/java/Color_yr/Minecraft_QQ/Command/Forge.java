@@ -5,6 +5,7 @@ import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
+import Color_yr.Minecraft_QQ.Config.Bukkit;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -40,29 +41,29 @@ public class Forge implements ICommand {
     }
 
     public void reload(ICommandSender sender) {
-        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人IP： " + Color_yr.Minecraft_QQ.Config.Bukkit.System_IP));
-        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人端口 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_PORT));
-        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人模式 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode));
-        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§eDebug模式 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug));
-        if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug == true) {
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e服务器名字 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerName));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e触发文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Check));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e发送至QQ群的文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Message));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e发送至玩家消息窗口的文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Say));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人模式 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否开启在线人数显示 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_SendMode));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e在线人数文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_PlayerListMessage));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e服务器状态文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerOnlineMessage));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否开启自动重连 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_AutoConnet + "时间(ms)" + Color_yr.Minecraft_QQ.Config.Bukkit.System_AutoConnetTime));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e完成发送后是否提醒 " + Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceed + "文本" + Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceedMessage));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令 " + Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder));
+        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人IP： " + Bukkit.System_IP));
+        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人端口 " + Bukkit.System_PORT));
+        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人模式 " + Bukkit.Minecraft_Mode));
+        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§eDebug模式 " + Bukkit.System_Debug));
+        if (Bukkit.System_Debug == true) {
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e服务器名字 " + Bukkit.Minecraft_ServerName));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e触发文本 " + Bukkit.Minecraft_Check));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e发送至QQ群的文本 " + Bukkit.Minecraft_Message));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e发送至玩家消息窗口的文本 " + Bukkit.Minecraft_Say));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人模式 " + Bukkit.Minecraft_Mode));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否开启在线人数显示 " + Bukkit.Minecraft_SendMode));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e在线人数文本 " + Bukkit.Minecraft_PlayerListMessage));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e服务器状态文本 " + Bukkit.Minecraft_ServerOnlineMessage));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否开启自动重连 " + Bukkit.System_AutoConnet + "时间(ms)" + Bukkit.System_AutoConnetTime));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e完成发送后是否提醒 " + Bukkit.User_SendSucceed + "文本" + Bukkit.User_SendSucceedMessage));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令 " + Bukkit.User_NotSendCommder));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否记录链接情况 " + logs.Socket_log));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否记录群发来的消息 " + logs.Group_log));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否记录发送至群的消息 " + logs.Send_log));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e数据包检测头 " + Color_yr.Minecraft_QQ.Config.Bukkit.Head));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e数据包检测尾 " + Color_yr.Minecraft_QQ.Config.Bukkit.End));
-            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e线程休眠时间 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_Sleep));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e数据包检测头 " + Bukkit.Head));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e数据包检测尾 " + Bukkit.End));
+            sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e线程休眠时间 " + Bukkit.System_Sleep));
         }
         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e重载成功"));
     }
@@ -81,7 +82,9 @@ public class Forge implements ICommand {
                 } else if (string[0].equalsIgnoreCase("reload")) {
                     if (string.length > 2) {
                         if (string[1].equalsIgnoreCase("config")) {
-                            Color_yr.Minecraft_QQ.Config.Forge.load();
+                            Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
+                            config_read.reload();
+                            config_read.init();
                             reload(sender);
                             return;
                         } else if (string[1].equalsIgnoreCase("sock)et")) {
@@ -93,7 +96,9 @@ public class Forge implements ICommand {
                             return;
                         }
                     } else {
-                        Color_yr.Minecraft_QQ.Config.Forge.load();
+                        Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
+                        config_read.reload();
+                        config_read.init();
                         reload(sender);
                         socket_restart socket_restart = new socket_restart();
                         socket_restart.restart_socket();

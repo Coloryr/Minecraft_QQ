@@ -19,7 +19,7 @@ configurations.all {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.0"
+version = "2.1.0"
 group = "com.Color_yr.Minecraft_QQ"
 archivesBaseName = "Minecraft_QQ"
 
