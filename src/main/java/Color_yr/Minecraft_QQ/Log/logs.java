@@ -1,6 +1,7 @@
 package Color_yr.Minecraft_QQ.Log;
 
 import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Main.Forge;
 
 import java.io.*;
 import java.util.Date;
@@ -28,9 +29,15 @@ public class logs {
             pw.close();
             fw.close();
         } catch (FileNotFoundException e) {
-            config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+            if (config.is_forge == true)
+                Forge.logger.warn("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            else
+                config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         } catch (IOException e) {
-            config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+            if (config.is_forge == true)
+                Forge.logger.warn("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            else
+                config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         }
     }
 }

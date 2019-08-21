@@ -19,7 +19,7 @@ public class Bungeecord extends Plugin {
 
     public static Color_yr.Minecraft_QQ.Config.BungeeCord config_data_bungee;
 
-    public static void loadconfig() {
+    private void loadconfig() {
         config.log_b.info("§d[Minecraft_QQ]§e当前插件版本为：" + config.Version
                 + "，你的配置文件版本为：" + config_data_bungee.config.getString("Version"));
 
@@ -65,36 +65,26 @@ public class Bungeecord extends Plugin {
         logs.Socket_log = config_data_bungee.config.getBoolean("Logs.Socket", true);
         logs.Group_log = config_data_bungee.config.getBoolean("Logs.Group", true);
         logs.Send_log = config_data_bungee.config.getBoolean("Logs.Send", true);
-        logs.Error_log = config_data_bungee.config.getBoolean("Logs.Error", false);
-    }
-
-    public static void reloadConfig() {
-        try {
-            config_data_bungee.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config.FileName);
-            loadconfig();
-        } catch (Exception arg0) {
-            config.log_b.warning("§d[Minecraft_QQ]§c配置文件读取失败:" + arg0);
-        }
+        logs.Error_log = config_data_bungee.config.getBoolean("Logs.Error", true);
     }
 
     public void setConfig() {
-        config.FileName = new File(getDataFolder(), "config.yml");
-        logs.file = new File(getDataFolder(), "logs.log_b");
-        if (!getDataFolder().exists())
-            getDataFolder().mkdir();
-        if (!config.FileName.exists()) {
-            try (InputStream in = getResourceAsStream("config_bungee.yml")) {
-                Files.copy(in, config.FileName.toPath());
-            } catch (IOException e) {
-                config.log_b.warning("§d[Minecraft_QQ]§c配置文件创建失败：" + e);
-            }
-        }
         try {
+            config.FileName = new File(getDataFolder(), "config.yml");
+            logs.file = new File(getDataFolder(), "logs.log");
+            if (!getDataFolder().exists())
+                getDataFolder().mkdir();
+            if (!config.FileName.exists()) {
+                InputStream in = getResourceAsStream("config_bungee.yml");
+                Files.copy(in, config.FileName.toPath());
+            }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
             }
-        } catch (IOException e) {
-            config.log_b.warning("§d[Minecraft_QQ]§c日志文件错误：" + e);
+            config_data_bungee.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config.FileName);
+            loadconfig();
+        } catch (Exception e) {
+            config.log_b.warning("§d[Minecraft_QQ]§c配置文件读取失败:" + e.getMessage());
         }
     }
 
@@ -105,7 +95,6 @@ public class Bungeecord extends Plugin {
         config.log_b = ProxyServer.getInstance().getLogger();
         config.log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        reloadConfig();
         config.read_thread = new BungeeCord();
         config.read_thread.start();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Color_yr.Minecraft_QQ.Event.BungeeCord());

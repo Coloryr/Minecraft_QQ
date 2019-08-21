@@ -66,9 +66,10 @@ public class BungeeCord extends Command implements TabExecutor {
         }
         if (args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
+                Color_yr.Minecraft_QQ.Main.Bungeecord config = new Color_yr.Minecraft_QQ.Main.Bungeecord();
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("config")) {
-                        Bungeecord.reloadConfig();
+                        config.setConfig();
                         reload(sender);
                     } else if (args[1].equalsIgnoreCase("socket")) {
                         socket_restart socket_restart = new socket_restart();
@@ -76,7 +77,7 @@ public class BungeeCord extends Command implements TabExecutor {
                     } else
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                 } else {
-                    Bungeecord.reloadConfig();
+                    config.setConfig();
                     reload(sender);
                     socket_restart socket_restart = new socket_restart();
                     socket_restart.restart_socket();

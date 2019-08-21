@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 @Mod(modid = Forge.MODID,
         name = Forge.NAME,
         version = Forge.VERSION)
@@ -26,6 +28,14 @@ public class Forge {
     @SideOnly(Side.SERVER)
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        logs.file = new File(event.getModConfigurationDirectory(), "Minecraft_QQ.log");
+        if (!logs.file.exists()) {
+            try {
+                logs.file.createNewFile();
+            } catch (Exception e) {
+                logger.warn("§d[Minecraft_QQ]§c日志文件错误：" + e.getMessage());
+            }
+        }
         Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
         config_read.init();
         config.is_forge = true;

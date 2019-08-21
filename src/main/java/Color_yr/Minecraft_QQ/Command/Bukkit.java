@@ -5,7 +5,6 @@ import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
-import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -54,16 +53,17 @@ public class Bukkit implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 if (sender.isOp()) {
+                    Color_yr.Minecraft_QQ.Main.Bukkit config = new Color_yr.Minecraft_QQ.Main.Bukkit();
                     if (args.length > 1) {
                         if (args[1].equalsIgnoreCase("config")) {
-                            Color_yr.Minecraft_QQ.Main.Bukkit.Config_reload();
+                            config.setConfig();
                             reload(sender);
                         } else if (args[1].equalsIgnoreCase("socket")) {
                             socket_restart socket_restart = new socket_restart();
                             socket_restart.restart_socket();
                         }
                     } else {
-                        Color_yr.Minecraft_QQ.Main.Bukkit.Config_reload();
+                        config.setConfig();
                         reload(sender);
                         socket_restart socket_restart = new socket_restart();
                         socket_restart.restart_socket();
