@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 public class config {
-    public final static String Version = "2.1.0-beta1";
+    public final static String Version = "2.1.0-beta2";
     public static File FileName;
     public static boolean is_bungee;
     public static boolean is_forge;

@@ -72,7 +72,7 @@ public class Forge implements ICommand {
     public void execute(MinecraftServer server, ICommandSender sender,
                         String[] string) throws CommandException {
         if (checkPermission(server, sender)) {
-            if (string.length > 1) {
+            if (string.length >= 1) {
                 if (string[0].equalsIgnoreCase("help")) {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2帮助手册"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接"));
@@ -119,6 +119,8 @@ public class Forge implements ICommand {
                         return;
                     }
                 }
+            }else {
+                sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
             }
         } else {
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c你没有权限"));

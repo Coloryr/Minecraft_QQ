@@ -9,10 +9,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
 public class Bukkit implements CommandExecutor, TabExecutor {
+    private Plugin plugin;
+    public Bukkit(Plugin plugin)
+    {
+        this.plugin = plugin;
+    }
 
     public void reload(CommandSender sender) {
         sender.sendMessage("§d[Minecraft_QQ]§e机器人IP： " + Color_yr.Minecraft_QQ.Config.Bukkit.System_IP);
@@ -53,17 +59,17 @@ public class Bukkit implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 if (sender.isOp()) {
-                    Color_yr.Minecraft_QQ.Main.Bukkit config = new Color_yr.Minecraft_QQ.Main.Bukkit();
+                    Color_yr.Minecraft_QQ.Load.Bukkit config = new Color_yr.Minecraft_QQ.Load.Bukkit();
                     if (args.length > 1) {
                         if (args[1].equalsIgnoreCase("config")) {
-                            config.setConfig();
+                            config.setConfig(plugin);
                             reload(sender);
                         } else if (args[1].equalsIgnoreCase("socket")) {
                             socket_restart socket_restart = new socket_restart();
                             socket_restart.restart_socket();
                         }
                     } else {
-                        config.setConfig();
+                        config.setConfig(plugin);
                         reload(sender);
                         socket_restart socket_restart = new socket_restart();
                         socket_restart.restart_socket();
