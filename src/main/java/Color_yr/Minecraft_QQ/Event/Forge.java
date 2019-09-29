@@ -1,6 +1,7 @@
 package Color_yr.Minecraft_QQ.Event;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
+import Color_yr.Minecraft_QQ.Config.Bukkit;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +20,9 @@ public final class Forge {
         if (Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder == true) {
             if (player_message.indexOf("/") == 0)
                 return;
-        } else if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
+        } else if (Bukkit.Mute_List.contains(event.getPlayer().getName()))
+            return;
+        else if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
             boolean send_ok = false;
             EntityPlayer player = event.getPlayer();
             String message = Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Message;

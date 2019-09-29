@@ -40,10 +40,10 @@ public class Bukkit extends JavaPlugin {
         if (socket.hand.socket_runFlag == true) {
             try {
                 socket.server_close();
-                if(config.read_thread.isAlive()) {
+                if (config.read_thread.isAlive()) {
                     config.read_thread.stop();
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.getMessage();
                 if (logs.Error_log == true) {
                     logs logs = new logs();

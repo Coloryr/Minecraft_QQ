@@ -1,5 +1,8 @@
 package Color_yr.Minecraft_QQ.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bukkit {
 
     public static String Join_Message;
@@ -30,5 +33,7 @@ public class Bukkit {
 
     public static String Head;
     public static String End;
+
+    public static List<String> Mute_List = new ArrayList<>();
 
 }

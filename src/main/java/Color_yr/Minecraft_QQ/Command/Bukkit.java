@@ -1,6 +1,7 @@
 package Color_yr.Minecraft_QQ.Command;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
@@ -9,14 +10,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
 public class Bukkit implements CommandExecutor, TabExecutor {
     private Plugin plugin;
-    public Bukkit(Plugin plugin)
-    {
+
+    public Bukkit(Plugin plugin) {
         this.plugin = plugin;
     }
 
@@ -46,6 +49,10 @@ public class Bukkit implements CommandExecutor, TabExecutor {
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测头 " + Color_yr.Minecraft_QQ.Config.Bukkit.Head);
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测尾 " + Color_yr.Minecraft_QQ.Config.Bukkit.End);
             sender.sendMessage("§d[Minecraft_QQ]§e线程休眠时间 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_Sleep);
+            sender.sendMessage("§d[Minecraft_QQ]§e不参与聊天");
+            for (String a : Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List) {
+                sender.sendMessage("§d[Minecraft_QQ]§e " + a);
+            }
         }
         sender.sendMessage("§d[Minecraft_QQ]§e重载成功");
     }
@@ -105,13 +112,30 @@ public class Bukkit implements CommandExecutor, TabExecutor {
             } else {
                 sender.sendMessage("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助");
             }
+            if (args[0].equalsIgnoreCase("char")) {
+                if (!Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(sender.getName())) {
+                    Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.add(sender.getName());
+
+                    sender.sendMessage("§d[Minecraft_QQ]§2你已不会在收到群消息。");
+                } else {
+                    Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.remove(sender.getName());
+                    sender.sendMessage("§d[Minecraft_QQ]§2你开始接受群消息。");
+                }
+                try {
+                    FileConfiguration a = new YamlConfiguration();
+                    a.set("player", Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List);
+                    a.save(config.player);
+                } catch (Exception e) {
+                    config.log_b.warning("§d[Minecraft_QQ]§c配置文件保存错误\n" + e.getMessage());
+                }
+            }
         }
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        ArrayList<String> arguments=null;
+        ArrayList<String> arguments = null;
         if (command.getName().equalsIgnoreCase("qq") == true) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 arguments = new ArrayList<String>();

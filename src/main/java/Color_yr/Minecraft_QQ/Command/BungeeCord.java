@@ -2,8 +2,8 @@ package Color_yr.Minecraft_QQ.Command;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Bukkit;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Main.Bungeecord;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
@@ -11,11 +11,14 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static Color_yr.Minecraft_QQ.Main.Bungeecord.config_data_bungee;
+import static Color_yr.Minecraft_QQ.Main.BungeeCord.config_data_bungee;
 
 public class BungeeCord extends Command implements TabExecutor {
 
@@ -63,10 +66,9 @@ public class BungeeCord extends Command implements TabExecutor {
         if (args.length == 0) {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
             return;
-        }
-        if (args[0].equalsIgnoreCase("reload")) {
+        } else if (args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
-                Color_yr.Minecraft_QQ.Main.Bungeecord config = new Color_yr.Minecraft_QQ.Main.Bungeecord();
+                Color_yr.Minecraft_QQ.Main.BungeeCord config = new Color_yr.Minecraft_QQ.Main.BungeeCord();
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("config")) {
                         config.setConfig();
@@ -87,8 +89,7 @@ public class BungeeCord extends Command implements TabExecutor {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
                 return;
             }
-        }
-        if (args[0].equalsIgnoreCase("help")) {
+        } else if (args[0].equalsIgnoreCase("help")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2帮助手册"));
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2使用/qq say 来发送消息"));
@@ -100,8 +101,7 @@ public class BungeeCord extends Command implements TabExecutor {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
                 return;
             }
-        }
-        if (args[0].equalsIgnoreCase("say")) {
+        } else if (args[0].equalsIgnoreCase("say")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 if (args[1].equalsIgnoreCase("") == false) {
                     if (socket.hand.socket_runFlag == true) {
@@ -113,15 +113,32 @@ public class BungeeCord extends Command implements TabExecutor {
                     sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请输入文本"));
             } else
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
+        } else if (args[0].equalsIgnoreCase("char")) {
+            if (!Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(sender.getName())) {
+                Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.add(sender.getName());
+                sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2你已不会在收到群消息。"));
+            } else {
+                Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.remove(sender.getName());
+                sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2你开始接受群消息。"));
+            }
+            try {
+                Configuration a = new Configuration();
+                a.set("player", Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List);
+                ConfigurationProvider.getProvider(YamlConfiguration.class).save(a, config.player);
+            } catch (Exception e) {
+                config.log_b.warning("§d[Minecraft_QQ]§c配置文件保存错误\n" + e.getMessage());
+            }
         } else {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
         }
     }
 
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> arguments = null;
+        List<String> arguments = new ArrayList<String>();
+        if (args.length == 0)
+            arguments.add("char");
         if (sender.hasPermission("Minecraft_QQ.admin") == true) {
-            arguments = new ArrayList<String>();
+
             if (args.length != 0 && args[0].equalsIgnoreCase("reload") == true) {
                 arguments.add("config");
                 arguments.add("socket");

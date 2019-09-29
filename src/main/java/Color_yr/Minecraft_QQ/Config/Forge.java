@@ -4,6 +4,8 @@ import Color_yr.Minecraft_QQ.Log.logs;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 
+import java.util.List;
+
 @Config(modid = "minecraft_qq", name = "Minecraft_QQ")
 public class Forge {
     @Config.Name("Minecraft_QQ")
@@ -106,12 +108,17 @@ public class Forge {
         @Config.Name("Error")
         public boolean Error = true;
 
+        @Config.Comment("不参与聊天玩家")
+        @Config.Name("Player")
+        public List<String> Player = Bukkit.Mute_List;
+
         @Config.Comment("配置文件版本号")
         @Config.Name("Version")
         public String Version = Color_yr.Minecraft_QQ.Main.Forge.VERSION;
     }
 
     public void init() {
+        Bukkit.Mute_List = Minecraft_QQ.Player;
         Bukkit.Minecraft_ServerName = Minecraft_QQ.ServerName;
         Bukkit.Minecraft_Check = Minecraft_QQ.Check;
         Bukkit.Minecraft_Message = Minecraft_QQ.Message;

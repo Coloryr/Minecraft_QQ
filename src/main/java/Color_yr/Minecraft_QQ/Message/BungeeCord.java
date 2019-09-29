@@ -1,12 +1,12 @@
 package Color_yr.Minecraft_QQ.Message;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Config.Bukkit;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
+import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
-import Color_yr.Minecraft_QQ.Log.logs;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -17,14 +17,15 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.util.Collection;
 import java.util.Map;
 
-import static Color_yr.Minecraft_QQ.Main.Bungeecord.config_data_bungee;
+import static Color_yr.Minecraft_QQ.Main.BungeeCord.config_data_bungee;
 
-public class BungeeCord extends Thread{
+public class BungeeCord extends Thread {
     public String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
         int y = a.indexOf(c);
         return a.substring(x, y);
     }
+
     @Override
     public void run() {
         config.log_b.info("线程开始");
@@ -40,7 +41,7 @@ public class BungeeCord extends Thread{
                     logs logs = new logs();
                     logs.log_write("[Group]" + msg);
                 }
-                if(Bukkit.System_Debug == true)
+                if (Bukkit.System_Debug == true)
                     config.log_b.info("处理数据：" + msg);
                 if (socket.hand.socket_runFlag == false)
                     return;

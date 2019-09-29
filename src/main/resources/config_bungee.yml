@@ -86,4 +86,4 @@ Logs:
   #是否记录错误内容
   Error: true
 #配置文件版本号
-Version: "2.1.0-beta2"
+Version: "2.1.1"

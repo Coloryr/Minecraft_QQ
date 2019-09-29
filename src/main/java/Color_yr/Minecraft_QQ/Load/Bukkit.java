@@ -1,5 +1,6 @@
 package Color_yr.Minecraft_QQ.Load;
 
+import Color_yr.Minecraft_QQ.Config.Forge;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -46,6 +47,10 @@ public class Bukkit {
         Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceedMessage = config_data_bukkit.getString("User.SendSucceedMessage", "已发送消息至群内");
         Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder = config_data_bukkit.getBoolean("User.NotSendCommder", true);
 
+        Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List = YamlConfiguration.loadConfiguration(
+                new File(Color_yr.Minecraft_QQ.Main.Bukkit.Minecraft_QQ.getDataFolder(), "mute.yml"))
+                .getStringList("player");
+
         logs.Socket_log = config_data_bukkit.getBoolean("Logs.Socket", true);
         logs.Group_log = config_data_bukkit.getBoolean("Logs.Group", true);
         logs.Send_log = config_data_bukkit.getBoolean("Logs.Send", true);
@@ -56,11 +61,16 @@ public class Bukkit {
         try {
             config.FileName = new File(Minecraft_QQ.getDataFolder(), "config.yml");
             logs.file = new File(Minecraft_QQ.getDataFolder(), "logs.log");
+            config.player = new File(Minecraft_QQ.getDataFolder(), "mute.yml");
             if (!Minecraft_QQ.getDataFolder().exists())
                 Minecraft_QQ.getDataFolder().mkdir();
             if (!config.FileName.exists()) {
                 InputStream in = Minecraft_QQ.getResource("config_bukkit.yml");
                 Files.copy(in, config.FileName.toPath());
+            }
+            if (!config.player.exists()) {
+                InputStream in = Minecraft_QQ.getResource("mute.yml");
+                Files.copy(in, config.player.toPath());
             }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();

@@ -3,25 +3,18 @@ package Color_yr.Minecraft_QQ.Message;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
+import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
-import Color_yr.Minecraft_QQ.Log.logs;
 import com.google.gson.Gson;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 
 public class Bukkit extends Thread {
-    public static String get_string(String a, String b, String c) {
+    private String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
         int y = a.indexOf(c);
         return a.substring(x, y);
@@ -31,21 +24,21 @@ public class Bukkit extends Thread {
     public void run() {
         while (true) {
             try {
-                while (socket.hand.have_message == false) {
+                while (!socket.hand.have_message) {
                     Thread.sleep(Color_yr.Minecraft_QQ.Config.Bukkit.System_Sleep);
                 }
                 socket.hand.have_message = false;
                 String msg = socket.hand.info;
                 socket.hand.info = null;
-                if (logs.Group_log == true) {
+                if (logs.Group_log) {
                     logs logs = new logs();
                     logs.log_write("[Group]" + msg);
                 }
-                if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug == true)
+                if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug)
                     config.log_b.info("处理数据：" + msg);
-                if (socket.hand.socket_runFlag == false)
+                if (!socket.hand.socket_runFlag)
                     return;
-                while (msg.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit.Head) == 0 && msg.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit.End) != -1) {
+                while (msg.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit.Head) == 0 && msg.contains(Color_yr.Minecraft_QQ.Config.Bukkit.End)) {
                     String buff = get_string(msg, Color_yr.Minecraft_QQ.Config.Bukkit.Head, Color_yr.Minecraft_QQ.Config.Bukkit.End);
                     Read_Json read_bean;
                     try {
@@ -55,7 +48,7 @@ public class Bukkit extends Thread {
                         config.log_b.warning("数据传输发生错误:" + e.getMessage());
                         return;
                     }
-                    if (read_bean.getIs_commder().equals("false") == true) {
+                    if (read_bean.getIs_commder().equals("false")) {
                         String a = read_bean.getMessage();
                         if (a.indexOf("说话") == 0) {
                             a = a.replaceFirst("说话", "");
@@ -63,12 +56,11 @@ public class Bukkit extends Thread {
                             say = ChatColor.translateAlternateColorCodes('&', say);
                             final String m = say;
                             try {
-                                org.bukkit.Bukkit.getScheduler().runTask(Color_yr.Minecraft_QQ.Main.Bukkit.Minecraft_QQ, new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        org.bukkit.Bukkit.broadcastMessage(m);
-                                    }
-                                });
+                                final Collection<Player> values = (Collection<Player>) org.bukkit.Bukkit.getOnlinePlayers();
+                                for (Player b : values) {
+                                    if(!Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(b.getName()))
+                                        b.sendMessage(m);
+                                }
                             } catch (Exception e) {
                                 config.log_b.warning(e.toString());
                             }
@@ -93,31 +85,31 @@ public class Bukkit extends Thread {
                                 player = player.replace("[", "");
                                 player = player.replace("]", "");
                                 player = player.replaceAll("CraftPlayer\\{name=", "");
-                                player = player.replaceAll("\\}", "");
+                                player = player.replaceAll("}", "");
 
                                 send = send.replaceAll(Placeholder.Servername, Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerName)
                                         .replaceAll(Placeholder.player_number, "" + player_number)
                                         .replaceAll(Placeholder.player_list, player);
                             }
                             socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
-                            if (logs.Group_log == true) {
+                            if (logs.Group_log) {
                                 logs logs = new logs();
                                 logs.log_write("[group]查询在线人数");
                             }
-                            if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug == true)
+                            if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug)
                                 config.log_b.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
                         } else if (a.indexOf("服务器状态") == 0) {
                             String send = Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerOnlineMessage;
                             send = send.replaceAll(Placeholder.Servername, Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerName);
                             socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
-                            if (logs.Group_log == true) {
+                            if (logs.Group_log) {
                                 logs logs = new logs();
                                 logs.log_write("[group]查询服务器状态");
                             }
-                            if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug == true)
+                            if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug)
                                 config.log_b.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                         }
-                    } else if (read_bean.getIs_commder().equals("true") == true) {
+                    } else if (read_bean.getIs_commder().equals("true")) {
                         String send_message;
                         send_bukkit send = new send_bukkit();
                         send.setPlayer(read_bean.getPlayer());

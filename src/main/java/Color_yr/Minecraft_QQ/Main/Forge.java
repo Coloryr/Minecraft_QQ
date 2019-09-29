@@ -20,7 +20,7 @@ import java.io.File;
 public class Forge {
     public static final String MODID = "minecraft_qq";
     public static final String NAME = "Minecraft_QQ";
-    public static final String VERSION = "2.1.0";
+    public static final String VERSION = "2.1.1";
 
     public static Logger logger;
 
@@ -43,8 +43,7 @@ public class Forge {
 
     @SideOnly(Side.SERVER)
     @EventHandler
-    public void init(FMLServerStartingEvent event)
-    {
+    public void init(FMLServerStartingEvent event) {
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         event.registerServerCommand(new Color_yr.Minecraft_QQ.Command.Forge());
         config.read_thread = new Color_yr.Minecraft_QQ.Message.Forge();
@@ -57,15 +56,14 @@ public class Forge {
 
     @SideOnly(Side.SERVER)
     @EventHandler
-    public void stop(FMLServerStoppingEvent event)
-    {
+    public void stop(FMLServerStoppingEvent event) {
         if (socket.hand.socket_runFlag == true) {
             try {
                 socket.server_close();
-                if(config.read_thread.isAlive()) {
+                if (config.read_thread.isAlive()) {
                     config.read_thread.stop();
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.getMessage();
                 if (logs.Error_log == true) {
                     logs logs = new logs();

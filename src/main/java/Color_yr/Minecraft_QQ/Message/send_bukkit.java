@@ -16,18 +16,15 @@ public class send_bukkit {
     private static List<String> message = new ArrayList<String>();
     private String player;
 
-    public void setPlayer(String player)
-    {
+    public void setPlayer(String player) {
         this.player = player;
     }
 
-    public List<String> getMessage()
-    {
+    public List<String> getMessage() {
         return this.message;
     }
 
-    public void clear()
-    {
+    public void clear() {
         player = null;
         message.clear();
     }

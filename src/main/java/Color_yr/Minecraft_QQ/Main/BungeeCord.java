@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public class Bungeecord extends Plugin {
+public class BungeeCord extends Plugin {
 
     public static Color_yr.Minecraft_QQ.Config.BungeeCord config_data_bungee;
 
-    private void loadconfig() {
+    private void loadconfig() throws IOException {
         config.log_b.info("§d[Minecraft_QQ]§e当前插件版本为：" + config.Version
                 + "，你的配置文件版本为：" + config_data_bungee.config.getString("Version"));
 
@@ -62,6 +62,8 @@ public class Bungeecord extends Plugin {
         Bukkit.User_SendSucceedMessage = config_data_bungee.config.getString("User.SendSucceedMessage", "已发送消息至群内");
         Bukkit.User_NotSendCommder = config_data_bungee.config.getBoolean("User.NotSendCommder", true);
 
+        Bukkit.Mute_List = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config.player).getStringList("player");
+
         logs.Socket_log = config_data_bungee.config.getBoolean("Logs.Socket", true);
         logs.Group_log = config_data_bungee.config.getBoolean("Logs.Group", true);
         logs.Send_log = config_data_bungee.config.getBoolean("Logs.Send", true);
@@ -72,11 +74,16 @@ public class Bungeecord extends Plugin {
         try {
             config.FileName = new File(getDataFolder(), "config.yml");
             logs.file = new File(getDataFolder(), "logs.log");
+            config.player = new File(getDataFolder(), "mute.yml");
             if (!getDataFolder().exists())
                 getDataFolder().mkdir();
             if (!config.FileName.exists()) {
                 InputStream in = getResourceAsStream("config_bungee.yml");
                 Files.copy(in, config.FileName.toPath());
+            }
+            if (!config.player.exists()) {
+                InputStream in = getResourceAsStream("mute.yml");
+                Files.copy(in, config.player.toPath());
             }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
@@ -95,7 +102,7 @@ public class Bungeecord extends Plugin {
         config.log_b = ProxyServer.getInstance().getLogger();
         config.log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        config.read_thread = new BungeeCord();
+        config.read_thread = new Color_yr.Minecraft_QQ.Message.BungeeCord();
         config.read_thread.start();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Color_yr.Minecraft_QQ.Event.BungeeCord());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new Color_yr.Minecraft_QQ.Command.BungeeCord());
@@ -110,10 +117,10 @@ public class Bungeecord extends Plugin {
         if (socket.hand.socket_runFlag == true) {
             try {
                 socket.server_close();
-                if(config.read_thread.isAlive()) {
+                if (config.read_thread.isAlive()) {
                     config.read_thread.stop();
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.getMessage();
                 if (logs.Error_log == true) {
                     logs logs = new logs();

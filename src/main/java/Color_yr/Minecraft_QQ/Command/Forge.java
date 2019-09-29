@@ -19,6 +19,7 @@ import java.util.List;
 public class Forge implements ICommand {
 
     private List aliases;
+
     public Forge() {
         aliases = new ArrayList<String>();
         aliases.add("qq");
@@ -118,17 +119,30 @@ public class Forge implements ICommand {
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                         return;
                     }
+                } else if (string[0].equalsIgnoreCase("char")) {
+                    if (!Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(sender.getName())) {
+                        Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.add(sender.getName());
+                        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2你已不会在收到群消息。"));
+                    } else {
+                        Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.remove(sender.getName());
+                        sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2你开始接受群消息。"));
+                    }
+                    Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
+                    config_read.reload();
+                    config_read.init();
+                    reload(sender);
                 }
-            }else {
+            } else {
                 sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
             }
         } else {
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c你没有权限"));
         }
     }
+
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return sender.canUseCommand(2, getName());
+        return sender.canUseCommand(3, getName());
     }
 
     @Override

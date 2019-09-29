@@ -7,23 +7,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class send_bungee
-{
+class send_bungee {
     private static List<String> message = new ArrayList<String>();
     private String player;
 
-    public void setPlayer(String player)
-    {
+    public void setPlayer(String player) {
         this.player = player;
     }
 
-    public List<String> getMessage()
-    {
+    public List<String> getMessage() {
         return this.message;
     }
 
-    public void clear()
-    {
+    public void clear() {
         player = null;
         message.clear();
     }
@@ -58,7 +54,7 @@ class send_bungee
 
         @Override
         public Collection<String> getGroups() {
-             return null;
+            return null;
         }
 
         @Override

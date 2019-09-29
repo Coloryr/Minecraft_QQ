@@ -15,7 +15,7 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import static Color_yr.Minecraft_QQ.Main.Bungeecord.config_data_bungee;
+import static Color_yr.Minecraft_QQ.Main.BungeeCord.config_data_bungee;
 
 public class BungeeCord implements Listener {
 
@@ -63,13 +63,14 @@ public class BungeeCord implements Listener {
     public void onChar(ChatEvent event) {
         String player_message;
         player_message = event.getMessage();
+        ProxiedPlayer player = (ProxiedPlayer) event.getSender();
         if (Bukkit.User_NotSendCommder == true) {
             if (player_message.indexOf("/") == 0)
                 return;
-        }
-        if (Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
+        } else if (Bukkit.Mute_List.contains(player.getName()))
+            return;
+        else if (Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
             boolean send_ok = false;
-            ProxiedPlayer player = (ProxiedPlayer) event.getSender();
             String message = Bukkit.Minecraft_Message;
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
