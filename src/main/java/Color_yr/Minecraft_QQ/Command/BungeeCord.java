@@ -26,12 +26,12 @@ public class BungeeCord extends Command implements TabExecutor {
         super("qq");
     }
 
-    public void reload(CommandSender sender) {
+    private void reload(CommandSender sender) {
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e机器人IP： " + Bukkit.System_IP));
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e机器人端口 " + Bukkit.System_PORT));
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e机器人模式 " + Bukkit.Minecraft_Mode));
         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§eDebug模式 " + Bukkit.System_Debug));
-        if (Bukkit.System_Debug == true) {
+        if (Bukkit.System_Debug) {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e玩家加入时是否发送文本 " + Bukkit.Join_sendQQ + "文本 " + Bukkit.Join_Message));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e玩家退出时是否发送文本 " + Bukkit.Quit_sendQQ + "文本 " + Bukkit.Quit_Message));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e玩家切换子服时是否发送文本 " + config_data_bungee.ChangeServer_sendQQ + "文本 " + config_data_bungee.ChangeServer_Message));
@@ -65,7 +65,6 @@ public class BungeeCord extends Command implements TabExecutor {
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
-            return;
         } else if (args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 Color_yr.Minecraft_QQ.Main.BungeeCord config = new Color_yr.Minecraft_QQ.Main.BungeeCord();
@@ -84,10 +83,8 @@ public class BungeeCord extends Command implements TabExecutor {
                     socket_restart socket_restart = new socket_restart();
                     socket_restart.restart_socket();
                 }
-                return;
             } else {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
-                return;
             }
         } else if (args[0].equalsIgnoreCase("help")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
@@ -96,15 +93,13 @@ public class BungeeCord extends Command implements TabExecutor {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接"));
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接"));
-                return;
             } else {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
-                return;
             }
         } else if (args[0].equalsIgnoreCase("say")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
-                if (args[1].equalsIgnoreCase("") == false) {
-                    if (socket.hand.socket_runFlag == true) {
+                if (!args[1].equalsIgnoreCase("")) {
+                    if (socket.hand.socket_runFlag) {
                         socket_send.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2已发送" + args[1]));
                     } else
@@ -134,12 +129,12 @@ public class BungeeCord extends Command implements TabExecutor {
     }
 
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> arguments = new ArrayList<String>();
+        List<String> arguments = new ArrayList<>();
         if (args.length == 0)
             arguments.add("char");
-        if (sender.hasPermission("Minecraft_QQ.admin") == true) {
+        if (sender.hasPermission("Minecraft_QQ.admin")) {
 
-            if (args.length != 0 && args[0].equalsIgnoreCase("reload") == true) {
+            if (args.length != 0 && args[0].equalsIgnoreCase("reload")) {
                 arguments.add("config");
                 arguments.add("socket");
             } else {

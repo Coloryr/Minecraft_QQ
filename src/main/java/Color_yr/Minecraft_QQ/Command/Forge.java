@@ -41,12 +41,12 @@ public class Forge implements ICommand {
         return aliases;
     }
 
-    public void reload(ICommandSender sender) {
+    private void reload(ICommandSender sender) {
         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人IP： " + Bukkit.System_IP));
         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人端口 " + Bukkit.System_PORT));
         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e机器人模式 " + Bukkit.Minecraft_Mode));
         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§eDebug模式 " + Bukkit.System_Debug));
-        if (Bukkit.System_Debug == true) {
+        if (Bukkit.System_Debug) {
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e服务器名字 " + Bukkit.Minecraft_ServerName));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e触发文本 " + Bukkit.Minecraft_Check));
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§e发送至QQ群的文本 " + Bukkit.Minecraft_Message));
@@ -79,7 +79,6 @@ public class Forge implements ICommand {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接"));
-                    return;
                 } else if (string[0].equalsIgnoreCase("reload")) {
                     if (string.length > 2) {
                         if (string[1].equalsIgnoreCase("config")) {
@@ -87,14 +86,11 @@ public class Forge implements ICommand {
                             config_read.reload();
                             config_read.init();
                             reload(sender);
-                            return;
                         } else if (string[1].equalsIgnoreCase("sock)et")) {
                             socket_restart socket_restart = new socket_restart();
                             socket_restart.restart_socket();
-                            return;
                         } else {
                             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
-                            return;
                         }
                     } else {
                         Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
@@ -103,21 +99,17 @@ public class Forge implements ICommand {
                         reload(sender);
                         socket_restart socket_restart = new socket_restart();
                         socket_restart.restart_socket();
-                        return;
                     }
                 } else if (string[0].equalsIgnoreCase("say")) {
                     if (string.length < 2) {
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请输入文本"));
-                    } else if (socket.hand.socket_runFlag == true) {
+                    } else if (socket.hand.socket_runFlag) {
                         socket_send.send_data(Placeholder.data, Placeholder.group, "无", string[1]);
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2已发送" + string[1]));
-                        return;
-                    } else if (socket.hand.socket_runFlag == false) {
+                    } else if (!socket.hand.socket_runFlag) {
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，酷Q未连接"));
-                        return;
                     } else {
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
-                        return;
                     }
                 } else if (string[0].equalsIgnoreCase("char")) {
                     if (!Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(sender.getName())) {

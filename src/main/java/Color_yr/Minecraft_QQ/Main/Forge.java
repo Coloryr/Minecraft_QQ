@@ -46,8 +46,7 @@ public class Forge {
     public void init(FMLServerStartingEvent event) {
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         event.registerServerCommand(new Color_yr.Minecraft_QQ.Command.Forge());
-        config.read_thread = new Color_yr.Minecraft_QQ.Message.Forge();
-        config.read_thread.start();
+        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Forge();
         socket socket = new socket();
         socket.socket_start();
         logger.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
@@ -57,15 +56,12 @@ public class Forge {
     @SideOnly(Side.SERVER)
     @EventHandler
     public void stop(FMLServerStoppingEvent event) {
-        if (socket.hand.socket_runFlag == true) {
+        if (socket.hand.socket_runFlag) {
             try {
                 socket.server_close();
-                if (config.read_thread.isAlive()) {
-                    config.read_thread.stop();
-                }
             } catch (Exception e) {
                 e.getMessage();
-                if (logs.Error_log == true) {
+                if (logs.Error_log) {
                     logs logs = new logs();
                     logs.log_write("[ERROR]" + e.getMessage());
                 }

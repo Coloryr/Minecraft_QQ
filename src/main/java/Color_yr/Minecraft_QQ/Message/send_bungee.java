@@ -4,6 +4,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,7 +17,7 @@ class send_bungee {
     }
 
     public List<String> getMessage() {
-        return this.message;
+        return message;
     }
 
     public void clear() {
@@ -37,13 +38,12 @@ class send_bungee {
 
         @Override
         public void sendMessages(String... messages) {
-            for (int i = 0; i < messages.length; i++)
-                send_bungee.message.add(messages[i]);
+            send_bungee.message.addAll(Arrays.asList(messages));
         }
 
         @Override
         public void sendMessage(BaseComponent... message) {
-            send_bungee.message.add(message.toString());
+            send_bungee.message.add(Arrays.toString(message));
         }
 
         @Override

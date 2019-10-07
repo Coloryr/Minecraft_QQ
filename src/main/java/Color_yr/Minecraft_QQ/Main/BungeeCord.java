@@ -4,7 +4,6 @@ import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Config.Bukkit;
 import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Message.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -102,8 +101,7 @@ public class BungeeCord extends Plugin {
         config.log_b = ProxyServer.getInstance().getLogger();
         config.log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        config.read_thread = new Color_yr.Minecraft_QQ.Message.BungeeCord();
-        config.read_thread.start();
+        socket.iMessage = new Color_yr.Minecraft_QQ.Message.BungeeCord();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Color_yr.Minecraft_QQ.Event.BungeeCord());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new Color_yr.Minecraft_QQ.Command.BungeeCord());
         config.log_b.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
@@ -114,15 +112,12 @@ public class BungeeCord extends Plugin {
 
     @Override
     public void onDisable() {
-        if (socket.hand.socket_runFlag == true) {
+        if (socket.hand.socket_runFlag) {
             try {
                 socket.server_close();
-                if (config.read_thread.isAlive()) {
-                    config.read_thread.stop();
-                }
             } catch (Exception e) {
                 e.getMessage();
-                if (logs.Error_log == true) {
+                if (logs.Error_log) {
                     logs logs = new logs();
                     logs.log_write("[ERROR]" + e.getMessage());
                 }

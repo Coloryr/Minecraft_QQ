@@ -15,12 +15,8 @@ public class socket_hand {
     public boolean server_isclose = false;
     public boolean socket_stop = false;
     public boolean socket_first = true;
-    public boolean have_message = false;
 
     public byte[] buf = new byte[1024];
-
-    public boolean is_can_go = false;
-    public String info;
 
     public socket readThread = null;
 }

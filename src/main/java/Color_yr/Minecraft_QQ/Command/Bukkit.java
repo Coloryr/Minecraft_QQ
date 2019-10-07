@@ -23,12 +23,12 @@ public class Bukkit implements CommandExecutor, TabExecutor {
         this.plugin = plugin;
     }
 
-    public void reload(CommandSender sender) {
+    private void reload(CommandSender sender) {
         sender.sendMessage("§d[Minecraft_QQ]§e机器人IP： " + Color_yr.Minecraft_QQ.Config.Bukkit.System_IP);
         sender.sendMessage("§d[Minecraft_QQ]§e机器人端口 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_PORT);
         sender.sendMessage("§d[Minecraft_QQ]§e机器人模式 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode);
         sender.sendMessage("§d[Minecraft_QQ]§eDebug模式 " + Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug);
-        if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug == true) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug) {
             sender.sendMessage("§d[Minecraft_QQ]§e玩家加入时是否发送文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Join_sendQQ + "文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Join_Message);
             sender.sendMessage("§d[Minecraft_QQ]§e玩家退出时是否发送文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Quit_sendQQ + "文本 " + Color_yr.Minecraft_QQ.Config.Bukkit.Quit_Message);
             sender.sendMessage("§d[Minecraft_QQ]§e服务器名字 " + Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerName);
@@ -97,7 +97,7 @@ public class Bukkit implements CommandExecutor, TabExecutor {
             if (args[0].equalsIgnoreCase("say")) {
                 if (sender.isOp()) {
                     if (args.length > 1) {
-                        if (socket.hand.socket_runFlag == true) {
+                        if (socket.hand.socket_runFlag) {
                             socket_send.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                             sender.sendMessage("§d[Minecraft_QQ]§2已发送" + args[1]);
                         } else
@@ -136,10 +136,10 @@ public class Bukkit implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         ArrayList<String> arguments = null;
-        if (command.getName().equalsIgnoreCase("qq") == true) {
+        if (command.getName().equalsIgnoreCase("qq")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
-                arguments = new ArrayList<String>();
-                if (args.length != 0 && args[0].equalsIgnoreCase("reload") == true) {
+                arguments = new ArrayList<>();
+                if (args.length != 0 && args[0].equalsIgnoreCase("reload")) {
                     arguments.add("config");
                     arguments.add("socket");
                 } else {

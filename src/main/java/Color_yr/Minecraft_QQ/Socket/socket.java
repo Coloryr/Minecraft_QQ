@@ -4,13 +4,14 @@ import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Config.Bukkit;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Main.Forge;
+import Color_yr.Minecraft_QQ.Message.IMessage;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 public class socket extends Thread {
 
     public static socket_hand hand = new socket_hand();
+    public static IMessage iMessage;
 
     @Override
     public void run() {
@@ -108,41 +109,18 @@ public class socket extends Thread {
                                 }
                                 hand.socket_runFlag = false;
                             } else {
-                                hand.info = new String(hand.buf, 0, len);
-                                if (!hand.info.isEmpty()) {
+                                String a = new String(hand.buf, 0, len);
+                                if (!a.isEmpty()) {
                                     if (Bukkit.System_Debug == true)
                                         if (config.is_forge == true)
-                                            Forge.logger.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + hand.info);
+                                            Forge.logger.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
                                         else
-                                            config.log_b.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + hand.info);
-                                    hand.have_message = true;
-                                    hand.is_can_go = false;
-                                    while (hand.is_can_go == false) {
-                                        try {
-                                            Thread.sleep(Bukkit.System_Sleep);
-                                        } catch (Exception e) {
-                                            if (config.is_forge == true)
-                                                Forge.logger.warn("§d[Minecraft_QQ]发生错误§c" + e.getMessage());
-                                            else
-                                                config.log_b.warning("§d[Minecraft_QQ]发生错误§c" + e.getMessage());
-                                        }
-                                    }
-                                    hand.is_can_go = false;
-                                    hand.have_message = false;
+                                            config.log_b.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
+                                    iMessage.Message(a);
                                 }
                             }
                         }
-                    } catch (UnknownHostException e) {
-                        if (config.is_forge == true)
-                            Forge.logger.warn("§d[Minecraft_QQ]§c酷Q连接中断");
-                        else
-                            config.log_b.warning("§d[Minecraft_QQ]§c酷Q连接中断");
-                        if (logs.Error_log == true) {
-                            logs logs = new logs();
-                            logs.log_write("[ERROR]" + e.getMessage());
-                        }
-                        hand.socket_runFlag = false;
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         if (config.is_forge == true)
                             Forge.logger.warn("§d[Minecraft_QQ]§c酷Q连接中断");
                         else

@@ -17,12 +17,12 @@ public final class Forge {
     public static void onPlayerChat(ServerChatEvent event) {
         String player_message;
         player_message = event.getMessage();
-        if (Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder == true) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder) {
             if (player_message.indexOf("/") == 0)
                 return;
         } else if (Bukkit.Mute_List.contains(event.getPlayer().getName()))
             return;
-        else if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag == true) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
             boolean send_ok = false;
             EntityPlayer player = event.getPlayer();
             String message = Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Message;
@@ -37,7 +37,7 @@ public final class Forge {
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
-            if (Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceed == true && send_ok == true)
+            if (Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceed && send_ok)
                 player.sendMessage(new TextComponentString("§d[Minecraft_QQ]" + Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceedMessage));
         }
     }

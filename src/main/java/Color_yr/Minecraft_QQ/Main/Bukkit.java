@@ -25,8 +25,7 @@ public class Bukkit extends JavaPlugin {
         config.log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         Color_yr.Minecraft_QQ.Load.Bukkit config_l = new Color_yr.Minecraft_QQ.Load.Bukkit();
         config_l.setConfig(Minecraft_QQ);
-        config.read_thread = new Color_yr.Minecraft_QQ.Message.Bukkit();
-        config.read_thread.start();
+        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Bukkit();
         org.bukkit.Bukkit.getPluginManager().registerEvents(new Color_yr.Minecraft_QQ.Event.Bukkit(), this);
         org.bukkit.Bukkit.getPluginCommand("qq").setExecutor(new Color_yr.Minecraft_QQ.Command.Bukkit(this));
         config.log_b.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
@@ -37,12 +36,9 @@ public class Bukkit extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (socket.hand.socket_runFlag == true) {
+        if (socket.hand.socket_runFlag) {
             try {
                 socket.server_close();
-                if (config.read_thread.isAlive()) {
-                    config.read_thread.stop();
-                }
             } catch (Exception e) {
                 e.getMessage();
                 if (logs.Error_log == true) {

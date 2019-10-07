@@ -28,13 +28,8 @@ public class logs {
             fw.flush();
             pw.close();
             fw.close();
-        } catch (FileNotFoundException e) {
-            if (config.is_forge == true)
-                Forge.logger.warn("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
-            else
-                config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
-        } catch (IOException e) {
-            if (config.is_forge == true)
+        } catch (Exception e) {
+            if (config.is_forge)
                 Forge.logger.warn("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
             else
                 config.log_b.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());

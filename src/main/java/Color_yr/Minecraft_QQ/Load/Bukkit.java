@@ -1,6 +1,5 @@
 package Color_yr.Minecraft_QQ.Load;
 
-import Color_yr.Minecraft_QQ.Config.Forge;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
 import org.bukkit.configuration.file.FileConfiguration;

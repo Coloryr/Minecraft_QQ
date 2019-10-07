@@ -8,6 +8,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class send_bukkit {
     }
 
     public List<String> getMessage() {
-        return this.message;
+        return message;
     }
 
     public void clear() {
@@ -38,8 +39,7 @@ public class send_bukkit {
 
         @Override
         public void sendMessage(String[] messages) {
-            for (int i = 0; i < messages.length; i++)
-                send_bukkit.message.add(messages[i]);
+            send_bukkit.message.addAll(Arrays.asList(messages));
         }
 
         @Override
