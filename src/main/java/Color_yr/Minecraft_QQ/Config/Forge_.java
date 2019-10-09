@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import java.util.List;
 
 @Config(modid = "minecraft_qq", name = "Minecraft_QQ")
-public class Forge {
+public class Forge_ {
     @Config.Name("Minecraft_QQ")
     public static Minecraft_QQ Minecraft_QQ = new Minecraft_QQ();
 
@@ -110,7 +110,7 @@ public class Forge {
 
         @Config.Comment("不参与聊天玩家")
         @Config.Name("Player")
-        public List<String> Player = Bukkit.Mute_List;
+        public List<String> Player = Bukkit_.Mute_List;
 
         @Config.Comment("配置文件版本号")
         @Config.Name("Version")
@@ -118,26 +118,26 @@ public class Forge {
     }
 
     public void init() {
-        Bukkit.Mute_List = Minecraft_QQ.Player;
-        Bukkit.Minecraft_ServerName = Minecraft_QQ.ServerName;
-        Bukkit.Minecraft_Check = Minecraft_QQ.Check;
-        Bukkit.Minecraft_Message = Minecraft_QQ.Message;
-        Bukkit.Minecraft_Say = Minecraft_QQ.Say;
-        Bukkit.Minecraft_Mode = Minecraft_QQ.Mode;
-        Bukkit.Minecraft_SendMode = Minecraft_QQ.SendMode;
-        Bukkit.Minecraft_PlayerListMessage = Minecraft_QQ.PlayerListMessage;
-        Bukkit.Minecraft_ServerOnlineMessage = Minecraft_QQ.ServerOnlineMessage;
-        Bukkit.System_IP = Minecraft_QQ.IP;
-        Bukkit.System_PORT = Minecraft_QQ.Port;
-        Bukkit.System_AutoConnet = Minecraft_QQ.AutoConnet;
-        Bukkit.System_AutoConnetTime = Minecraft_QQ.AutoConnetTime;
-        Bukkit.System_Debug = Minecraft_QQ.Debug;
-        Bukkit.System_Sleep = Minecraft_QQ.Sleep;
-        Bukkit.User_SendSucceed = Minecraft_QQ.SendSucceed;
-        Bukkit.User_SendSucceedMessage = Minecraft_QQ.SendSucceedMessage;
-        Bukkit.User_NotSendCommder = Minecraft_QQ.NotSendCommder;
-        Bukkit.Head = Minecraft_QQ.Head;
-        Bukkit.End = Minecraft_QQ.End;
+        Bukkit_.Mute_List = Minecraft_QQ.Player;
+        Bukkit_.Minecraft_ServerName = Minecraft_QQ.ServerName;
+        Bukkit_.Minecraft_Check = Minecraft_QQ.Check;
+        Bukkit_.Minecraft_Message = Minecraft_QQ.Message;
+        Bukkit_.Minecraft_Say = Minecraft_QQ.Say;
+        Bukkit_.Minecraft_Mode = Minecraft_QQ.Mode;
+        Bukkit_.Minecraft_SendMode = Minecraft_QQ.SendMode;
+        Bukkit_.Minecraft_PlayerListMessage = Minecraft_QQ.PlayerListMessage;
+        Bukkit_.Minecraft_ServerOnlineMessage = Minecraft_QQ.ServerOnlineMessage;
+        Bukkit_.System_IP = Minecraft_QQ.IP;
+        Bukkit_.System_PORT = Minecraft_QQ.Port;
+        Bukkit_.System_AutoConnet = Minecraft_QQ.AutoConnet;
+        Bukkit_.System_AutoConnetTime = Minecraft_QQ.AutoConnetTime;
+        Bukkit_.System_Debug = Minecraft_QQ.Debug;
+        Bukkit_.System_Sleep = Minecraft_QQ.Sleep;
+        Bukkit_.User_SendSucceed = Minecraft_QQ.SendSucceed;
+        Bukkit_.User_SendSucceedMessage = Minecraft_QQ.SendSucceedMessage;
+        Bukkit_.User_NotSendCommder = Minecraft_QQ.NotSendCommder;
+        Bukkit_.Head = Minecraft_QQ.Head;
+        Bukkit_.End = Minecraft_QQ.End;
         logs.Socket_log = Minecraft_QQ.Socket;
         logs.Group_log = Minecraft_QQ.Group;
         logs.Send_log = Minecraft_QQ.Send;

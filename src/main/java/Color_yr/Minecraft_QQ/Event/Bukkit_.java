@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class Bukkit implements Listener {
+public class Bukkit_ implements Listener {
 
     private String message(String message, String playerName) {
         message = message.replaceAll(Placeholder.Player, playerName);
@@ -21,19 +21,19 @@ public class Bukkit implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit.Join_sendQQ) {
+        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Join_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit.Join_Message, playerName));
+                    playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit_.Join_Message, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit.Quit_sendQQ) {
+        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Quit_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit.Quit_Message, playerName));
+                    playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit_.Quit_Message, playerName));
         }
     }
 
@@ -41,30 +41,30 @@ public class Bukkit implements Listener {
     public void onPlayerSay(AsyncPlayerChatEvent event) {
         String player_message;
         player_message = event.getMessage();
-        if (Color_yr.Minecraft_QQ.Config.Bukkit.User_NotSendCommder) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit_.User_NotSendCommder) {
             if (player_message.indexOf("/") == 0)
                 return;
-        } else if (Color_yr.Minecraft_QQ.Config.Bukkit.Mute_List.contains(event.getPlayer().getName()))
+        } else if (Color_yr.Minecraft_QQ.Config.Bukkit_.Mute_List.contains(event.getPlayer().getName()))
             return;
-        if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
             boolean send_ok = false;
             Player player = event.getPlayer();
-            String message = Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Message;
+            String message = Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Message;
             String playerName = player.getName();
             message = message.replaceAll(Placeholder.Player, playerName);
-            message = message.replaceAll(Placeholder.Servername, Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_ServerName);
+            message = message.replaceAll(Placeholder.Servername, Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_ServerName);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Check) == 0 && Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode == 1) {
-                player_message = player_message.replaceFirst(Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Check, "");
+            if (player_message.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Check) == 0 && Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Mode == 1) {
+                player_message = player_message.replaceFirst(Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Check, "");
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
-            } else if (Color_yr.Minecraft_QQ.Config.Bukkit.Minecraft_Mode == 2) {
+            } else if (Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Mode == 2) {
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
-            if (Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceed && send_ok)
+            if (Color_yr.Minecraft_QQ.Config.Bukkit_.User_SendSucceed && send_ok)
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "§d[Minecraft_QQ]" + Color_yr.Minecraft_QQ.Config.Bukkit.User_SendSucceedMessage));
+                        "§d[Minecraft_QQ]" + Color_yr.Minecraft_QQ.Config.Bukkit_.User_SendSucceedMessage));
         }
     }
 }

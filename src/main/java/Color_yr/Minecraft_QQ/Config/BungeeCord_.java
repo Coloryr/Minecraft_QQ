@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ.Config;
 
 import net.md_5.bungee.config.Configuration;
 
-public class BungeeCord {
+public class BungeeCord_ {
 
     public Configuration config;
 

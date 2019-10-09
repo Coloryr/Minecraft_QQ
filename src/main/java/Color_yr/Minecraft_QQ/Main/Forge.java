@@ -1,8 +1,12 @@
 package Color_yr.Minecraft_QQ.Main;
 
+import Color_yr.Minecraft_QQ.Command.Forge_;
+import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Log.Log_f;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_start;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -20,7 +24,7 @@ import java.io.File;
 public class Forge {
     public static final String MODID = "minecraft_qq";
     public static final String NAME = "Minecraft_QQ";
-    public static final String VERSION = "2.1.1";
+    public static final String VERSION = config.Version;
 
     public static Logger logger;
 
@@ -28,7 +32,10 @@ public class Forge {
     @SideOnly(Side.SERVER)
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+
+        config.ilog = new Log_f();
         logs.file = new File(event.getModConfigurationDirectory(), "Minecraft_QQ.log");
+
         if (!logs.file.exists()) {
             try {
                 logs.file.createNewFile();
@@ -36,37 +43,29 @@ public class Forge {
                 logger.warn("§d[Minecraft_QQ]§c日志文件错误：" + e.getMessage());
             }
         }
-        Color_yr.Minecraft_QQ.Config.Forge config_read = new Color_yr.Minecraft_QQ.Config.Forge();
+
+        Color_yr.Minecraft_QQ.Config.Forge_ config_read = new Color_yr.Minecraft_QQ.Config.Forge_();
         config_read.init();
-        config.is_forge = true;
     }
 
     @SideOnly(Side.SERVER)
     @EventHandler
     public void init(FMLServerStartingEvent event) {
+
+        event.registerServerCommand(new Forge_());
+        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Forge_();
+        socket_start socket = new socket_start();
+
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
-        event.registerServerCommand(new Color_yr.Minecraft_QQ.Command.Forge());
-        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Forge();
-        socket socket = new socket();
         socket.socket_start();
-        logger.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
-        logger.info("§d[Minecraft_QQ]§eDebug模式" + Color_yr.Minecraft_QQ.Config.Bukkit.System_Debug);
+        logger.info("§d[Minecraft_QQ]§e已启动-" + VERSION);
+        logger.info("§d[Minecraft_QQ]§eDebug模式" + Bukkit_.System_Debug);
     }
 
     @SideOnly(Side.SERVER)
     @EventHandler
     public void stop(FMLServerStoppingEvent event) {
-        if (socket.hand.socket_runFlag) {
-            try {
-                socket.server_close();
-            } catch (Exception e) {
-                e.getMessage();
-                if (logs.Error_log) {
-                    logs logs = new logs();
-                    logs.log_write("[ERROR]" + e.getMessage());
-                }
-            }
-        }
+        socket.server_close();
         logger.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }
