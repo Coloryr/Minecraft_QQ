@@ -14,9 +14,8 @@ public class socket_hand {
     public boolean socket_runFlag = false;
     public boolean server_isclose = false;
     public boolean socket_stop = false;
-    public boolean socket_first = true;
 
-    public byte[] buf = new byte[1024];
+    public byte[] buf = new byte[4096];
 
-    public socket readThread = null;
+    public socket_read_t readThread = null;
 }

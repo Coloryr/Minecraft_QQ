@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Event;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ public class Bukkit_ implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Join_sendQQ) {
+        if (config.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Join_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit_.Join_Message, playerName));
@@ -30,7 +30,7 @@ public class Bukkit_ implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (socket.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Quit_sendQQ) {
+        if (config.hand.socket_runFlag && Color_yr.Minecraft_QQ.Config.Bukkit_.Quit_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Color_yr.Minecraft_QQ.Config.Bukkit_.Quit_Message, playerName));
@@ -46,7 +46,7 @@ public class Bukkit_ implements Listener {
                 return;
         } else if (Color_yr.Minecraft_QQ.Config.Bukkit_.Mute_List.contains(event.getPlayer().getName()))
             return;
-        if (Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
+        if (Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Mode != 0 && config.hand.socket_runFlag) {
             boolean send_ok = false;
             Player player = event.getPlayer();
             String message = Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_Message;

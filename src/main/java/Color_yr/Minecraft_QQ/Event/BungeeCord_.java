@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ.Event;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -27,7 +27,7 @@ public class BungeeCord_ implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (socket.hand.socket_runFlag && Bukkit_.Join_sendQQ) {
+        if (config.hand.socket_runFlag && Bukkit_.Join_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Bukkit_.Join_Message, playerName));
@@ -36,7 +36,7 @@ public class BungeeCord_ implements Listener {
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (socket.hand.socket_runFlag && Bukkit_.Quit_sendQQ) {
+        if (config.hand.socket_runFlag && Bukkit_.Quit_sendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Bukkit_.Quit_Message, playerName));
@@ -45,7 +45,7 @@ public class BungeeCord_ implements Listener {
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (socket.hand.socket_runFlag && config_data_bungee.ChangeServer_sendQQ) {
+        if (config.hand.socket_runFlag && config_data_bungee.ChangeServer_sendQQ) {
             String message = config_data_bungee.ChangeServer_Message;
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
@@ -69,7 +69,7 @@ public class BungeeCord_ implements Listener {
                 return;
         } else if (Bukkit_.Mute_List.contains(player.getName()))
             return;
-        if (Bukkit_.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
+        if (Bukkit_.Minecraft_Mode != 0 && config.hand.socket_runFlag) {
             boolean send_ok = false;
             String message = Bukkit_.Minecraft_Message;
             String playerName = player.getName();

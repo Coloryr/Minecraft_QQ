@@ -3,9 +3,8 @@ package Color_yr.Minecraft_QQ.Main;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.Log_s;
-import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket_start;
+import Color_yr.Minecraft_QQ.Socket.socket_control;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,7 +23,7 @@ public class Bukkit extends JavaPlugin {
         config.ilog = new Log_s();
         config.F_Log = new logs();
         Color_yr.Minecraft_QQ.Load.Bukkit_ config_l = new Color_yr.Minecraft_QQ.Load.Bukkit_();
-        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Bukkit_();
+        config.iMessage = new Color_yr.Minecraft_QQ.Message.Bukkit_();
 
         log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
 
@@ -36,13 +35,14 @@ public class Bukkit extends JavaPlugin {
         log_b.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
         log_b.info("§d[Minecraft_QQ]§eDebug模式" + Bukkit_.System_Debug);
 
-        socket_start socket = new socket_start();
+        socket_control socket = new socket_control();
         socket.socket_start();
     }
 
     @Override
     public void onDisable() {
-        socket.server_close();
+        socket_control socket = new socket_control();
+        socket.socket_close();
         log_b.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

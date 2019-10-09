@@ -4,7 +4,7 @@ import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.md_5.bungee.api.CommandSender;
@@ -51,10 +51,8 @@ public class BungeeCord_ extends Command implements TabExecutor {
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否开启自动重连 " + Bukkit_.System_AutoConnet + "时间(ms)" + Bukkit_.System_AutoConnetTime));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e完成发送后是否提醒 " + Bukkit_.User_SendSucceed + "文本" + Bukkit_.User_SendSucceedMessage));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令" + Bukkit_.User_NotSendCommder));
-            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录链接情况 " + logs.Socket_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录群发来的消息 " + logs.Group_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录发送至群的消息 " + logs.Send_log));
-            sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测头 " + Bukkit_.Head));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e数据包检测尾 " + Bukkit_.End));
             sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§e线程休眠时间 " + Bukkit_.System_Sleep));
@@ -73,15 +71,13 @@ public class BungeeCord_ extends Command implements TabExecutor {
                         config.setConfig();
                         reload(sender);
                     } else if (args[1].equalsIgnoreCase("socket")) {
-                        socket_restart socket_restart = new socket_restart();
-                        socket_restart.restart_socket();
+                        new socket_restart();
                     } else
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                 } else {
                     config.setConfig();
                     reload(sender);
-                    socket_restart socket_restart = new socket_restart();
-                    socket_restart.restart_socket();
+                    new socket_restart();
                 }
             } else {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));
@@ -99,7 +95,7 @@ public class BungeeCord_ extends Command implements TabExecutor {
         } else if (args[0].equalsIgnoreCase("say")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 if (!args[1].equalsIgnoreCase("")) {
-                    if (socket.hand.socket_runFlag) {
+                    if (config.hand.socket_runFlag) {
                         socket_send.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2已发送" + args[1]));
                     } else

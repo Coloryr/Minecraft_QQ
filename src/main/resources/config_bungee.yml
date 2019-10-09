@@ -77,13 +77,9 @@ User:
   #是否屏蔽玩家输入指令
   NotSendCommder: true
 Logs:
-  #是否记录链接情况
-  Socket: true
   #是否记录群发来的消息
   Group: true
   #是否记录发送至群的消息
   Send: true
-  #是否记录错误内容
-  Error: true
 #配置文件版本号
 Version: "2.1.3"

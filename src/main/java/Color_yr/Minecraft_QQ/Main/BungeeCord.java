@@ -4,9 +4,8 @@ import Color_yr.Minecraft_QQ.Config.BungeeCord_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Log.Log_b;
-import Color_yr.Minecraft_QQ.Socket.socket;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket_start;
+import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import java.util.logging.Logger;
@@ -24,7 +23,7 @@ public class BungeeCord extends Plugin {
         log_b = ProxyServer.getInstance().getLogger();
 
         config_data_bungee = new BungeeCord_();
-        socket.iMessage = new Color_yr.Minecraft_QQ.Message.BungeeCord_();
+        config.iMessage = new Color_yr.Minecraft_QQ.Message.BungeeCord_();
         config.F_Log = new logs();
         config.ilog = new Log_b();
         Color_yr.Minecraft_QQ.Load.BungeeCord_ start = new Color_yr.Minecraft_QQ.Load.BungeeCord_();
@@ -39,13 +38,14 @@ public class BungeeCord extends Plugin {
         log_b.info("§d[Minecraft_QQ]§e已启动-" + config.Version);
         log_b.info("§d[Minecraft_QQ]§eDebug模式" + Bukkit_.System_Debug);
 
-        socket_start socket = new socket_start();
+        socket_control socket = new socket_control();
         socket.socket_start();
     }
 
     @Override
     public void onDisable() {
-        socket.server_close();
+        socket_control socket = new socket_control();
+        socket.socket_close();
         log_b.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

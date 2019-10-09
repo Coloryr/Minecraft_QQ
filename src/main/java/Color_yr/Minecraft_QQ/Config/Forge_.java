@@ -92,10 +92,6 @@ public class Forge_ {
         @Config.Name("NotSendCommder")
         public boolean NotSendCommder = true;
 
-        @Config.Comment("是否记录链接情况")
-        @Config.Name("Socket")
-        public boolean Socket = true;
-
         @Config.Comment("是否记录群发来的消息")
         @Config.Name("Group")
         public boolean Group = true;
@@ -103,10 +99,6 @@ public class Forge_ {
         @Config.Comment("是否记录发送至群的消息")
         @Config.Name("Send")
         public boolean Send = true;
-
-        @Config.Comment("是否记录错误内容")
-        @Config.Name("Error")
-        public boolean Error = true;
 
         @Config.Comment("不参与聊天玩家")
         @Config.Name("Player")
@@ -138,10 +130,8 @@ public class Forge_ {
         Bukkit_.User_NotSendCommder = Minecraft_QQ.NotSendCommder;
         Bukkit_.Head = Minecraft_QQ.Head;
         Bukkit_.End = Minecraft_QQ.End;
-        logs.Socket_log = Minecraft_QQ.Socket;
         logs.Group_log = Minecraft_QQ.Group;
         logs.Send_log = Minecraft_QQ.Send;
-        logs.Error_log = Minecraft_QQ.Error;
     }
 
     public void reload() {

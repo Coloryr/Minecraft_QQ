@@ -5,7 +5,7 @@ import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
@@ -37,12 +37,11 @@ public class Forge_ implements IMessage {
         try {
             String msg = Message;
             if (logs.Group_log) {
-                logs logs = new logs();
                 logs.log_write("[Group]" + msg);
             }
             if (Bukkit_.System_Debug)
                 config.ilog.Log_System("处理数据：" + msg);
-            if (!socket.hand.socket_runFlag)
+            if (!config.hand.socket_runFlag)
                 return;
             while (msg.indexOf(Bukkit_.Head) == 0 && msg.contains(Bukkit_.End)) {
                 String buff = get_string(msg, Bukkit_.Head, Bukkit_.End);
@@ -91,7 +90,6 @@ public class Forge_ implements IMessage {
                         }
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            logs logs = new logs();
                             logs.log_write("[group]查询在线人数");
                         }
                         if (Bukkit_.System_Debug)
@@ -101,7 +99,6 @@ public class Forge_ implements IMessage {
                         send = send.replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            logs logs = new logs();
                             logs.log_write("[group]查询服务器状态");
                         }
                         if (Bukkit_.System_Debug)

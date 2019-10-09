@@ -29,10 +29,8 @@
   },
   "Logs":
   {
-    "Socket": true,
     "Group": true,
-    "Send": true,
-    "Error": true
+    "Send": true
   },
   "Version": "2.1.3"
 }

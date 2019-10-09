@@ -8,12 +8,10 @@ import java.util.Date;
 public class logs {
     public static File file;
 
-    public static boolean Socket_log = false;
     public static boolean Group_log = false;
     public static boolean Send_log = false;
-    public static boolean Error_log = false;
 
-    public void log_write(String text) {
+    public static void log_write(String text) {
         FileWriter fw;
         try {
             fw = new FileWriter(file, true);

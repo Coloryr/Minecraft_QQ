@@ -50,10 +50,8 @@ public class Bukkit_ {
                 new File(Color_yr.Minecraft_QQ.Main.Bukkit.Minecraft_QQ.getDataFolder(), "mute.yml"))
                 .getStringList("player");
 
-        logs.Socket_log = config_data_bukkit.getBoolean("Logs.Socket", true);
         logs.Group_log = config_data_bukkit.getBoolean("Logs.Group", true);
         logs.Send_log = config_data_bukkit.getBoolean("Logs.Send", true);
-        logs.Error_log = config_data_bukkit.getBoolean("Logs.Error", true);
     }
 
     public void setConfig(Plugin Minecraft_QQ) {

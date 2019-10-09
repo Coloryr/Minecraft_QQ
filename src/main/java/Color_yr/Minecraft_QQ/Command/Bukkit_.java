@@ -3,7 +3,7 @@ package Color_yr.Minecraft_QQ.Command;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import org.bukkit.command.Command;
@@ -42,10 +42,8 @@ public class Bukkit_ implements CommandExecutor, TabExecutor {
             sender.sendMessage("§d[Minecraft_QQ]§e是否开启自动重连 " + Color_yr.Minecraft_QQ.Config.Bukkit_.System_AutoConnet + "时间(ms)" + Color_yr.Minecraft_QQ.Config.Bukkit_.System_AutoConnetTime);
             sender.sendMessage("§d[Minecraft_QQ]§e完成发送后是否提醒 " + Color_yr.Minecraft_QQ.Config.Bukkit_.User_SendSucceed + "文本" + Color_yr.Minecraft_QQ.Config.Bukkit_.User_SendSucceedMessage);
             sender.sendMessage("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令 " + Color_yr.Minecraft_QQ.Config.Bukkit_.User_NotSendCommder);
-            sender.sendMessage("§d[Minecraft_QQ]§e是否记录链接情况 " + logs.Socket_log);
             sender.sendMessage("§d[Minecraft_QQ]§e是否记录群发来的消息 " + logs.Group_log);
             sender.sendMessage("§d[Minecraft_QQ]§e是否记录发送至群的消息 " + logs.Send_log);
-            sender.sendMessage("§d[Minecraft_QQ]§e是否记录错误内容 " + logs.Error_log);
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测头 " + Color_yr.Minecraft_QQ.Config.Bukkit_.Head);
             sender.sendMessage("§d[Minecraft_QQ]§e数据包检测尾 " + Color_yr.Minecraft_QQ.Config.Bukkit_.End);
             sender.sendMessage("§d[Minecraft_QQ]§e线程休眠时间 " + Color_yr.Minecraft_QQ.Config.Bukkit_.System_Sleep);
@@ -72,14 +70,12 @@ public class Bukkit_ implements CommandExecutor, TabExecutor {
                             config.setConfig(plugin);
                             reload(sender);
                         } else if (args[1].equalsIgnoreCase("socket")) {
-                            socket_restart socket_restart = new socket_restart();
-                            socket_restart.restart_socket();
+                            new socket_restart();
                         }
                     } else {
                         config.setConfig(plugin);
                         reload(sender);
-                        socket_restart socket_restart = new socket_restart();
-                        socket_restart.restart_socket();
+                        new socket_restart();
                     }
                 } else {
                     sender.sendMessage("§d[Minecraft_QQ]§c你没有权限");
@@ -97,7 +93,7 @@ public class Bukkit_ implements CommandExecutor, TabExecutor {
             if (args[0].equalsIgnoreCase("say")) {
                 if (sender.isOp()) {
                     if (args.length > 1) {
-                        if (socket.hand.socket_runFlag) {
+                        if (config.hand.socket_runFlag) {
                             socket_send.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                             sender.sendMessage("§d[Minecraft_QQ]§2已发送" + args[1]);
                         } else

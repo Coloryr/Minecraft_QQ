@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ.Event;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
@@ -22,7 +22,7 @@ public final class Forge_ {
                 return;
         } else if (Bukkit_.Mute_List.contains(event.getPlayer().getName()))
             return;
-        if (Bukkit_.Minecraft_Mode != 0 && socket.hand.socket_runFlag) {
+        if (Bukkit_.Minecraft_Mode != 0 && config.hand.socket_runFlag) {
             boolean send_ok = false;
             EntityPlayer player = event.getPlayer();
             String message = Bukkit_.Minecraft_Message;

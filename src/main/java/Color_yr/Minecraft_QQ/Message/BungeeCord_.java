@@ -5,7 +5,7 @@ import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
@@ -35,7 +35,7 @@ public class BungeeCord_ implements IMessage {
             }
             if (Bukkit_.System_Debug)
                 config.ilog.Log_System("处理数据：" + msg);
-            if (!socket.hand.socket_runFlag)
+            if (!socket_read_t.hand.socket_runFlag)
                 return;
             ProxyServer proxyserver = ProxyServer.getInstance();
             while (msg.indexOf(Bukkit_.Head) == 0 && msg.contains(Bukkit_.End)) {

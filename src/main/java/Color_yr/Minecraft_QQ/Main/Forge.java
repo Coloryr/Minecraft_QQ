@@ -5,8 +5,7 @@ import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.Log_f;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
-import Color_yr.Minecraft_QQ.Socket.socket_start;
+import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -53,8 +52,8 @@ public class Forge {
     public void init(FMLServerStartingEvent event) {
 
         event.registerServerCommand(new Forge_());
-        socket.iMessage = new Color_yr.Minecraft_QQ.Message.Forge_();
-        socket_start socket = new socket_start();
+        config.iMessage = new Color_yr.Minecraft_QQ.Message.Forge_();
+        socket_control socket = new socket_control();
 
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         socket.socket_start();
@@ -65,7 +64,8 @@ public class Forge {
     @SideOnly(Side.SERVER)
     @EventHandler
     public void stop(FMLServerStoppingEvent event) {
-        socket.server_close();
+        socket_control socket = new socket_control();
+        socket.socket_close();
         logger.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

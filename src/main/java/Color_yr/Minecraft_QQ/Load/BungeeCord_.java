@@ -58,10 +58,9 @@ public class BungeeCord_ {
 
         Bukkit_.Mute_List = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config.player).getStringList("player");
 
-        logs.Socket_log = BungeeCord.config_data_bungee.config.getBoolean("Logs.Socket", true);
         logs.Group_log = BungeeCord.config_data_bungee.config.getBoolean("Logs.Group", true);
         logs.Send_log = BungeeCord.config_data_bungee.config.getBoolean("Logs.Send", true);
-        logs.Error_log = BungeeCord.config_data_bungee.config.getBoolean("Logs.Error", true);
+
     }
 
     public void setConfig() {

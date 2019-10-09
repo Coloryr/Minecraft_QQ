@@ -4,7 +4,7 @@ import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket;
+import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import org.bukkit.ChatColor;
@@ -29,7 +29,7 @@ public class Bukkit_ implements IMessage {
             }
             if (Color_yr.Minecraft_QQ.Config.Bukkit_.System_Debug)
                 config.ilog.Log_System("处理数据：" + msg);
-            if (!socket.hand.socket_runFlag)
+            if (!socket_read_t.hand.socket_runFlag)
                 return;
             while (msg.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit_.Head) == 0 && msg.contains(Color_yr.Minecraft_QQ.Config.Bukkit_.End)) {
                 String buff = get_string(msg, Color_yr.Minecraft_QQ.Config.Bukkit_.Head, Color_yr.Minecraft_QQ.Config.Bukkit_.End);
