@@ -4,6 +4,7 @@ import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Bukkit_;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
+import Color_yr.Minecraft_QQ.Socket.socket_control;
 import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
@@ -66,18 +67,21 @@ public class BungeeCord_ extends Command implements TabExecutor {
         } else if (args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("Minecraft_QQ.admin")) {
                 Color_yr.Minecraft_QQ.Load.BungeeCord_ config = new Color_yr.Minecraft_QQ.Load.BungeeCord_();
+                socket_control socket = new socket_control();
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("config")) {
                         config.setConfig();
                         reload(sender);
                     } else if (args[1].equalsIgnoreCase("socket")) {
-                        new socket_restart();
+                        socket.socket_close();
+                        socket.socket_start();
                     } else
                         sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                 } else {
                     config.setConfig();
                     reload(sender);
-                    new socket_restart();
+                    socket.socket_close();
+                    socket.socket_start();
                 }
             } else {
                 sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§c你没有权限"));

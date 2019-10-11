@@ -19,32 +19,28 @@ public class socket_control {
     }
 
     public void socket_close() {
-        if (config.hand.socket_runFlag) {
-            try {
-                config.hand.socket_stop = true;
-                config.hand.socket_runFlag = false;
-                if (config.hand.socket != null && !config.hand.socket.isClosed()) {
-                    config.hand.socket.close();
-                }
-                if (config.hand.readThread!=null && config.hand.readThread.isAlive())
-                {
-                    config.hand.readThread.stop();
-                }
-                if (Bukkit_.System_Debug)
-                    config.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]线程已关闭");
-                if (config.hand.pw != null) config.hand.pw.close();
-                if (config.hand.os != null) config.hand.os.close();
-                if (config.hand.is != null) config.hand.is.close();
-                if (config.hand.socket != null) config.hand.socket.close();
-                config.hand.socket_runFlag = false;
-            } catch (Exception e) {
-                e.getMessage();
+        try {
+            config.hand.socket_stop = true;
+            config.hand.socket_runFlag = false;
+            if (config.hand.socket != null && !config.hand.socket.isClosed()) {
+                config.hand.socket.close();
             }
+            if (config.hand.readThread != null && config.hand.readThread.isAlive()) {
+                config.hand.readThread.stop();
+            }
+            if (Bukkit_.System_Debug)
+                config.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]线程已关闭");
+            if (config.hand.pw != null) config.hand.pw.close();
+            if (config.hand.os != null) config.hand.os.close();
+            if (config.hand.is != null) config.hand.is.close();
+            if (config.hand.socket != null) config.hand.socket.close();
+            config.hand.socket_runFlag = false;
+        } catch (Exception e) {
+            e.getMessage();
         }
     }
 
-    public boolean socket_connet()
-    {
+    public boolean socket_connet() {
         config.ilog.Log_System("§d[Minecraft_QQ]§5正在连接酷Q");
         try {
             config.hand.socket = new Socket(Bukkit_.System_IP, Bukkit_.System_PORT);

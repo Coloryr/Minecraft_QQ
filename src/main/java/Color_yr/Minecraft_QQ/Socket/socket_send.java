@@ -16,6 +16,7 @@ public class socket_send {
         send_bean.setMessage(message);
         return socket_send(send_gson.toJson(send_bean));
     }
+
     private static boolean socket_send(String send) {
         try {
             send = Bukkit_.Head + send + Bukkit_.End;

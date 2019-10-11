@@ -8,6 +8,7 @@ import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
+
 import java.util.logging.Logger;
 
 public class BungeeCord extends Plugin {

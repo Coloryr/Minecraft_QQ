@@ -3,6 +3,7 @@ package Color_yr.Minecraft_QQ.Command;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.config;
 import Color_yr.Minecraft_QQ.Log.logs;
+import Color_yr.Minecraft_QQ.Socket.socket_control;
 import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_restart;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
@@ -79,6 +80,7 @@ public class Forge_ implements ICommand {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接"));
                 } else if (string[0].equalsIgnoreCase("reload")) {
+                    socket_control socket = new socket_control();
                     if (string.length > 2) {
                         if (string[1].equalsIgnoreCase("config")) {
                             Color_yr.Minecraft_QQ.Config.Forge_ config_read = new Color_yr.Minecraft_QQ.Config.Forge_();
@@ -86,7 +88,8 @@ public class Forge_ implements ICommand {
                             config_read.init();
                             reload(sender);
                         } else if (string[1].equalsIgnoreCase("sock)et")) {
-                            new socket_restart();
+                            socket.socket_close();
+                            socket.socket_start();
                         } else {
                             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                         }
@@ -95,7 +98,8 @@ public class Forge_ implements ICommand {
                         config_read.reload();
                         config_read.init();
                         reload(sender);
-                        new socket_restart();
+                        socket.socket_close();
+                        socket.socket_start();
                     }
                 } else if (string[0].equalsIgnoreCase("say")) {
                     if (string.length < 2) {

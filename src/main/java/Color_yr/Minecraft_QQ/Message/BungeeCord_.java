@@ -30,12 +30,11 @@ public class BungeeCord_ implements IMessage {
         try {
             String msg = message;
             if (logs.Group_log) {
-                logs logs = new logs();
                 logs.log_write("[Group]" + msg);
             }
             if (Bukkit_.System_Debug)
                 config.ilog.Log_System("处理数据：" + msg);
-            if (!socket_read_t.hand.socket_runFlag)
+            if (!config.hand.socket_runFlag)
                 return;
             ProxyServer proxyserver = ProxyServer.getInstance();
             while (msg.indexOf(Bukkit_.Head) == 0 && msg.contains(Bukkit_.End)) {
@@ -71,6 +70,7 @@ public class BungeeCord_ implements IMessage {
                                     int one_player_number = 0;
                                     if (config_data_bungee.Minecraft_HideEmptyServer) {
                                         one_server_player = "";
+                                        one_player_number = 0;
                                     } else {
                                         String Server_name = config_data_bungee.config.getString("Servers." + serverinfo.getName());
                                         if (Server_name.equals("")) {
@@ -131,15 +131,14 @@ public class BungeeCord_ implements IMessage {
                         send = send.replace(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            final logs logs2 = new logs();
-                            logs2.log_write("[group]查询在线人数");
+                            logs.log_write("[group]查询在线人数");
                         }
                     } else if (a.indexOf("服务器状态") == 0) {
                         String send = Bukkit_.Minecraft_ServerOnlineMessage
                                 .replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            new logs().log_write("[group]查询服务器状态");
+                            logs.log_write("[group]查询服务器状态");
                         }
                     }
                 } else if (read_bean.getIs_commder().equals("true")) {

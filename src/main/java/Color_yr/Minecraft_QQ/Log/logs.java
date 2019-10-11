@@ -26,7 +26,7 @@ public class logs {
             pw.close();
             fw.close();
         } catch (Exception e) {
-           config.ilog.Log_System("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            config.ilog.Log_System("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         }
     }
 }

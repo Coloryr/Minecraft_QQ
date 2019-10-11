@@ -24,12 +24,11 @@ public class Bukkit_ implements IMessage {
         try {
             String msg = message;
             if (logs.Group_log) {
-                logs logs = new logs();
                 logs.log_write("[Group]" + msg);
             }
             if (Color_yr.Minecraft_QQ.Config.Bukkit_.System_Debug)
                 config.ilog.Log_System("处理数据：" + msg);
-            if (!socket_read_t.hand.socket_runFlag)
+            if (!config.hand.socket_runFlag)
                 return;
             while (msg.indexOf(Color_yr.Minecraft_QQ.Config.Bukkit_.Head) == 0 && msg.contains(Color_yr.Minecraft_QQ.Config.Bukkit_.End)) {
                 String buff = get_string(msg, Color_yr.Minecraft_QQ.Config.Bukkit_.Head, Color_yr.Minecraft_QQ.Config.Bukkit_.End);
@@ -86,7 +85,6 @@ public class Bukkit_ implements IMessage {
                         }
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            logs logs = new logs();
                             logs.log_write("[group]查询在线人数");
                         }
                         if (Color_yr.Minecraft_QQ.Config.Bukkit_.System_Debug)
@@ -96,7 +94,6 @@ public class Bukkit_ implements IMessage {
                         send = send.replaceAll(Placeholder.Servername, Color_yr.Minecraft_QQ.Config.Bukkit_.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
-                            logs logs = new logs();
                             logs.log_write("[group]查询服务器状态");
                         }
                         if (Color_yr.Minecraft_QQ.Config.Bukkit_.System_Debug)
