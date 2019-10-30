@@ -54,7 +54,8 @@ public class BungeeCord_ implements IMessage {
                         String say = Bukkit_.Minecraft_Say.replaceFirst(Placeholder.Servername, Bukkit_.Minecraft_ServerName).replaceFirst("%Message%", a);
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         for (final ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
-                            player1.sendMessage(new TextComponent(say));
+                            if (!Bukkit_.Mute_List.contains(player1.getName()))
+                                player1.sendMessage(new TextComponent(say));
                         }
                     } else if (a.indexOf("在线人数") == 0) {
                         int all_player_number = 0;

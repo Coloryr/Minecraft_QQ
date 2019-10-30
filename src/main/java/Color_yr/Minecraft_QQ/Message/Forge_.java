@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
@@ -60,11 +61,11 @@ public class Forge_ implements IMessage {
                         a = a.replaceFirst("说话", "");
                         final String say = Bukkit_.Minecraft_Say.replaceFirst(Placeholder.Servername,
                                 Bukkit_.Minecraft_ServerName).replaceFirst(Placeholder.Message, a);
-                        try {
-                            server.sendMessage(new TextComponentString(say));
-                        } catch (Exception e) {
-                            config.ilog.Log_System(e.toString());
+                        for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
+                            if (!Bukkit_.Mute_List.contains(player.getName()))
+                                player.sendMessage(new TextComponentString(say));
                         }
+                        server.sendMessage(new TextComponentString(say));
                     } else if (a.indexOf("在线人数") == 0) {
                         String[] players;
                         StringBuilder player = new StringBuilder();
