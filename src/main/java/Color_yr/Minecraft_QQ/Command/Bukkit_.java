@@ -109,10 +109,7 @@ public class Bukkit_ implements CommandExecutor, TabExecutor {
                     sender.sendMessage("§d[Minecraft_QQ]§c你没有权限");
                 }
                 return true;
-            } else {
-                sender.sendMessage("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助");
-            }
-            if (args[0].equalsIgnoreCase("char")) {
+            } else if (args[0].equalsIgnoreCase("char")) {
                 if (!Color_yr.Minecraft_QQ.Config.Bukkit_.Mute_List.contains(sender.getName())) {
                     Color_yr.Minecraft_QQ.Config.Bukkit_.Mute_List.add(sender.getName());
 
@@ -128,6 +125,8 @@ public class Bukkit_ implements CommandExecutor, TabExecutor {
                 } catch (Exception e) {
                     config.ilog.Log_System("§d[Minecraft_QQ]§c配置文件保存错误\n" + e.getMessage());
                 }
+            } else {
+                sender.sendMessage("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助");
             }
         }
         return true;

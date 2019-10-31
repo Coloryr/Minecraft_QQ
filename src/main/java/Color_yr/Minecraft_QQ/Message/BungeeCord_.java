@@ -60,7 +60,7 @@ public class BungeeCord_ implements IMessage {
                     } else if (a.indexOf("在线人数") == 0) {
                         int all_player_number = 0;
                         String one_server_player = "";
-                        StringBuilder all_server_player = new StringBuilder("");
+                        StringBuilder all_server_player = new StringBuilder();
                         String send = Bukkit_.Minecraft_PlayerListMessage;
                         if (config_data_bungee.Minecraft_SendOneByOne) {
                             final Map<String, ServerInfo> Server = proxyserver.getServers();
