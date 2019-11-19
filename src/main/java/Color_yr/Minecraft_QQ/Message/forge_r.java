@@ -1,11 +1,11 @@
 package Color_yr.Minecraft_QQ.Message;
 
+import Color_yr.Minecraft_QQ.API.IMessage;
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Config.use;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Forge_ implements IMessage {
+public class forge_r implements IMessage {
     private static String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
         int y = a.indexOf(c);
@@ -40,40 +40,38 @@ public class Forge_ implements IMessage {
             if (logs.Group_log) {
                 logs.log_write("[Group]" + msg);
             }
-            if (Bukkit_.System_Debug)
-                config.ilog.Log_System("处理数据：" + msg);
-            if (!config.hand.socket_runFlag)
+            if (Base_config.System_Debug)
+                use.ilog.Log_System("处理数据：" + msg);
+            if (!use.hand.socket_runFlag)
                 return;
-            while (msg.indexOf(Bukkit_.Head) == 0 && msg.contains(Bukkit_.End)) {
-                String buff = get_string(msg, Bukkit_.Head, Bukkit_.End);
+            while (msg.indexOf(Base_config.Head) == 0 && msg.contains(Base_config.End)) {
+                String buff = get_string(msg, Base_config.Head, Base_config.End);
                 Read_Json read_bean;
                 MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
                 try {
                     Gson read_gson = new Gson();
                     read_bean = read_gson.fromJson(buff, Read_Json.class);
                 } catch (Exception e) {
-                    config.ilog.Log_System("数据传输发生错误:" + e.getMessage());
+                    use.ilog.Log_System("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (read_bean.getIs_commder().equals("false")) {
-                    String a = read_bean.getMessage();
-                    if (a.indexOf("说话") == 0) {
-                        a = a.replaceFirst("说话", "");
-                        final String say = Bukkit_.Minecraft_Say.replaceFirst(Placeholder.Servername,
-                                Bukkit_.Minecraft_ServerName).replaceFirst(Placeholder.Message, a);
+                    if (read_bean.getCommder().equalsIgnoreCase("speak")) {
+                        final String say = Base_config.Minecraft_Say.replaceFirst(Placeholder.Servername,
+                                Base_config.Minecraft_ServerName).replaceFirst(Placeholder.Message, read_bean.getMessage());
                         for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
-                            if (!Bukkit_.Mute_List.contains(player.getName()))
+                            if (!Base_config.Mute_List.contains(player.getName()))
                                 player.sendMessage(new TextComponentString(say));
                         }
                         server.sendMessage(new TextComponentString(say));
-                    } else if (a.indexOf("在线人数") == 0) {
+                    } else if (read_bean.getCommder().equalsIgnoreCase("online")) {
                         String[] players;
                         StringBuilder player = new StringBuilder();
-                        String send = Bukkit_.Minecraft_PlayerListMessage;
+                        String send = Base_config.Minecraft_PlayerListMessage;
                         players = server.getOnlinePlayerNames();
                         if (players.length == 0) {
                             try {
-                                send = send.replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName)
+                                send = send.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                         .replaceAll(Placeholder.player_number, "0")
                                         .replaceAll(Placeholder.player_list, "无");
                             } catch (Exception e) {
@@ -85,7 +83,7 @@ public class Forge_ implements IMessage {
                                 player.append(b).append(",");
                             }
                             player = new StringBuilder(player.substring(0, player.length() - 1));
-                            send = send.replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName)
+                            send = send.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                     .replaceAll(Placeholder.player_number, "" + player_number)
                                     .replaceAll(Placeholder.player_list, player.toString());
                         }
@@ -93,24 +91,24 @@ public class Forge_ implements IMessage {
                         if (logs.Group_log) {
                             logs.log_write("[group]查询在线人数");
                         }
-                        if (Bukkit_.System_Debug)
-                            config.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                    } else if (a.indexOf("服务器状态") == 0) {
-                        String send = Bukkit_.Minecraft_ServerOnlineMessage;
-                        send = send.replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
+                        if (Base_config.System_Debug)
+                            use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                    } else if (read_bean.getCommder().equalsIgnoreCase("server")) {
+                        String send = Base_config.Minecraft_ServerOnlineMessage;
+                        send = send.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
                             logs.log_write("[group]查询服务器状态");
                         }
-                        if (Bukkit_.System_Debug)
-                            config.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                        if (Base_config.System_Debug)
+                            use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                     }
                 } else if (read_bean.getIs_commder().equals("true")) {
                     StringBuilder send_message;
                     CommandSender sender = new CommandSender(null);
                     try {
                         List<String> com = new ArrayList<>();
-                        com.add(read_bean.getMessage());
+                        com.add(read_bean.getCommder());
                         FunctionObject func = FunctionObject.create(server.getFunctionManager(), com);
                         if (!read_bean.getPlayer().equalsIgnoreCase("控制台")) {
                             EntityPlayer player = server.getServer().getEntityWorld().getPlayerEntityByName(read_bean.getPlayer());
@@ -118,7 +116,7 @@ public class Forge_ implements IMessage {
                         }
                         FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getFunctionManager().execute(func, sender);
                     } catch (Exception e) {
-                        config.ilog.Log_System(e.toString());
+                        use.ilog.Log_System(e.toString());
                     }
                     if (sender.message.size() == 1) {
                         send_message = new StringBuilder(sender.message.get(0));
@@ -133,11 +131,11 @@ public class Forge_ implements IMessage {
                     socket_send.send_data(Placeholder.data, read_bean.getGroup(),
                             "控制台", send_message.toString());
                 }
-                int i = msg.indexOf(Bukkit_.End);
-                msg = msg.substring(i + Bukkit_.End.length());
+                int i = msg.indexOf(Base_config.End);
+                msg = msg.substring(i + Base_config.End.length());
             }
         } catch (Exception e) {
-            config.ilog.Log_System("发送错误：" + e.getMessage());
+            use.ilog.Log_System("发送错误：" + e.getMessage());
         }
     }
 

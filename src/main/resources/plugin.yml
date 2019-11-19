@@ -1,7 +1,7 @@
 name: Minecraft_QQ
-main: Color_yr.Minecraft_QQ.Main.Bukkit
+main: Color_yr.Minecraft_QQ.Bukkit
 author: Color_yr
-version: 2.1.3
+version: 2.2.0
 
 commands:
   qq:

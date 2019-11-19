@@ -5,6 +5,7 @@ public class Read_Json {
     private String message;
     private String player;
     private String is_commder;
+    private String commder;
 
     public String getGroup() {
         return group;
@@ -20,5 +21,9 @@ public class Read_Json {
 
     public String getIs_commder() {
         return is_commder;
+    }
+
+    public String getCommder() {
+        return commder;
     }
 }

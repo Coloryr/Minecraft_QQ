@@ -3,7 +3,7 @@ package Color_yr.Minecraft_QQ.Config;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bukkit_ {
+public class Base_config {
 
     public static String Join_Message;
     public static boolean Join_sendQQ;

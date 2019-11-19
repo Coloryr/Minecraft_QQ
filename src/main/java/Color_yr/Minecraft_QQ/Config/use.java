@@ -1,13 +1,13 @@
 package Color_yr.Minecraft_QQ.Config;
 
-import Color_yr.Minecraft_QQ.Log.ILog;
+import Color_yr.Minecraft_QQ.API.ILog;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Message.IMessage;
+import Color_yr.Minecraft_QQ.API.IMessage;
 import Color_yr.Minecraft_QQ.Socket.socket_hand;
 
 import java.io.File;
 
-public class config {
+public class use {
     public final static String Version = "2.1.3";
     public static File FileName;
     public static File player;

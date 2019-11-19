@@ -1,10 +1,12 @@
-package Color_yr.Minecraft_QQ.Main;
+package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.Forge_;
-import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Command.IForge;
+import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.Config.forge_config;
 import Color_yr.Minecraft_QQ.Log.Log_f;
 import Color_yr.Minecraft_QQ.Log.logs;
+import Color_yr.Minecraft_QQ.Message.forge_r;
 import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -23,7 +25,7 @@ import java.io.File;
 public class Forge {
     public static final String MODID = "minecraft_qq";
     public static final String NAME = "Minecraft_QQ";
-    public static final String VERSION = config.Version;
+    public static final String VERSION = use.Version;
 
     public static Logger logger;
 
@@ -32,7 +34,7 @@ public class Forge {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
 
-        config.ilog = new Log_f();
+        use.ilog = new Log_f();
         logs.file = new File(event.getModConfigurationDirectory(), "Minecraft_QQ.log");
 
         if (!logs.file.exists()) {
@@ -43,7 +45,7 @@ public class Forge {
             }
         }
 
-        Color_yr.Minecraft_QQ.Config.Forge_ config_read = new Color_yr.Minecraft_QQ.Config.Forge_();
+        forge_config config_read = new forge_config();
         config_read.init();
     }
 
@@ -51,14 +53,14 @@ public class Forge {
     @EventHandler
     public void init(FMLServerStartingEvent event) {
 
-        event.registerServerCommand(new Forge_());
-        config.iMessage = new Color_yr.Minecraft_QQ.Message.Forge_();
+        event.registerServerCommand(new IForge());
+        use.iMessage = new forge_r();
         socket_control socket = new socket_control();
 
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         socket.socket_start();
         logger.info("§d[Minecraft_QQ]§e已启动-" + VERSION);
-        logger.info("§d[Minecraft_QQ]§eDebug模式" + Bukkit_.System_Debug);
+        logger.info("§d[Minecraft_QQ]§eDebug模式" + Base_config.System_Debug);
     }
 
     @SideOnly(Side.SERVER)

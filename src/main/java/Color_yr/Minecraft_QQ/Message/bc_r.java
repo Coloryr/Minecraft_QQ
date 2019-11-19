@@ -1,11 +1,11 @@
 package Color_yr.Minecraft_QQ.Message;
 
+import Color_yr.Minecraft_QQ.API.IMessage;
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Config.use;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Socket.socket_read_t;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ChatColor;
@@ -16,10 +16,11 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
-import static Color_yr.Minecraft_QQ.Main.BungeeCord.config_data_bungee;
+import static Color_yr.Minecraft_QQ.BungeeCord.config_data_bungee;
 
-public class BungeeCord_ implements IMessage {
+public class bc_r implements IMessage {
     private String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
         int y = a.indexOf(c);
@@ -32,36 +33,35 @@ public class BungeeCord_ implements IMessage {
             if (logs.Group_log) {
                 logs.log_write("[Group]" + msg);
             }
-            if (Bukkit_.System_Debug)
-                config.ilog.Log_System("处理数据：" + msg);
-            if (!config.hand.socket_runFlag)
+            if (Base_config.System_Debug)
+                use.ilog.Log_System("处理数据：" + msg);
+            if (!use.hand.socket_runFlag)
                 return;
             ProxyServer proxyserver = ProxyServer.getInstance();
-            while (msg.indexOf(Bukkit_.Head) == 0 && msg.contains(Bukkit_.End)) {
-                String buff = get_string(msg, Bukkit_.Head, Bukkit_.End);
+            while (msg.indexOf(Base_config.Head) == 0 && msg.contains(Base_config.End)) {
+                String buff = get_string(msg, Base_config.Head, Base_config.End);
                 Read_Json read_bean;
                 try {
                     Gson read_gson = new Gson();
                     read_bean = read_gson.fromJson(buff, Read_Json.class);
                 } catch (Exception e) {
-                    config.ilog.Log_System("数据传输发生错误:" + e.getMessage());
+                    use.ilog.Log_System("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (read_bean.getIs_commder().equals("false")) {
-                    String a = read_bean.getMessage();
-                    if (a.indexOf("说话") == 0) {
-                        a = a.replaceFirst("说话", "");
-                        String say = Bukkit_.Minecraft_Say.replaceFirst(Placeholder.Servername, Bukkit_.Minecraft_ServerName).replaceFirst("%Message%", a);
+                    if (read_bean.getCommder().equalsIgnoreCase("speak")) {
+                        String say = Base_config.Minecraft_Say.replaceFirst(Placeholder.Servername, Base_config.Minecraft_ServerName)
+                                .replaceFirst(Placeholder.Message, read_bean.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         for (final ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
-                            if (!Bukkit_.Mute_List.contains(player1.getName()))
+                            if (!Base_config.Mute_List.contains(player1.getName()))
                                 player1.sendMessage(new TextComponent(say));
                         }
-                    } else if (a.indexOf("在线人数") == 0) {
+                    } else if (read_bean.getCommder().equalsIgnoreCase("online")) {
                         int all_player_number = 0;
                         String one_server_player = "";
                         StringBuilder all_server_player = new StringBuilder();
-                        String send = Bukkit_.Minecraft_PlayerListMessage;
+                        String send = Base_config.Minecraft_PlayerListMessage;
                         if (config_data_bungee.Minecraft_SendOneByOne) {
                             final Map<String, ServerInfo> Server = proxyserver.getServers();
                             final Collection<ServerInfo> values = Server.values();
@@ -129,14 +129,14 @@ public class BungeeCord_ implements IMessage {
                                         .replaceAll(Placeholder.player_list, all_server_player.toString().replace("[", "").replace("]", ""));
                             }
                         }
-                        send = send.replace(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
+                        send = send.replace(Placeholder.Servername, Base_config.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
                             logs.log_write("[group]查询在线人数");
                         }
-                    } else if (a.indexOf("服务器状态") == 0) {
-                        String send = Bukkit_.Minecraft_ServerOnlineMessage
-                                .replaceAll(Placeholder.Servername, Bukkit_.Minecraft_ServerName);
+                    } else if (read_bean.getCommder().equalsIgnoreCase("server")) {
+                        String send = Base_config.Minecraft_ServerOnlineMessage
+                                .replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName);
                         socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
                             logs.log_write("[group]查询服务器状态");
@@ -147,9 +147,9 @@ public class BungeeCord_ implements IMessage {
                     send_bungee send = new send_bungee();
                     send.setPlayer(read_bean.getPlayer());
                     try {
-                        proxyserver.getPluginManager().dispatchCommand(send.sender, read_bean.getMessage());
+                        proxyserver.getPluginManager().dispatchCommand(send.sender, read_bean.getCommder());
                     } catch (Exception e) {
-                        config.ilog.Log_System(e.toString());
+                        use.ilog.Log_System(e.toString());
                     }
                     if (send.getMessage().size() == 1) {
                         send_message = new StringBuilder(send.getMessage().get(0));
@@ -165,11 +165,11 @@ public class BungeeCord_ implements IMessage {
                             "控制台", send_message.toString());
                     send.clear();
                 }
-                int i = msg.indexOf(Bukkit_.End);
-                msg = msg.substring(i + Bukkit_.End.length());
+                int i = msg.indexOf(Base_config.End);
+                msg = msg.substring(i + Base_config.End.length());
             }
         } catch (Exception e) {
-            config.ilog.Log_System("发生错误" + e.getMessage());
+            use.ilog.Log_System("发生错误" + e.getMessage());
         }
     }
 }

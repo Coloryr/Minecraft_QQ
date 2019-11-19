@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Socket;
 
-import Color_yr.Minecraft_QQ.Config.Bukkit_;
-import Color_yr.Minecraft_QQ.Config.config;
+import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Config.use;
 import Color_yr.Minecraft_QQ.Log.logs;
 
 public class socket_restart extends Thread {
@@ -14,29 +14,29 @@ public class socket_restart extends Thread {
 
     @Override
     public void run() {
-        if (!config.hand.socket_runFlag
-                && !config.hand.server_isclose
-                && Bukkit_.System_AutoConnet
+        if (!use.hand.socket_runFlag
+                && !use.hand.server_isclose
+                && Base_config.System_AutoConnet
                 && !is_restart) {
             is_restart = true;
-            if (config.hand.readThread != null) {
-                while (config.hand.readThread.isAlive()) ;
+            if (use.hand.readThread != null) {
+                while (use.hand.readThread.isAlive()) ;
             }
-            config.ilog.Log_System("§d[Minecraft_QQ]§5正在进行自动重连");
+            use.ilog.Log_System("§d[Minecraft_QQ]§5正在进行自动重连");
             while (is_restart) {
                 try {
-                    if (config.hand.socket != null && !config.hand.socket.isClosed())
-                        config.hand.socket.close();
+                    if (use.hand.socket != null && !use.hand.socket.isClosed())
+                        use.hand.socket.close();
                     socket_control socket = new socket_control();
                     if (socket.socket_connet()) {
-                        config.hand.readThread = new socket_read_t();
-                        config.hand.readThread.start();
-                        config.hand.socket_runFlag = true;
+                        use.hand.readThread = new socket_read_t();
+                        use.hand.readThread.start();
+                        use.hand.socket_runFlag = true;
                         is_restart = false;
                     } else {
-                        config.hand.socket_runFlag = false;
+                        use.hand.socket_runFlag = false;
                     }
-                    Thread.sleep(Bukkit_.System_AutoConnetTime);
+                    Thread.sleep(Base_config.System_AutoConnetTime);
                 } catch (Exception e) {
                     logs.log_write(e.getMessage());
                 }
