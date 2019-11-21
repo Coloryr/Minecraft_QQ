@@ -188,22 +188,7 @@ public class forge_r implements IMessage {
 
         @Override
         public Entity getCommandSenderEntity() {
-            return entity == null ? new Entity(world) {
-                @Override
-                protected void entityInit() {
-
-                }
-
-                @Override
-                protected void readEntityFromNBT(NBTTagCompound compound) {
-
-                }
-
-                @Override
-                protected void writeEntityToNBT(NBTTagCompound compound) {
-
-                }
-            } : entity;
+            return entity;
         }
 
         @Override
@@ -222,7 +207,7 @@ public class forge_r implements IMessage {
         @Nonnull
         @Override
         public String getName() {
-            return entity == null ? name : entity.getName();
+            return name;
         }
 
         @Override
