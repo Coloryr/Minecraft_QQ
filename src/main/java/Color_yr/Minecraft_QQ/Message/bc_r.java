@@ -53,7 +53,7 @@ public class bc_r implements IMessage {
                         String say = Base_config.Minecraft_Say.replaceFirst(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                 .replaceFirst(Placeholder.Message, read_bean.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
-                        for (final ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
+                        for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
                             if (!Base_config.Mute_List.contains(player1.getName()))
                                 player1.sendMessage(new TextComponent(say));
                         }

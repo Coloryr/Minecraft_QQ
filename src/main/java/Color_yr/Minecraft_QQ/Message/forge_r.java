@@ -8,6 +8,7 @@ import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
+import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.entity.Entity;
@@ -63,12 +64,10 @@ public class forge_r implements IMessage {
                             if (!Base_config.Mute_List.contains(player.getName()))
                                 player.sendMessage(new TextComponentString(say));
                         }
-                        server.sendMessage(new TextComponentString(say));
                     } else if (read_bean.getCommder().equalsIgnoreCase("online")) {
-                        String[] players;
+                        String[] players = server.getOnlinePlayerNames();
                         StringBuilder player = new StringBuilder();
                         String send = Base_config.Minecraft_PlayerListMessage;
-                        players = server.getOnlinePlayerNames();
                         if (players.length == 0) {
                             try {
                                 send = send.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
@@ -105,20 +104,34 @@ public class forge_r implements IMessage {
                     }
                 } else if (read_bean.getIs_commder().equals("true")) {
                     StringBuilder send_message;
-                    CommandSender sender = new CommandSender(null);
+                    CommandSender sender = null;
                     try {
-                        List<String> com = new ArrayList<>();
+                        List<String> com = new ArrayList<String>();
                         com.add(read_bean.getCommder());
                         FunctionObject func = FunctionObject.create(server.getFunctionManager(), com);
+                        Entity player = new Entity(server.getEntityWorld()) {
+                            @Override
+                            protected void entityInit() {
+                            }
+
+                            @Override
+                            protected void readEntityFromNBT(NBTTagCompound compound) {
+                            }
+
+                            @Override
+                            protected void writeEntityToNBT(NBTTagCompound compound) {
+                            }
+                        };
                         if (!read_bean.getPlayer().equalsIgnoreCase("控制台")) {
-                            EntityPlayer player = server.getServer().getEntityWorld().getPlayerEntityByName(read_bean.getPlayer());
-                            sender = new CommandSender(player);
+                            sender = new CommandSender(player, player.getName());
+                        } else {
+                            sender = new CommandSender(player, "控制台");
                         }
-                        FMLCommonHandler.instance().getMinecraftServerInstance().getServer().getFunctionManager().execute(func, sender);
+                        server.getFunctionManager().execute(func, sender);
                     } catch (Exception e) {
                         use.ilog.Log_System(e.toString());
                     }
-                    if (sender.message.size() == 1) {
+                    if (sender!=null && sender.message.size() == 1) {
                         send_message = new StringBuilder(sender.message.get(0));
                     } else if (sender.message.size() > 1) {
                         send_message = new StringBuilder(sender.message.get(0));
@@ -141,11 +154,13 @@ public class forge_r implements IMessage {
 
     public class CommandSender extends CommandBlockBaseLogic {
         private final Entity entity;
+        private final String name;
         public List<String> message = new ArrayList<>();
         private final World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
 
-        private CommandSender(Entity entity) {
+        private CommandSender(Entity entity, String name) {
             this.entity = entity;
+            this.name = name;
         }
 
         @Override
@@ -207,7 +222,7 @@ public class forge_r implements IMessage {
         @Nonnull
         @Override
         public String getName() {
-            return entity == null ? "控制台" : entity.getName();
+            return entity == null ? name : entity.getName();
         }
 
         @Override

@@ -47,12 +47,10 @@ public class bukkit_r implements IMessage {
                         String say = Base_config.Minecraft_Say.replaceFirst(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                 .replaceFirst(Placeholder.Message, read_bean.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
-                        final String m = say;
                         try {
-                            final Collection<Player> values = (Collection<Player>) org.bukkit.Bukkit.getOnlinePlayers();
-                            for (Player b : values) {
+                            for (Player b : org.bukkit.Bukkit.getOnlinePlayers()) {
                                 if (!Base_config.Mute_List.contains(b.getName()))
-                                    b.sendMessage(m);
+                                    b.sendMessage(say);
                             }
                         } catch (Exception e) {
                             use.ilog.Log_System(e.toString());
@@ -75,10 +73,10 @@ public class bukkit_r implements IMessage {
                                 if (player.charAt(i) == ',')
                                     player_number++;
                             }
-                            player = player.replace("[", "");
-                            player = player.replace("]", "");
-                            player = player.replaceAll("CraftPlayer\\{name=", "");
-                            player = player.replaceAll("}", "");
+                            player = player.replace("[", "")
+                                    .replace("]", "")
+                                    .replaceAll("CraftPlayer\\{name=", "")
+                                    .replaceAll("}", "");
 
                             send = send.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                     .replaceAll(Placeholder.player_number, "" + player_number)

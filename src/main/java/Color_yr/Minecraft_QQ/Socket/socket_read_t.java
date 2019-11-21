@@ -1,5 +1,6 @@
 package Color_yr.Minecraft_QQ.Socket;
 
+import Color_yr.Minecraft_QQ.Bukkit;
 import Color_yr.Minecraft_QQ.Config.use;
 import Color_yr.Minecraft_QQ.Config.Base_config;
 
@@ -28,12 +29,13 @@ public class socket_read_t extends Thread {
                             if (!a.isEmpty()) {
                                 if (Base_config.System_Debug)
                                     use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
-                                use.iMessage.Message(a);
+                                org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(Bukkit.Minecraft_QQ, () ->
+                                        use.iMessage.Message(a));
                             }
                         }
                     }
                 }
-                Thread.sleep(2);
+                Thread.sleep(Base_config.System_Sleep);
             } catch (Exception e) {
                 use.ilog.Log_System("§d[Minecraft_QQ]§c酷Q连接中断");
                 use.hand.socket_runFlag = false;
