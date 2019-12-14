@@ -8,7 +8,7 @@ import Color_yr.Minecraft_QQ.Socket.socket_hand;
 import java.io.File;
 
 public class use {
-    public final static String Version = "2.1.3";
+    public final static String Version = "2.2.1";
     public static File FileName;
     public static File player;
     public static ILog ilog;
