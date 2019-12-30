@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.Command.IForge;
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Config.forge_config;
 import Color_yr.Minecraft_QQ.Log.Log_f;
 import Color_yr.Minecraft_QQ.Log.logs;

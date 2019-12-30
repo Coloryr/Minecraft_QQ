@@ -3,7 +3,7 @@ package Color_yr.Minecraft_QQ.Message;
 import Color_yr.Minecraft_QQ.API.IMessage;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
@@ -16,7 +16,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
 
 import static Color_yr.Minecraft_QQ.BungeeCord.config_data_bungee;
 

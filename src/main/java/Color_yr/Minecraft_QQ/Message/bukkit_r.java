@@ -4,16 +4,13 @@ import Color_yr.Minecraft_QQ.API.IMessage;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Bukkit;
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import java.util.Collection;
-import java.util.concurrent.Callable;
 
 public class bukkit_r implements IMessage {
     private String get_string(String a, String b, String c) {
@@ -47,14 +44,18 @@ public class bukkit_r implements IMessage {
                         String say = Base_config.Minecraft_Say.replaceFirst(Placeholder.Servername, Base_config.Minecraft_ServerName)
                                 .replaceFirst(Placeholder.Message, read_bean.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
-                        try {
-                            for (Player b : org.bukkit.Bukkit.getOnlinePlayers()) {
-                                if (!Base_config.Mute_List.contains(b.getName()))
-                                    b.sendMessage(say);
+                        final String finalSay = say;
+                        org.bukkit.Bukkit.getScheduler().runTask(Color_yr.Minecraft_QQ.Bukkit.Minecraft_QQ, () ->
+                        {
+                            try {
+                                for (Player b : org.bukkit.Bukkit.getOnlinePlayers()) {
+                                    if (!Base_config.Mute_List.contains(b.getName()))
+                                        b.sendMessage(finalSay);
+                                }
+                            } catch (Exception e) {
+                                use.ilog.Log_System(e.toString());
                             }
-                        } catch (Exception e) {
-                            use.ilog.Log_System(e.toString());
-                        }
+                        });
                     } else if (read_bean.getCommder().equalsIgnoreCase("online")) {
                         String player;
                         String send = Base_config.Minecraft_PlayerListMessage;

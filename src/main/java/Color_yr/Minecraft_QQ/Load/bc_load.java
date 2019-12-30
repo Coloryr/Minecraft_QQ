@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Load;
 
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.BungeeCord;
 import net.md_5.bungee.config.ConfigurationProvider;

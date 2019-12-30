@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.Command.IBukkit;
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Listener.bukkit_event;
 import Color_yr.Minecraft_QQ.Load.bukkit_load;
 import Color_yr.Minecraft_QQ.Log.Log_s;

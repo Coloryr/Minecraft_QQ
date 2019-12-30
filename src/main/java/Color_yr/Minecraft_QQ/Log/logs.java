@@ -1,6 +1,6 @@
 package Color_yr.Minecraft_QQ.Log;
 
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 
 import java.io.*;
 import java.util.Date;

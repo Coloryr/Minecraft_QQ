@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.Command.IBungeeCord;
 import Color_yr.Minecraft_QQ.Config.bc_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.Listener.bc_event;
 import Color_yr.Minecraft_QQ.Load.bc_load;

@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ.Load;
 
 import Color_yr.Minecraft_QQ.Bukkit;
 import Color_yr.Minecraft_QQ.Config.Base_config;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Log.logs;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

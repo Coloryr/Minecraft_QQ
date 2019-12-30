@@ -1,7 +1,6 @@
 package Color_yr.Minecraft_QQ.Socket;
 
-import Color_yr.Minecraft_QQ.Bukkit;
-import Color_yr.Minecraft_QQ.Config.use;
+import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Config.Base_config;
 
 public class socket_read_t extends Thread {
@@ -29,8 +28,7 @@ public class socket_read_t extends Thread {
                             if (!a.isEmpty()) {
                                 if (Base_config.System_Debug)
                                     use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
-                                org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(Bukkit.Minecraft_QQ, () ->
-                                        use.iMessage.Message(a));
+                                use.iMessage.Message(a);
                             }
                         }
                     }
