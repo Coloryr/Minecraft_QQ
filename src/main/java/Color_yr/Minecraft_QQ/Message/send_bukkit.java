@@ -1,5 +1,6 @@
 package Color_yr.Minecraft_QQ.Message;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -50,6 +51,11 @@ public class send_bukkit {
         @Override
         public String getName() {
             return player;
+        }
+
+        @Override
+        public Spigot spigot() {
+            return null;
         }
 
         @Override
