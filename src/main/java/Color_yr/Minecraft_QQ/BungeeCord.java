@@ -1,14 +1,12 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.IBungeeCord;
-import Color_yr.Minecraft_QQ.Config.bc_config;
 import Color_yr.Minecraft_QQ.API.use;
-import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Command.IBungeeCord;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
+import Color_yr.Minecraft_QQ.Config.bc_config;
 import Color_yr.Minecraft_QQ.Listener.bc_event;
 import Color_yr.Minecraft_QQ.Load.bc_load;
-import Color_yr.Minecraft_QQ.Log.Log_b;
-import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Message.bc_r;
+import Color_yr.Minecraft_QQ.Side.IBungeecord;
 import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -28,9 +26,8 @@ public class BungeeCord extends Plugin {
         log_b = ProxyServer.getInstance().getLogger();
 
         config_data_bungee = new bc_config();
-        use.iMessage = new bc_r();
         use.F_Log = new logs();
-        use.ilog = new Log_b();
+        use.MinecraftQQ = new IBungeecord();
         bc_load start = new bc_load();
 
         log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
@@ -41,7 +38,7 @@ public class BungeeCord extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new IBungeeCord());
 
         log_b.info("§d[Minecraft_QQ]§e已启动-" + use.Version);
-        log_b.info("§d[Minecraft_QQ]§eDebug模式" + Base_config.System_Debug);
+        log_b.info("§d[Minecraft_QQ]§eDebug模式" + BaseConfig.SystemDebug);
 
         socket_control socket = new socket_control();
         socket.socket_start();

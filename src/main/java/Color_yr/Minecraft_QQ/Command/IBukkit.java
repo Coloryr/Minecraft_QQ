@@ -1,12 +1,12 @@
 package Color_yr.Minecraft_QQ.Command;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 import Color_yr.Minecraft_QQ.Load.bukkit_load;
-import Color_yr.Minecraft_QQ.Log.logs;
 import Color_yr.Minecraft_QQ.Socket.socket_control;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
+import Color_yr.Minecraft_QQ.logs;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IBukkit implements CommandExecutor, TabExecutor {
     private Plugin plugin;
@@ -25,31 +26,31 @@ public class IBukkit implements CommandExecutor, TabExecutor {
     }
 
     private void reload(CommandSender sender) {
-        sender.sendMessage("§d[Minecraft_QQ]§e机器人IP： " + Base_config.System_IP);
-        sender.sendMessage("§d[Minecraft_QQ]§e机器人端口 " + Base_config.System_PORT);
-        sender.sendMessage("§d[Minecraft_QQ]§e机器人模式 " + Base_config.Minecraft_Mode);
-        sender.sendMessage("§d[Minecraft_QQ]§eDebug模式 " + Base_config.System_Debug);
-        if (Base_config.System_Debug) {
-            sender.sendMessage("§d[Minecraft_QQ]§e玩家加入时是否发送文本 " + Base_config.Join_sendQQ + "文本 " + Base_config.Join_Message);
-            sender.sendMessage("§d[Minecraft_QQ]§e玩家退出时是否发送文本 " + Base_config.Quit_sendQQ + "文本 " + Base_config.Quit_Message);
-            sender.sendMessage("§d[Minecraft_QQ]§e服务器名字 " + Base_config.Minecraft_ServerName);
-            sender.sendMessage("§d[Minecraft_QQ]§e触发文本 " + Base_config.Minecraft_Check);
-            sender.sendMessage("§d[Minecraft_QQ]§e发送至QQ群的文本 " + Base_config.Minecraft_Message);
-            sender.sendMessage("§d[Minecraft_QQ]§e发送至玩家消息窗口的文本 " + Base_config.Minecraft_Say);
-            sender.sendMessage("§d[Minecraft_QQ]§e机器人模式 " + Base_config.Minecraft_Mode);
-            sender.sendMessage("§d[Minecraft_QQ]§e是否开启在线人数显示 " + Base_config.Minecraft_SendMode);
-            sender.sendMessage("§d[Minecraft_QQ]§e在线人数文本 " + Base_config.Minecraft_PlayerListMessage);
-            sender.sendMessage("§d[Minecraft_QQ]§e服务器状态文本 " + Base_config.Minecraft_ServerOnlineMessage);
-            sender.sendMessage("§d[Minecraft_QQ]§e是否开启自动重连 " + Base_config.System_AutoConnet + "时间(ms)" + Base_config.System_AutoConnetTime);
-            sender.sendMessage("§d[Minecraft_QQ]§e完成发送后是否提醒 " + Base_config.User_SendSucceed + "文本" + Base_config.User_SendSucceedMessage);
-            sender.sendMessage("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令 " + Base_config.User_NotSendCommder);
+        sender.sendMessage("§d[Minecraft_QQ]§e机器人IP： " + BaseConfig.SystemIP);
+        sender.sendMessage("§d[Minecraft_QQ]§e机器人端口 " + BaseConfig.SystemPORT);
+        sender.sendMessage("§d[Minecraft_QQ]§e机器人模式 " + BaseConfig.MinecraftMode);
+        sender.sendMessage("§d[Minecraft_QQ]§eDebug模式 " + BaseConfig.SystemDebug);
+        if (BaseConfig.SystemDebug) {
+            sender.sendMessage("§d[Minecraft_QQ]§e玩家加入时是否发送文本 " + BaseConfig.JoinsendQQ + "文本 " + BaseConfig.JoinMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e玩家退出时是否发送文本 " + BaseConfig.QuitsendQQ + "文本 " + BaseConfig.QuitMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e服务器名字 " + BaseConfig.MinecraftServerName);
+            sender.sendMessage("§d[Minecraft_QQ]§e触发文本 " + BaseConfig.MinecraftCheck);
+            sender.sendMessage("§d[Minecraft_QQ]§e发送至QQ群的文本 " + BaseConfig.MinecraftMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e发送至玩家消息窗口的文本 " + BaseConfig.MinecraftSay);
+            sender.sendMessage("§d[Minecraft_QQ]§e机器人模式 " + BaseConfig.MinecraftMode);
+            sender.sendMessage("§d[Minecraft_QQ]§e是否开启在线人数显示 " + BaseConfig.MinecraftSendMode);
+            sender.sendMessage("§d[Minecraft_QQ]§e在线人数文本 " + BaseConfig.MinecraftPlayerListMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e服务器状态文本 " + BaseConfig.MinecraftServerOnlineMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e是否开启自动重连 " + BaseConfig.SystemAutoConnet + "时间(ms)" + BaseConfig.SystemAutoConnetTime);
+            sender.sendMessage("§d[Minecraft_QQ]§e完成发送后是否提醒 " + BaseConfig.UserSendSucceed + "文本" + BaseConfig.UserSendSucceedMessage);
+            sender.sendMessage("§d[Minecraft_QQ]§e是否屏蔽玩家输入指令 " + BaseConfig.UserNotSendCommder);
             sender.sendMessage("§d[Minecraft_QQ]§e是否记录群发来的消息 " + logs.Group_log);
             sender.sendMessage("§d[Minecraft_QQ]§e是否记录发送至群的消息 " + logs.Send_log);
-            sender.sendMessage("§d[Minecraft_QQ]§e数据包检测头 " + Base_config.Head);
-            sender.sendMessage("§d[Minecraft_QQ]§e数据包检测尾 " + Base_config.End);
-            sender.sendMessage("§d[Minecraft_QQ]§e线程休眠时间 " + Base_config.System_Sleep);
+            sender.sendMessage("§d[Minecraft_QQ]§e数据包检测头 " + BaseConfig.Head);
+            sender.sendMessage("§d[Minecraft_QQ]§e数据包检测尾 " + BaseConfig.End);
+            sender.sendMessage("§d[Minecraft_QQ]§e线程休眠时间 " + BaseConfig.SystemSleep);
             sender.sendMessage("§d[Minecraft_QQ]§e不参与聊天");
-            for (String a : Base_config.Mute_List) {
+            for (String a : BaseConfig.MuteList) {
                 sender.sendMessage("§d[Minecraft_QQ]§e " + a);
             }
         }
@@ -110,19 +111,19 @@ public class IBukkit implements CommandExecutor, TabExecutor {
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("char")) {
-                if (!Base_config.Mute_List.contains(sender.getName())) {
-                    Base_config.Mute_List.add(sender.getName());
+                if (!BaseConfig.MuteList.contains(sender.getName())) {
+                    BaseConfig.MuteList.add(sender.getName());
                     sender.sendMessage("§d[Minecraft_QQ]§2你已不会在收到群消息。");
                 } else {
-                    Base_config.Mute_List.remove(sender.getName());
+                    BaseConfig.MuteList.remove(sender.getName());
                     sender.sendMessage("§d[Minecraft_QQ]§2你开始接受群消息。");
                 }
                 try {
                     FileConfiguration a = new YamlConfiguration();
-                    a.set("player", Base_config.Mute_List);
+                    a.set("player", BaseConfig.MuteList);
                     a.save(use.player);
                 } catch (Exception e) {
-                    use.ilog.Log_System("§d[Minecraft_QQ]§c配置文件保存错误\n" + e.getMessage());
+                    use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c配置文件保存错误\n" + e.getMessage());
                 }
             } else {
                 sender.sendMessage("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助");

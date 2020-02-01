@@ -6,16 +6,16 @@ public class bc_config {
 
     public Configuration config;
 
-    public String ChangeServer_Message;
-    public boolean ChangeServer_sendQQ;
+    public String ChangeServerMessage;
+    public boolean ChangeServersendQQ;
 
-    public boolean Minecraft_SendOneByOne;
-    public String Minecraft_SendOneByOneMessage;
-    public boolean Minecraft_HideEmptyServer;
-    public boolean Minecraft_HideList;
+    public boolean MinecraftSendOneByOne;
+    public String MinecraftSendOneByOneMessage;
+    public boolean MinecraftHideEmptyServer;
+    public boolean MinecraftHideList;
 
-    public boolean SendAllServer_Enable;
-    public String SendAllServer_Message;
-    public boolean SendAllServer_OnlySideServer;
+    public boolean SendAllServerEnable;
+    public String SendAllServerMessage;
+    public boolean SendAllServerOnlySideServer;
 
 }

@@ -1,12 +1,9 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.IForge;
-import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 import Color_yr.Minecraft_QQ.Config.forge_config;
-import Color_yr.Minecraft_QQ.Log.Log_f;
-import Color_yr.Minecraft_QQ.Log.logs;
-import Color_yr.Minecraft_QQ.Message.forge_r;
+import Color_yr.Minecraft_QQ.Side.IForge;
 import Color_yr.Minecraft_QQ.Socket.socket_control;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -34,7 +31,7 @@ public class Forge {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
 
-        use.ilog = new Log_f();
+        use.MinecraftQQ = new IForge();
         logs.file = new File(event.getModConfigurationDirectory(), "Minecraft_QQ.log");
 
         if (!logs.file.exists()) {
@@ -53,14 +50,13 @@ public class Forge {
     @EventHandler
     public void init(FMLServerStartingEvent event) {
 
-        event.registerServerCommand(new IForge());
-        use.iMessage = new forge_r();
+        event.registerServerCommand(new Color_yr.Minecraft_QQ.Command.IForge());
         socket_control socket = new socket_control();
 
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
         socket.socket_start();
         logger.info("§d[Minecraft_QQ]§e已启动-" + VERSION);
-        logger.info("§d[Minecraft_QQ]§eDebug模式" + Base_config.System_Debug);
+        logger.info("§d[Minecraft_QQ]§eDebug模式" + BaseConfig.SystemDebug);
     }
 
     @SideOnly(Side.SERVER)

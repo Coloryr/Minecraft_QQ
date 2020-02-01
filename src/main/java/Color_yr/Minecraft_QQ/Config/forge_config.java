@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Config;
 
 import Color_yr.Minecraft_QQ.Forge;
-import Color_yr.Minecraft_QQ.Log.logs;
+import Color_yr.Minecraft_QQ.logs;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 
@@ -11,6 +11,35 @@ import java.util.List;
 public class forge_config {
     @Config.Name("Minecraft_QQ")
     public static Minecraft_QQ Minecraft_QQ = new Minecraft_QQ();
+
+    public void init() {
+        BaseConfig.MuteList = Minecraft_QQ.Player;
+        BaseConfig.MinecraftServerName = Minecraft_QQ.ServerName;
+        BaseConfig.MinecraftCheck = Minecraft_QQ.Check;
+        BaseConfig.MinecraftMessage = Minecraft_QQ.Message;
+        BaseConfig.MinecraftSay = Minecraft_QQ.Say;
+        BaseConfig.MinecraftMode = Minecraft_QQ.Mode;
+        BaseConfig.MinecraftSendMode = Minecraft_QQ.SendMode;
+        BaseConfig.MinecraftPlayerListMessage = Minecraft_QQ.PlayerListMessage;
+        BaseConfig.MinecraftServerOnlineMessage = Minecraft_QQ.ServerOnlineMessage;
+        BaseConfig.SystemIP = Minecraft_QQ.IP;
+        BaseConfig.SystemPORT = Minecraft_QQ.Port;
+        BaseConfig.SystemAutoConnet = Minecraft_QQ.AutoConnet;
+        BaseConfig.SystemAutoConnetTime = Minecraft_QQ.AutoConnetTime;
+        BaseConfig.SystemDebug = Minecraft_QQ.Debug;
+        BaseConfig.SystemSleep = Minecraft_QQ.Sleep;
+        BaseConfig.UserSendSucceed = Minecraft_QQ.SendSucceed;
+        BaseConfig.UserSendSucceedMessage = Minecraft_QQ.SendSucceedMessage;
+        BaseConfig.UserNotSendCommder = Minecraft_QQ.NotSendCommder;
+        BaseConfig.Head = Minecraft_QQ.Head;
+        BaseConfig.End = Minecraft_QQ.End;
+        logs.Group_log = Minecraft_QQ.Group;
+        logs.Send_log = Minecraft_QQ.Send;
+    }
+
+    public void reload() {
+        ConfigManager.sync("minecraft_qq", Config.Type.INSTANCE);
+    }
 
     public static class Minecraft_QQ {
         @Config.Comment("发送群的服务器名字")
@@ -103,39 +132,10 @@ public class forge_config {
 
         @Config.Comment("不参与聊天玩家")
         @Config.Name("Player")
-        public List<String> Player = Base_config.Mute_List;
+        public List<String> Player = BaseConfig.MuteList;
 
         @Config.Comment("配置文件版本号")
         @Config.Name("Version")
         public String Version = Forge.VERSION;
-    }
-
-    public void init() {
-        Base_config.Mute_List = Minecraft_QQ.Player;
-        Base_config.Minecraft_ServerName = Minecraft_QQ.ServerName;
-        Base_config.Minecraft_Check = Minecraft_QQ.Check;
-        Base_config.Minecraft_Message = Minecraft_QQ.Message;
-        Base_config.Minecraft_Say = Minecraft_QQ.Say;
-        Base_config.Minecraft_Mode = Minecraft_QQ.Mode;
-        Base_config.Minecraft_SendMode = Minecraft_QQ.SendMode;
-        Base_config.Minecraft_PlayerListMessage = Minecraft_QQ.PlayerListMessage;
-        Base_config.Minecraft_ServerOnlineMessage = Minecraft_QQ.ServerOnlineMessage;
-        Base_config.System_IP = Minecraft_QQ.IP;
-        Base_config.System_PORT = Minecraft_QQ.Port;
-        Base_config.System_AutoConnet = Minecraft_QQ.AutoConnet;
-        Base_config.System_AutoConnetTime = Minecraft_QQ.AutoConnetTime;
-        Base_config.System_Debug = Minecraft_QQ.Debug;
-        Base_config.System_Sleep = Minecraft_QQ.Sleep;
-        Base_config.User_SendSucceed = Minecraft_QQ.SendSucceed;
-        Base_config.User_SendSucceedMessage = Minecraft_QQ.SendSucceedMessage;
-        Base_config.User_NotSendCommder = Minecraft_QQ.NotSendCommder;
-        Base_config.Head = Minecraft_QQ.Head;
-        Base_config.End = Minecraft_QQ.End;
-        logs.Group_log = Minecraft_QQ.Group;
-        logs.Send_log = Minecraft_QQ.Send;
-    }
-
-    public void reload() {
-        ConfigManager.sync("minecraft_qq", Config.Type.INSTANCE);
     }
 }

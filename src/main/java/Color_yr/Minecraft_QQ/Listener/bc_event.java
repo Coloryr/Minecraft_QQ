@@ -1,8 +1,8 @@
 package Color_yr.Minecraft_QQ.Listener;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -27,26 +27,26 @@ public class bc_event implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (use.hand.socket_runFlag && Base_config.Join_sendQQ) {
+        if (use.hand.socket_runFlag && BaseConfig.JoinsendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Base_config.Join_Message, playerName));
+                    playerName, message(BaseConfig.JoinMessage, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (use.hand.socket_runFlag && Base_config.Quit_sendQQ) {
+        if (use.hand.socket_runFlag && BaseConfig.QuitsendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Base_config.Quit_Message, playerName));
+                    playerName, message(BaseConfig.QuitMessage, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (use.hand.socket_runFlag && config_data_bungee.ChangeServer_sendQQ) {
-            String message = config_data_bungee.ChangeServer_Message;
+        if (use.hand.socket_runFlag && config_data_bungee.ChangeServersendQQ) {
+            String message = config_data_bungee.ChangeServerMessage;
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
@@ -64,41 +64,41 @@ public class bc_event implements Listener {
         String player_message;
         player_message = event.getMessage();
         ProxiedPlayer player = (ProxiedPlayer) event.getSender();
-        if (Base_config.User_NotSendCommder) {
+        if (BaseConfig.UserNotSendCommder) {
             if (player_message.indexOf("/") == 0)
                 return;
-        } else if (Base_config.Mute_List.contains(player.getName()))
+        } else if (BaseConfig.MuteList.contains(player.getName()))
             return;
-        if (Base_config.Minecraft_Mode != 0 && use.hand.socket_runFlag) {
+        if (BaseConfig.MinecraftMode != 0 && use.hand.socket_runFlag) {
             boolean send_ok = false;
-            String message = Base_config.Minecraft_Message;
+            String message = BaseConfig.MinecraftMessage;
             String playerName = player.getName();
             String Server = config_data_bungee.config.getString("Servers." + player.getServer().getInfo().getName());
             if (Server.equals("")) {
                 Server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll(Placeholder.Player, playerName)
-                    .replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
+                    .replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName)
                     .replaceAll(Placeholder.Server, Server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(Base_config.Minecraft_Check) == 0
-                    && Base_config.Minecraft_Mode == 1) {
-                player_message = player_message.replaceFirst(Base_config.Minecraft_Check, "");
+            if (player_message.indexOf(BaseConfig.MinecraftCheck) == 0
+                    && BaseConfig.MinecraftMode == 1) {
+                player_message = player_message.replaceFirst(BaseConfig.MinecraftCheck, "");
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
-            } else if (Base_config.Minecraft_Mode == 2) {
+            } else if (BaseConfig.MinecraftMode == 2) {
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
-            if (config_data_bungee.SendAllServer_Enable) {
-                String SendAllServer_send = config_data_bungee.SendAllServer_Message;
+            if (config_data_bungee.SendAllServerEnable) {
+                String SendAllServer_send = config_data_bungee.SendAllServerMessage;
                 SendAllServer_send = SendAllServer_send
-                        .replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName)
+                        .replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName)
                         .replaceAll(Placeholder.Server, Server)
                         .replaceAll(Placeholder.Player, playerName)
                         .replaceAll(Placeholder.Message, player_message);
                 SendAllServer_send = ChatColor.translateAlternateColorCodes('&', SendAllServer_send);
-                if (config_data_bungee.SendAllServer_OnlySideServer) {
+                if (config_data_bungee.SendAllServerOnlySideServer) {
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
                         if (!player1.getServer().getInfo().getName().equals(player.getServer().getInfo().getName()))
                             player1.sendMessage(new TextComponent(SendAllServer_send));
@@ -110,9 +110,9 @@ public class bc_event implements Listener {
                     event.setCancelled(true);
                 }
             }
-            if (Base_config.User_SendSucceed && send_ok)
+            if (BaseConfig.UserSendSucceed && send_ok)
                 player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-                        "§d[Minecraft_QQ]" + Base_config.User_SendSucceedMessage)));
+                        "§d[Minecraft_QQ]" + BaseConfig.UserSendSucceedMessage)));
         }
     }
 }

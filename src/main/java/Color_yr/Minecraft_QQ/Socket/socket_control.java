@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Socket;
 
-import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 
 import java.net.Socket;
 
@@ -28,8 +28,8 @@ public class socket_control {
             if (use.hand.readThread != null && use.hand.readThread.isAlive()) {
                 use.hand.readThread.stop();
             }
-            if (Base_config.System_Debug)
-                use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]线程已关闭");
+            if (BaseConfig.SystemDebug)
+                use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§5[Debug]线程已关闭");
             if (use.hand.pw != null) use.hand.pw.close();
             if (use.hand.os != null) use.hand.os.close();
             if (use.hand.is != null) use.hand.is.close();
@@ -41,13 +41,13 @@ public class socket_control {
     }
 
     public boolean socket_connet() {
-        use.ilog.Log_System("§d[Minecraft_QQ]§5正在连接酷Q");
+        use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§5正在连接酷Q");
         try {
-            use.hand.socket = new Socket(Base_config.System_IP, Base_config.System_PORT);
-            use.ilog.Log_System("§d[Minecraft_QQ]§5酷Q已连接");
+            use.hand.socket = new Socket(BaseConfig.SystemIP, BaseConfig.SystemPORT);
+            use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§5酷Q已连接");
             return true;
         } catch (Exception e) {
-            use.ilog.Log_System("§d[Minecraft_QQ]§c酷Q连接失败");
+            use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c酷Q连接失败");
             return false;
         }
     }

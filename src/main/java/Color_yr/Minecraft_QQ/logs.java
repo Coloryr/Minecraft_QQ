@@ -1,8 +1,10 @@
-package Color_yr.Minecraft_QQ.Log;
+package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.API.use;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Date;
 
 public class logs {
@@ -26,7 +28,7 @@ public class logs {
             pw.close();
             fw.close();
         } catch (Exception e) {
-            use.ilog.Log_System("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         }
     }
 }

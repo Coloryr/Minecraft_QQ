@@ -1,8 +1,8 @@
 package Color_yr.Minecraft_QQ.Listener;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.Config.Base_config;
 import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 import Color_yr.Minecraft_QQ.Socket.socket_send;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,19 +22,19 @@ public class bukkit_event implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (use.hand.socket_runFlag && Base_config.Join_sendQQ) {
+        if (use.hand.socket_runFlag && BaseConfig.JoinsendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Base_config.Join_Message, playerName));
+                    playerName, message(BaseConfig.JoinMessage, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (use.hand.socket_runFlag && Base_config.Quit_sendQQ) {
+        if (use.hand.socket_runFlag && BaseConfig.QuitsendQQ) {
             String playerName = event.getPlayer().getName();
             socket_send.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Base_config.Quit_Message, playerName));
+                    playerName, message(BaseConfig.QuitMessage, playerName));
         }
     }
 
@@ -42,30 +42,30 @@ public class bukkit_event implements Listener {
     public void onPlayerSay(AsyncPlayerChatEvent event) {
         String player_message;
         player_message = event.getMessage();
-        if (Base_config.User_NotSendCommder) {
+        if (BaseConfig.UserNotSendCommder) {
             if (player_message.indexOf("/") == 0)
                 return;
-        } else if (Base_config.Mute_List.contains(event.getPlayer().getName()))
+        } else if (BaseConfig.MuteList.contains(event.getPlayer().getName()))
             return;
-        if (Base_config.Minecraft_Mode != 0 && use.hand.socket_runFlag) {
+        if (BaseConfig.MinecraftMode != 0 && use.hand.socket_runFlag) {
             boolean send_ok = false;
             Player player = event.getPlayer();
-            String message = Base_config.Minecraft_Message;
+            String message = BaseConfig.MinecraftMessage;
             String playerName = player.getName();
             message = message.replaceAll(Placeholder.Player, playerName);
-            message = message.replaceAll(Placeholder.Servername, Base_config.Minecraft_ServerName);
+            message = message.replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(Base_config.Minecraft_Check) == 0 && Base_config.Minecraft_Mode == 1) {
-                player_message = player_message.replaceFirst(Base_config.Minecraft_Check, "");
+            if (player_message.indexOf(BaseConfig.MinecraftCheck) == 0 && BaseConfig.MinecraftMode == 1) {
+                player_message = player_message.replaceFirst(BaseConfig.MinecraftCheck, "");
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
-            } else if (Base_config.Minecraft_Mode == 2) {
+            } else if (BaseConfig.MinecraftMode == 2) {
                 message = message.replaceAll(Placeholder.Message, player_message);
                 send_ok = socket_send.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
-            if (Base_config.User_SendSucceed && send_ok)
+            if (BaseConfig.UserSendSucceed && send_ok)
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "§d[Minecraft_QQ]" + Base_config.User_SendSucceedMessage));
+                        "§d[Minecraft_QQ]" + BaseConfig.UserSendSucceedMessage));
         }
     }
 }

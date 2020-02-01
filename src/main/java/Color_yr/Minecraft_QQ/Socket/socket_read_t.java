@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Socket;
 
 import Color_yr.Minecraft_QQ.API.use;
-import Color_yr.Minecraft_QQ.Config.Base_config;
+import Color_yr.Minecraft_QQ.Config.BaseConfig;
 
 public class socket_read_t extends Thread {
 
@@ -19,23 +19,23 @@ public class socket_read_t extends Thread {
                         use.hand.is = use.hand.socket.getInputStream();
                         int len = use.hand.is.read(use.hand.buf);
                         if (len <= 0) {
-                            use.ilog.Log_System("§d[Minecraft_QQ]§c酷Q连接中断");
+                            use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c酷Q连接中断");
                             use.hand.socket_runFlag = false;
                             new socket_restart();
                             return;
                         } else {
                             String a = new String(use.hand.buf, 0, len);
                             if (!a.isEmpty()) {
-                                if (Base_config.System_Debug)
-                                    use.ilog.Log_System("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
-                                use.iMessage.Message(a);
+                                if (BaseConfig.SystemDebug)
+                                    use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
+                                use.MinecraftQQ.Message(a);
                             }
                         }
                     }
                 }
-                Thread.sleep(Base_config.System_Sleep);
+                Thread.sleep(BaseConfig.SystemSleep);
             } catch (Exception e) {
-                use.ilog.Log_System("§d[Minecraft_QQ]§c酷Q连接中断");
+                use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c酷Q连接中断");
                 use.hand.socket_runFlag = false;
                 new socket_restart();
                 return;
