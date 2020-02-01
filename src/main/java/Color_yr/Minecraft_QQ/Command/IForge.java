@@ -79,24 +79,21 @@ public class IForge implements ICommand {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接"));
                 } else if (string[0].equalsIgnoreCase("reload")) {
+                    sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c警告，配置文件需要关服修改才能生效"));
                     socket_control socket = new socket_control();
                     if (string.length > 2) {
                         if (string[1].equalsIgnoreCase("config")) {
-                            forge_config config_read = new forge_config();
-                            config_read.reload();
-                            config_read.init();
-                            reload(sender);
-                        } else if (string[1].equalsIgnoreCase("sock)et")) {
+                            forge_config.reload();
+                            forge_config.init();
+                        } else if (string[1].equalsIgnoreCase("socket")) {
                             socket.socket_close();
                             socket.socket_start();
                         } else {
                             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
                         }
                     } else {
-                        forge_config config_read = new forge_config();
-                        config_read.reload();
-                        config_read.init();
-                        reload(sender);
+                        forge_config.reload();
+                        forge_config.init();
                         socket.socket_close();
                         socket.socket_start();
                     }
@@ -119,9 +116,9 @@ public class IForge implements ICommand {
                         BaseConfig.MuteList.remove(sender.getName());
                         sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2你开始接受群消息。"));
                     }
-                    forge_config config_read = new forge_config();
-                    config_read.reload();
-                    config_read.init();
+                    forge_config.write(BaseConfig.MuteList);
+                    forge_config.reload();
+                    forge_config.init();
                     reload(sender);
                 }
             } else {

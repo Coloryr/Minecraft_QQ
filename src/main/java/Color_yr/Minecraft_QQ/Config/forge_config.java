@@ -5,15 +5,33 @@ import Color_yr.Minecraft_QQ.logs;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Config(modid = "minecraft_qq", name = "Minecraft_QQ")
 public class forge_config {
     @Config.Name("Minecraft_QQ")
     public static Minecraft_QQ Minecraft_QQ = new Minecraft_QQ();
 
-    public void init() {
-        BaseConfig.MuteList = Minecraft_QQ.Player;
+    public static void write(List<String> a)
+    {
+        Minecraft_QQ.PlayerMute.clear();
+        for (String b : a)
+        {
+            Minecraft_QQ.PlayerMute.put(b, true);
+        }
+    }
+
+    public static void init() {
+        List<String> list = new ArrayList<>();
+        for (String a : Minecraft_QQ.PlayerMute.keySet())
+        {
+            if(!list.contains(a))
+                list.add(a);
+        }
+        BaseConfig.MuteList = list;
         BaseConfig.MinecraftServerName = Minecraft_QQ.ServerName;
         BaseConfig.MinecraftCheck = Minecraft_QQ.Check;
         BaseConfig.MinecraftMessage = Minecraft_QQ.Message;
@@ -37,7 +55,7 @@ public class forge_config {
         logs.Send_log = Minecraft_QQ.Send;
     }
 
-    public void reload() {
+    public static void reload() {
         ConfigManager.sync("minecraft_qq", Config.Type.INSTANCE);
     }
 
@@ -131,8 +149,8 @@ public class forge_config {
         public boolean Send = true;
 
         @Config.Comment("不参与聊天玩家")
-        @Config.Name("Player")
-        public List<String> Player = BaseConfig.MuteList;
+        @Config.Name("PlayerMute")
+        public Map<String, Boolean> PlayerMute = new HashMap<>();
 
         @Config.Comment("配置文件版本号")
         @Config.Name("Version")

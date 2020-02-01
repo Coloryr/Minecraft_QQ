@@ -6,10 +6,11 @@ import Color_yr.Minecraft_QQ.API.use;
 import Color_yr.Minecraft_QQ.Config.BaseConfig;
 import Color_yr.Minecraft_QQ.Forge;
 import Color_yr.Minecraft_QQ.Json.Read_Json;
-import Color_yr.Minecraft_QQ.Socket.socket_send;
 import Color_yr.Minecraft_QQ.Utils;
 import Color_yr.Minecraft_QQ.logs;
+import Color_yr.Minecraft_QQ.Socket.socket_send;
 import com.google.gson.Gson;
+import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.entity.Entity;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
@@ -104,29 +106,22 @@ public class IForge implements IMinecraft_QQ {
                 } else if (read_bean.getIs_commder().equals("true")) {
                     StringBuilder send_message;
                     CommandSender sender = null;
+                    boolean noUUID = false;
                     try {
                         List<String> com = new ArrayList<String>();
                         com.add(read_bean.getCommder());
                         FunctionObject func = FunctionObject.create(server.getFunctionManager(), com);
-                        Entity player = new Entity(server.getEntityWorld()) {
-                            @Override
-                            protected void entityInit() {
+                        GameProfile GameProfile = server.getPlayerProfileCache().getGameProfileForUsername(read_bean.getPlayer());
+                        if (GameProfile != null) {
+                            FakePlayer player = new FakePlayer(server.worlds[0], GameProfile);
+                            if (!read_bean.getPlayer().equalsIgnoreCase("控制台")) {
+                                sender = new CommandSender(player, player.getName());
+                            } else {
+                                sender = new CommandSender(player, "控制台");
                             }
-
-                            @Override
-                            protected void readEntityFromNBT(NBTTagCompound compound) {
-                            }
-
-                            @Override
-                            protected void writeEntityToNBT(NBTTagCompound compound) {
-                            }
-                        };
-                        if (!read_bean.getPlayer().equalsIgnoreCase("控制台")) {
-                            sender = new CommandSender(player, player.getName());
-                        } else {
-                            sender = new CommandSender(player, "控制台");
-                        }
-                        server.getFunctionManager().execute(func, sender);
+                            server.getFunctionManager().execute(func, sender);
+                        } else
+                            noUUID = true;
                     } catch (Exception e) {
                         Log_System(e.toString());
                     }
@@ -139,7 +134,7 @@ public class IForge implements IMinecraft_QQ {
                             send_message.append(sender.message.get(i));
                         }
                     } else
-                        send_message = new StringBuilder("指令执行失败");
+                        send_message = new StringBuilder("指令执行失败" + (noUUID == true ? "没有找到该玩家" : null));
                     socket_send.send_data(Placeholder.data, read_bean.getGroup(),
                             "控制台", send_message.toString());
                 }
@@ -154,8 +149,8 @@ public class IForge implements IMinecraft_QQ {
     public class CommandSender extends CommandBlockBaseLogic {
         private final Entity entity;
         private final String name;
-        private final World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
         public List<String> message = new ArrayList<>();
+        private final World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
 
         private CommandSender(Entity entity, String name) {
             this.entity = entity;

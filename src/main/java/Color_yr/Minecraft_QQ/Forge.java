@@ -42,8 +42,7 @@ public class Forge {
             }
         }
 
-        forge_config config_read = new forge_config();
-        config_read.init();
+        forge_config.init();
     }
 
     @SideOnly(Side.SERVER)
