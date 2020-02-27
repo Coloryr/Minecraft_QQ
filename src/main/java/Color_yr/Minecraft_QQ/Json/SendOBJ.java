@@ -1,11 +1,11 @@
 package Color_yr.Minecraft_QQ.Json;
 
-public class Send_Json {
+public class SendOBJ {
     private String group;
     private String message;
     private String data;
     private String player;
-    public Send_Json(String data, String group, String player, String message) {
+    public SendOBJ(String data, String group, String player, String message) {
         this.data = data;
         this.group = group;
         this.message = message;

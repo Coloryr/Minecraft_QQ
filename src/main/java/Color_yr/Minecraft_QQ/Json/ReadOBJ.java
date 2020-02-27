@@ -1,6 +1,6 @@
 package Color_yr.Minecraft_QQ.Json;
 
-public class Read_Json {
+public class ReadOBJ {
     private String group;
     private String message;
     private String player;

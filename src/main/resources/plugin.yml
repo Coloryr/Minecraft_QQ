@@ -1,16 +1,9 @@
 name: Minecraft_QQ
-main: Color_yr.Minecraft_QQ.Bukkit
+main: Color_yr.Minecraft_QQ.Minecraft_QQBukkit
 author: Color_yr
-version: 2.2.5
+version: 2.3.0
 
 commands:
   qq:
     description: Minecraft_QQ的主要指令
-    permission: Minecraft_QQ.admin
-    permission-message: 你没有这个权限
-    usage: §4[Minecraft_QQ]§6/qq help来查看帮助
-  qq.char:
-    description: Minecraft_QQ的聊天开关
-    permission: Minecraft_QQ.char
-    permission-message: 你没有这个权限
     usage: §4[Minecraft_QQ]§6/qq help来查看帮助

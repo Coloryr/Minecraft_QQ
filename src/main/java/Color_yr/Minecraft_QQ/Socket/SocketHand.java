@@ -5,7 +5,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class socket_hand {
+public class SocketHand {
+
     public PrintWriter pw = null;
     public OutputStream os = null;
     public Socket socket = null;
@@ -17,5 +18,5 @@ public class socket_hand {
 
     public byte[] buf = new byte[4096];
 
-    public socket_read_t readThread = null;
+    public socketRead readThread = null;
 }

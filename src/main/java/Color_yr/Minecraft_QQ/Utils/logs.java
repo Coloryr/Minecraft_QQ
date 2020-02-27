@@ -1,9 +1,10 @@
-package Color_yr.Minecraft_QQ;
+package Color_yr.Minecraft_QQ.Utils;
 
-import Color_yr.Minecraft_QQ.API.use;
+import Color_yr.Minecraft_QQ.Minecraft_QQ;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
@@ -12,6 +13,12 @@ public class logs {
 
     public static boolean Group_log = false;
     public static boolean Send_log = false;
+
+    public logs(File file) throws IOException {
+        logs.file = new File(file, "logs.log");
+        if(logs.file.exists())
+            logs.file.createNewFile();
+    }
 
     public static void log_write(String text) {
         FileWriter fw;
@@ -28,7 +35,7 @@ public class logs {
             pw.close();
             fw.close();
         } catch (Exception e) {
-            use.MinecraftQQ.Log_System("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         }
     }
 }

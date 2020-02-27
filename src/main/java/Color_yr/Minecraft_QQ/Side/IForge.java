@@ -1,21 +1,18 @@
 package Color_yr.Minecraft_QQ.Side;
 
-import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.Placeholder;
-import Color_yr.Minecraft_QQ.API.use;
-import Color_yr.Minecraft_QQ.Config.BaseConfig;
-import Color_yr.Minecraft_QQ.Forge;
-import Color_yr.Minecraft_QQ.Json.Read_Json;
-import Color_yr.Minecraft_QQ.Utils;
-import Color_yr.Minecraft_QQ.logs;
-import Color_yr.Minecraft_QQ.Socket.socket_send;
+import Color_yr.Minecraft_QQ.Minecraft_QQ;
+import Color_yr.Minecraft_QQ.Minecraft_QQForge;
+import Color_yr.Minecraft_QQ.Json.ReadOBJ;
+import Color_yr.Minecraft_QQ.Utils.Function;
+import Color_yr.Minecraft_QQ.Utils.logs;
+import Color_yr.Minecraft_QQ.Socket.socketSend;
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.math.BlockPos;
@@ -31,8 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IForge implements IMinecraft_QQ {
-    public void Log_System(String message) {
-        Forge.logger.info(message);
+    public void LogInfo(String message) {
+        Minecraft_QQForge.logger.info(message);
+    }
+
+    @Override
+    public void LogError(String message) {
+        Minecraft_QQForge.logger.error(message);
     }
 
     @Override
@@ -42,38 +44,38 @@ public class IForge implements IMinecraft_QQ {
             if (logs.Group_log) {
                 logs.log_write("[Group]" + msg);
             }
-            if (BaseConfig.SystemDebug)
-                Log_System("处理数据：" + msg);
-            if (!use.hand.socket_runFlag)
+            if (Minecraft_QQ.Config.getSystem().isDebug())
+                LogInfo("处理数据：" + msg);
+            if (!Minecraft_QQ.hand.socket_runFlag)
                 return;
-            while (msg.indexOf(BaseConfig.Head) == 0 && msg.contains(BaseConfig.End)) {
-                String buff = Utils.get_string(msg, BaseConfig.Head, BaseConfig.End);
-                Read_Json read_bean;
+            while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
+                String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
+                ReadOBJ read_bean;
                 MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
                 try {
                     Gson read_gson = new Gson();
-                    read_bean = read_gson.fromJson(buff, Read_Json.class);
+                    read_bean = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Log_System("数据传输发生错误:" + e.getMessage());
+                    LogInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (read_bean.getIs_commder().equals("false")) {
                     if (read_bean.getCommder().equalsIgnoreCase("speak")) {
-                        final String say = BaseConfig.MinecraftSay.replaceFirst(Placeholder.Servername,
-                                BaseConfig.MinecraftServerName).replaceFirst(Placeholder.Message, read_bean.getMessage());
+                        final String say = Minecraft_QQ.Config.getServerSet().getSay().replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(),
+                                Minecraft_QQ.Config.getServerSet().getServerName()).replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), read_bean.getMessage());
                         for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
-                            if (!BaseConfig.MuteList.contains(player.getName()))
+                            if (!Minecraft_QQ.Config.getMute().contains(player.getName()))
                                 player.sendMessage(new TextComponentString(say));
                         }
                     } else if (read_bean.getCommder().equalsIgnoreCase("online")) {
                         String[] players = server.getOnlinePlayerNames();
                         StringBuilder player = new StringBuilder();
-                        String send = BaseConfig.MinecraftPlayerListMessage;
+                        String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
                         if (players.length == 0) {
                             try {
-                                send = send.replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName)
-                                        .replaceAll(Placeholder.player_number, "0")
-                                        .replaceAll(Placeholder.player_list, "无");
+                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -83,25 +85,25 @@ public class IForge implements IMinecraft_QQ {
                                 player.append(b).append(",");
                             }
                             player = new StringBuilder(player.substring(0, player.length() - 1));
-                            send = send.replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName)
-                                    .replaceAll(Placeholder.player_number, "" + player_number)
-                                    .replaceAll(Placeholder.player_list, player.toString());
+                            send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + player_number)
+                                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player.toString());
                         }
-                        socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
+                        socketSend.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
                             logs.log_write("[group]查询在线人数");
                         }
-                        if (BaseConfig.SystemDebug)
-                            Log_System("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                        if (Minecraft_QQ.Config.getSystem().isDebug())
+                            LogInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
                     } else if (read_bean.getCommder().equalsIgnoreCase("server")) {
-                        String send = BaseConfig.MinecraftServerOnlineMessage;
-                        send = send.replaceAll(Placeholder.Servername, BaseConfig.MinecraftServerName);
-                        socket_send.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
+                        String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
+                        send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
+                        socketSend.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
                         if (logs.Group_log) {
                             logs.log_write("[group]查询服务器状态");
                         }
-                        if (BaseConfig.SystemDebug)
-                            Log_System("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                        if (Minecraft_QQ.Config.getSystem().isDebug())
+                            LogInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                     }
                 } else if (read_bean.getIs_commder().equals("true")) {
                     StringBuilder send_message;
@@ -123,7 +125,7 @@ public class IForge implements IMinecraft_QQ {
                         } else
                             noUUID = true;
                     } catch (Exception e) {
-                        Log_System(e.toString());
+                        LogInfo(e.toString());
                     }
                     if (sender != null && sender.message.size() == 1) {
                         send_message = new StringBuilder(sender.message.get(0));
@@ -135,14 +137,14 @@ public class IForge implements IMinecraft_QQ {
                         }
                     } else
                         send_message = new StringBuilder("指令执行失败" + (noUUID == true ? "没有找到该玩家" : null));
-                    socket_send.send_data(Placeholder.data, read_bean.getGroup(),
+                    socketSend.send_data(Placeholder.data, read_bean.getGroup(),
                             "控制台", send_message.toString());
                 }
-                int i = msg.indexOf(BaseConfig.End);
-                msg = msg.substring(i + BaseConfig.End.length());
+                int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
+                msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Log_System("发送错误：" + e.getMessage());
+            LogInfo("发送错误：" + e.getMessage());
         }
     }
 
