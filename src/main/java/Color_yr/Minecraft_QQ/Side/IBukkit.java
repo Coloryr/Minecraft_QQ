@@ -179,10 +179,10 @@ public class IBukkit implements IMinecraft_QQ {
             return player;
         }
 
-//        @Override
-//        public Spigot spigot() {
-//            return null;
-//        }
+        @Override
+        public Spigot spigot() {
+            return null;
+        }
 
         @Override
         public boolean isPermissionSet(String name) {
