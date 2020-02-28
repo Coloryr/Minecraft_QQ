@@ -2,22 +2,18 @@ package Color_yr.Minecraft_QQ.Utils;
 
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.Date;
 
 public class logs {
     public static File file;
 
-    public static boolean Group_log = false;
-    public static boolean Send_log = false;
-
     public logs(File file) throws IOException {
         logs.file = new File(file, "logs.log");
-        if(logs.file.exists())
-            logs.file.createNewFile();
+        if (!logs.file.exists()) {
+            file.createNewFile();
+        }
     }
 
     public static void log_write(String text) {

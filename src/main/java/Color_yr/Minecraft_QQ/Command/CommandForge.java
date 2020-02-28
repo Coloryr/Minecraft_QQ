@@ -59,12 +59,13 @@ public class CommandForge implements ICommand {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接"));
                 }
+                return;
             } else if (string[0].equalsIgnoreCase("reload")) {
-                sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c警告，配置文件需要关服修改才能生效"));
                 SocketControl socket = new SocketControl();
                 if (string.length > 2) {
                     if (string[1].equalsIgnoreCase("config")) {
                         Minecraft_QQForge.Load();
+                        reload(sender);
                     } else if (string[1].equalsIgnoreCase("socket")) {
                         socket.Close();
                         socket.Start();
@@ -73,9 +74,11 @@ public class CommandForge implements ICommand {
                     }
                 } else {
                     Minecraft_QQForge.Load();
+                    reload(sender);
                     socket.Close();
                     socket.Start();
                 }
+                return;
             } else if (string[0].equalsIgnoreCase("say")) {
                 if (string.length < 2) {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请输入文本"));
@@ -85,6 +88,7 @@ public class CommandForge implements ICommand {
                 } else {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，酷Q未连接"));
                 }
+                return;
             }
         }
         if (string[0].equalsIgnoreCase("chat")) {
@@ -96,7 +100,6 @@ public class CommandForge implements ICommand {
                 sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2你开始接受群消息。"));
             }
             Minecraft_QQForge.Save();
-            reload(sender);
         } else {
             sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助"));
         }

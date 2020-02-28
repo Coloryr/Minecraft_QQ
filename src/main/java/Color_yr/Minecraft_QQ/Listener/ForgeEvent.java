@@ -27,7 +27,8 @@ public final class ForgeEvent {
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName);
-            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
+            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(),"");
             if (player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0 && Minecraft_QQ.Config.getServerSet().getMode() == 1) {
                 player_message = player_message.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);

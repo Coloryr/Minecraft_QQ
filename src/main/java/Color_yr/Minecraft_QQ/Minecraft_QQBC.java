@@ -11,9 +11,11 @@ import com.google.gson.Gson;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.logging.Logger;
 
 public class Minecraft_QQBC extends Plugin {
@@ -23,7 +25,7 @@ public class Minecraft_QQBC extends Plugin {
 
     public static void Load() {
         try {
-            new Load(plugin.getDataFolder(), plugin.getResourceAsStream("config.json"));
+            new Load(plugin.getDataFolder(), plugin.getResourceAsStream("Mineraft_QQconfig.json"));
         } catch (Throwable e) {
             log_b.warning("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
@@ -53,13 +55,19 @@ public class Minecraft_QQBC extends Plugin {
         Minecraft_QQ.MinecraftQQ = new IBungeecord();
 
         log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
+
+        Load();
+
         try {
             new logs(plugin.getDataFolder());
+            File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
+            if(!wiki.exists()) {
+                Files.copy(plugin.getResourceAsStream("Wiki.txt"), wiki.toPath());
+            }
         } catch (IOException e) {
             log_b.warning("§d[Minecraft_QQ]§c日志文件错误");
             e.printStackTrace();
         }
-        Load();
 
         ProxyServer.getInstance().getPluginManager().registerListener(this, new BCEvent());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
@@ -75,8 +83,8 @@ public class Minecraft_QQBC extends Plugin {
 
     @Override
     public void onDisable() {
-        SocketControl socket = new SocketControl();
-        socket.Close();
+        Minecraft_QQ.hand.server_isclose = true;
+        new SocketControl().Close();
         log_b.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 }

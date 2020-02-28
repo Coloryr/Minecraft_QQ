@@ -46,6 +46,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                     socket.Close();
                     socket.Start();
                 }
+                return true;
             }
             else if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage("§d[Minecraft_QQ]§2帮助手册");
@@ -68,6 +69,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                 } else {
                     sender.sendMessage("§d[Minecraft_QQ]§c错误，请输入文本");
                 }
+                return true;
             } else if (args[0].equalsIgnoreCase("chat")) {
                 if (!Minecraft_QQ.Config.getMute().contains(sender.getName())) {
                     Minecraft_QQ.Config.AddMute(sender.getName());
@@ -77,8 +79,10 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                     sender.sendMessage("§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getMessageON());
                 }
                 Minecraft_QQBukkit.Save();
+                return true;
             } else {
                 sender.sendMessage("§d[Minecraft_QQ]§c错误，请使用/qq help 获取帮助");
+                return true;
             }
         }
         return false;

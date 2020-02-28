@@ -12,9 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.logging.Logger;
 
 public class Minecraft_QQBukkit extends JavaPlugin {
@@ -25,7 +27,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
     public static void Load()
     {
         try {
-            new Load(plugin.getDataFolder(), plugin.getResource("config.json"));
+            new Load(plugin.getDataFolder(), plugin.getResource("Mineraft_QQconfig.json"));
         } catch (Throwable e) {
             log_b.warning("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
@@ -55,13 +57,18 @@ public class Minecraft_QQBukkit extends JavaPlugin {
 
         log_b.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
 
+        Load();
+
         try {
             new logs(plugin.getDataFolder());
+            File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
+            if(!wiki.exists()) {
+                Files.copy(plugin.getResource("Wiki.txt"), wiki.toPath());
+            }
         } catch (IOException e) {
             log_b.warning("§d[Minecraft_QQ]§c日志文件错误");
             e.printStackTrace();
         }
-        Load();
 
         Bukkit.getPluginManager().registerEvents(new BukkitEvent(), this);
         Bukkit.getPluginCommand("qq").setExecutor(new CommandBukkit());
@@ -78,6 +85,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Minecraft_QQ.hand.server_isclose = true;
         new SocketControl().Close();
         log_b.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }

@@ -17,12 +17,10 @@
     "Message": "%ServerName%-%Server%-%Player%:%Message%",
     "Say": "[%ServerName%][群消息]%Message%",
     "Mode": 1,
-    "OnlinePlayerShow": true,
     "SendOneByOne": true,
     "SendOneByOneMessage": "\n[%Server%-%player_number%]-%player_list%",
     "HideEmptyServer": true,
     "PlayerListMessage": "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%",
-    "HidePlayerList": false,
     "ServerOnlineMessage": "%ServerName%服务器在线"
   },
   "Servers": {

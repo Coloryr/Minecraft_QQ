@@ -37,9 +37,6 @@ public class IBukkit implements IMinecraft_QQ {
     public void Message(String message) {
         try {
             String msg = message;
-            if (logs.Group_log) {
-                logs.log_write("[Group]" + msg);
-            }
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 LogInfo("处理数据：" + msg);
             if (!Minecraft_QQ.hand.socket_runFlag)
@@ -61,6 +58,9 @@ public class IBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         final String finalSay = say;
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
+                            logs.log_write("[Group]" + say);
+                        }
                         org.bukkit.Bukkit.getScheduler().runTask(Minecraft_QQBukkit.plugin, () ->
                         {
                             try {
@@ -80,6 +80,7 @@ public class IBukkit implements IMinecraft_QQ {
                             try {
                                 send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -97,10 +98,11 @@ public class IBukkit implements IMinecraft_QQ {
 
                             send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + player_number)
+                                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player);
                         }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (logs.Group_log) {
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.log_write("[group]查询在线人数");
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
@@ -109,7 +111,7 @@ public class IBukkit implements IMinecraft_QQ {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (logs.Group_log) {
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.log_write("[group]查询服务器状态");
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())

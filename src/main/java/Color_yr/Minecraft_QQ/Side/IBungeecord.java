@@ -32,9 +32,6 @@ public class IBungeecord implements IMinecraft_QQ {
     public void Message(String message) {
         try {
             String msg = message;
-            if (logs.Group_log) {
-                logs.log_write("[Group]" + msg);
-            }
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 LogInfo("处理数据：" + msg);
             if (!Minecraft_QQ.hand.socket_runFlag)
@@ -55,6 +52,9 @@ public class IBungeecord implements IMinecraft_QQ {
                         String say = Minecraft_QQ.Config.getServerSet().getSay().replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), read_bean.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
+                            logs.log_write("[Group]" + say);
+                        }
                         for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
                             if (!Minecraft_QQ.Config.getMute().contains(player1.getName()))
                                 player1.sendMessage(new TextComponent(say));
@@ -131,14 +131,14 @@ public class IBungeecord implements IMinecraft_QQ {
                         }
                         send = send.replace(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         socketSend.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
-                        if (logs.Group_log) {
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.log_write("[group]查询在线人数");
                         }
                     } else if (read_bean.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage()
                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         socketSend.send_data(Placeholder.data, read_bean.getGroup(), "无", send);
-                        if (logs.Group_log) {
+                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.log_write("[group]查询服务器状态");
                         }
                     }
