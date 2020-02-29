@@ -72,7 +72,7 @@ public class BCEvent implements Listener {
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();
             String Server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
-            if (Server == null || Server.isEmpty()){
+            if (Server == null || Server.isEmpty()) {
                 Server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
@@ -98,7 +98,8 @@ public class BCEvent implements Listener {
                 SendAllServer_send = ChatColor.translateAlternateColorCodes('&', SendAllServer_send);
                 if (Minecraft_QQ.Config.getSendAllServer().isOnlySideServer()) {
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
-                        if (!player1.getServer().getInfo().getName().equals(player.getServer().getInfo().getName()))
+                        if (player.getServer() != null && player1.getServer() != null &&
+                                !player1.getServer().getInfo().getName().equals(player.getServer().getInfo().getName()))
                             player1.sendMessage(new TextComponent(SendAllServer_send));
                     }
                 } else {
