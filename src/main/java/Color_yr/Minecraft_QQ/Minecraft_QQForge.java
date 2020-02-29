@@ -46,7 +46,7 @@ public class Minecraft_QQForge {
             "    \"Say\": \"[%ServerName%][群消息]%Message%\",\n" +
             "    \"Mode\": 1,\n" +
             "    \"SendOneByOne\": true,\n" +
-            "    \"SendOneByOneMessage\": \"\\n[%Server%-%player_number%]-%player_list%\",\n" +
+            "    \"SendOneByOneMessage\": \"\\n[%Server%-%PlayerNumber%]-%PlayerList%\",\n" +
             "    \"HideEmptyServer\": true,\n" +
             "    \"PlayerListMessage\": \"%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%\",\n" +
             "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\"\n" +
