@@ -2,12 +2,12 @@ package Color_yr.Minecraft_QQ.Config;
 
 public class MessageOBJ {
     private String Message;
-    private boolean SendQQ;
+    private boolean sendQQ;
 
     public MessageOBJ(String Message)
     {
         this.Message = Message;
-        SendQQ = true;
+        sendQQ = true;
     }
 
     public String getMessage() {
@@ -15,6 +15,6 @@ public class MessageOBJ {
     }
 
     public boolean isSendQQ() {
-        return SendQQ;
+        return sendQQ;
     }
 }

@@ -2,7 +2,7 @@ package Color_yr.Minecraft_QQ.Config;
 
 public class SystemOBJ {
     private String IP;
-    private short Port;
+    private int Port;
     private boolean AutoConnect;
     private int AutoConnectTime;
     private boolean Debug;
@@ -37,7 +37,7 @@ public class SystemOBJ {
         return Sleep;
     }
 
-    public short getPort() {
+    public int getPort() {
         return Port;
     }
 
