@@ -121,6 +121,9 @@ public class IBukkit implements IMinecraft_QQ {
                     StringBuilder send_message;
                     Command send = new Command();
                     send.setPlayer(readobj.getPlayer());
+                    if (Minecraft_QQ.Config.getLogs().isGroup()) {
+                        logs.log_write("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                    }
                     try {
                         Bukkit.getScheduler().callSyncMethod(Minecraft_QQBukkit.plugin, () ->
                                 Bukkit.dispatchCommand(send, readobj.getCommder())).get();
@@ -137,7 +140,7 @@ public class IBukkit implements IMinecraft_QQ {
                             send_message.append(send.getMessage().get(i));
                         }
                     } else
-                        send_message = new StringBuilder("指令执行失败");
+                        send_message = new StringBuilder("指令无返回");
                     socketSend.send_data(Placeholder.data, readobj.getGroup(),
                             "控制台", send_message.toString());
                 }
