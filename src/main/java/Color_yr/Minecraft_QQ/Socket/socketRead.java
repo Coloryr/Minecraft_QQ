@@ -9,9 +9,9 @@ public class socketRead extends Thread {
         Minecraft_QQ.hand.socket_stop = false;
         while (true) {
             try {
-                if (Minecraft_QQ.hand.socket_runFlag) {
+                if (Minecraft_QQ.hand.socketIsRun) {
                     if (Minecraft_QQ.hand.socket.isClosed()) {
-                        Minecraft_QQ.hand.socket_runFlag = false;
+                        Minecraft_QQ.hand.socketIsRun = false;
                         new socketRestart();
                         return;
                     } else {
@@ -19,7 +19,7 @@ public class socketRead extends Thread {
                         int len = Minecraft_QQ.hand.is.read(Minecraft_QQ.hand.buf);
                         if (len <= 0) {
                             Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§c酷Q连接中断");
-                            Minecraft_QQ.hand.socket_runFlag = false;
+                            Minecraft_QQ.hand.socketIsRun = false;
                             new socketRestart();
                             return;
                         } else {
@@ -35,7 +35,7 @@ public class socketRead extends Thread {
                 Thread.sleep(Minecraft_QQ.Config.getSystem().getSleep());
             } catch (Exception e) {
                 Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§c酷Q连接中断");
-                Minecraft_QQ.hand.socket_runFlag = false;
+                Minecraft_QQ.hand.socketIsRun = false;
                 if(!Minecraft_QQ.hand.server_isclose)
                     new socketRestart();
                 return;

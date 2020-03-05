@@ -92,7 +92,7 @@ public class Minecraft_QQForge {
             "    \"SucceedMessage\": \"§2已发送消息至群内\"\n" +
             "  },\n" +
             "  \"Mute\": [],\n" +
-            "  \"Version\": \"2.3.0\"\n" +
+            "  \"Version\": \"2.3.1\"\n" +
             "}";
 
     private static final String Wiki = "Minecraft_QQ帮助手册\n" +
@@ -220,7 +220,7 @@ public class Minecraft_QQForge {
             "\"Mute\": [],\n" +
             "\n" +
             "配置文件版本号\n" +
-            "\"Version\": \"2.3.0\"";
+            "\"Version\": \"2.3.1\"";
 
     public static Logger logger;
     private static File self;

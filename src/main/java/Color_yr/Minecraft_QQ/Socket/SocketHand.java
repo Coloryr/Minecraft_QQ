@@ -12,7 +12,7 @@ public class SocketHand {
     public Socket socket = null;
     public InputStream is = null;
 
-    public boolean socket_runFlag = false;
+    public boolean socketIsRun = false;
     public boolean server_isclose = false;
     public boolean socket_stop = false;
 

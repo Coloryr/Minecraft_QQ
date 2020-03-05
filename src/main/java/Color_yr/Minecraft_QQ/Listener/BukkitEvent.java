@@ -21,7 +21,7 @@ public class BukkitEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (Minecraft_QQ.hand.socket_runFlag && Minecraft_QQ.Config.getJoin().isSendQQ()) {
+        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getJoin().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
@@ -30,7 +30,7 @@ public class BukkitEvent implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (Minecraft_QQ.hand.socket_runFlag && Minecraft_QQ.Config.getQuit().isSendQQ()) {
+        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getQuit().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
@@ -46,7 +46,7 @@ public class BukkitEvent implements Listener {
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(event.getPlayer().getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socket_runFlag) {
+        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
             boolean send_ok = false;
             Player player = event.getPlayer();
             String message = Minecraft_QQ.Config.getServerSet().getMessage();

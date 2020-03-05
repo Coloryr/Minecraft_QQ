@@ -18,7 +18,7 @@ public class socketSend {
             Minecraft_QQ.hand.os = Minecraft_QQ.hand.socket.getOutputStream();
             Minecraft_QQ.hand.os.write(send.getBytes());
             if (Minecraft_QQ.Config.getLogs().isServer()) {
-                logs.log_write("[Server]" + Player + ":" + message);
+                logs.logWrite("[Server]" + Player + ":" + message);
             }
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
@@ -26,7 +26,7 @@ public class socketSend {
         } catch (Exception e) {
             Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§c酷Q连接中断");
             e.printStackTrace();
-            Minecraft_QQ.hand.socket_runFlag = false;
+            Minecraft_QQ.hand.socketIsRun = false;
         }
         return false;
     }

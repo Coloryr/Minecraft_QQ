@@ -24,7 +24,7 @@ public class BCEvent implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (Minecraft_QQ.hand.socket_runFlag && Minecraft_QQ.Config.getJoin().isSendQQ()) {
+        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getJoin().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
@@ -33,7 +33,7 @@ public class BCEvent implements Listener {
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (Minecraft_QQ.hand.socket_runFlag && Minecraft_QQ.Config.getQuit().isSendQQ()) {
+        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getQuit().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
@@ -42,7 +42,7 @@ public class BCEvent implements Listener {
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (Minecraft_QQ.hand.socket_runFlag && Minecraft_QQ.Config.getChangeServer().isSendQQ()) {
+        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getChangeServer().isSendQQ()) {
             String message = Minecraft_QQ.Config.getChangeServer().getMessage();
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
@@ -67,7 +67,7 @@ public class BCEvent implements Listener {
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(player.getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socket_runFlag) {
+        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
             boolean send_ok = false;
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();

@@ -61,7 +61,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
             }
             else if (args[0].equalsIgnoreCase("say") && sender.isOp()) {
                 if (args.length > 1) {
-                    if (Minecraft_QQ.hand.socket_runFlag) {
+                    if (Minecraft_QQ.hand.socketIsRun) {
                         socketSend.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                         sender.sendMessage("§d[Minecraft_QQ]§2已发送" + args[1]);
                     } else

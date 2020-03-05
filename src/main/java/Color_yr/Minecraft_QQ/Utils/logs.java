@@ -16,7 +16,7 @@ public class logs {
         }
     }
 
-    public static void log_write(String text) {
+    public static void logWrite(String text) {
         FileWriter fw;
         try {
             fw = new FileWriter(file, true);

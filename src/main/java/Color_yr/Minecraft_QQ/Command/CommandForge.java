@@ -82,7 +82,7 @@ public class CommandForge implements ICommand {
             } else if (string[0].equalsIgnoreCase("say")) {
                 if (string.length < 2) {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§c错误，请输入文本"));
-                } else if (Minecraft_QQ.hand.socket_runFlag) {
+                } else if (Minecraft_QQ.hand.socketIsRun) {
                     socketSend.send_data(Placeholder.data, Placeholder.group, "无", string[1]);
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2已发送" + string[1]));
                 } else {

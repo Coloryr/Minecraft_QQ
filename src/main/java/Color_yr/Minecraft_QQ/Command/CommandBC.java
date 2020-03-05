@@ -56,7 +56,7 @@ public class CommandBC extends Command /*implements TabExecutor*/ {
             }
         } else if (args[0].equalsIgnoreCase("say") && sender.hasPermission("Minecraft_QQ.admin")) {
             if (!args[1].equalsIgnoreCase("")) {
-                if (Minecraft_QQ.hand.socket_runFlag) {
+                if (Minecraft_QQ.hand.socketIsRun) {
                     socketSend.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
                     sender.sendMessage(new TextComponent("§d[Minecraft_QQ]§2已发送" + args[1]));
                 } else

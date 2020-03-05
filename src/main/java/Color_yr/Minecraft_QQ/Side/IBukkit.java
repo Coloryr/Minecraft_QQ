@@ -39,7 +39,7 @@ public class IBukkit implements IMinecraft_QQ {
             String msg = message;
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 LogInfo("处理数据：" + msg);
-            if (!Minecraft_QQ.hand.socket_runFlag)
+            if (!Minecraft_QQ.hand.socketIsRun)
                 return;
             while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
                 String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
@@ -59,7 +59,7 @@ public class IBukkit implements IMinecraft_QQ {
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         final String finalSay = say;
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.log_write("[Group]" + say);
+                            logs.logWrite("[Group]" + say);
                         }
                         org.bukkit.Bukkit.getScheduler().runTask(Minecraft_QQBukkit.plugin, () ->
                         {
@@ -103,7 +103,7 @@ public class IBukkit implements IMinecraft_QQ {
                         }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.log_write("[group]查询在线人数");
+                            logs.logWrite("[group]查询在线人数");
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             LogInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
@@ -112,7 +112,7 @@ public class IBukkit implements IMinecraft_QQ {
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.log_write("[group]查询服务器状态");
+                            logs.logWrite("[group]查询服务器状态");
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             LogInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
@@ -122,7 +122,7 @@ public class IBukkit implements IMinecraft_QQ {
                     Command send = new Command();
                     send.setPlayer(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.log_write("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
                     }
                     try {
                         Bukkit.getScheduler().callSyncMethod(Minecraft_QQBukkit.plugin, () ->

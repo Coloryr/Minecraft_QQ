@@ -21,7 +21,7 @@ public final class ForgeEvent {
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(event.getPlayer().getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socket_runFlag) {
+        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
             boolean send_ok = false;
             EntityPlayer player = event.getPlayer();
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
