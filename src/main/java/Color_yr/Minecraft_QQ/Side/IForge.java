@@ -56,7 +56,7 @@ public class IForge implements IMinecraft_QQ {
                     LogInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
-                if (readobj.getIs_commder().equals("false")) {
+                if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
                     if (readobj.getCommder().equalsIgnoreCase("speak")) {
                         final String say = Minecraft_QQ.Config.getServerSet().getSay().replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(),
                                 Minecraft_QQ.Config.getServerSet().getServerName()).replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());

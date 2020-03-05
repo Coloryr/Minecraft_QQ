@@ -11,6 +11,7 @@ public class ServerSetOBJ {
     private boolean HideEmptyServer;
     private String PlayerListMessage;
     private String ServerOnlineMessage;
+    private boolean BungeeCord;
 
     public ServerSetOBJ()
     {
@@ -24,6 +25,11 @@ public class ServerSetOBJ {
         HideEmptyServer =true;
         PlayerListMessage = "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%";
         ServerOnlineMessage = "%ServerName%服务器在线";
+        BungeeCord = false;
+    }
+
+    public boolean isBungeeCord() {
+        return BungeeCord;
     }
 
     public int getMode() {

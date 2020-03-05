@@ -21,7 +21,8 @@
     "SendOneByOneMessage": "\n[%Server%-%PlayerNumber%]-%PlayerList%",
     "HideEmptyServer": true,
     "PlayerListMessage": "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%",
-    "ServerOnlineMessage": "%ServerName%服务器在线"
+    "ServerOnlineMessage": "%ServerName%服务器在线",
+    "BungeeCord": false
   },
   "Servers": {
     "lobby": "登陆大厅",

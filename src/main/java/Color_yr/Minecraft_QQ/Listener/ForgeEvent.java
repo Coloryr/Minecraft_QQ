@@ -9,11 +9,10 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber(modid = "minecraft_qq")
 public final class ForgeEvent {
 
     @SubscribeEvent
-    public static void onPlayerChat(ServerChatEvent event) {
+    public void onPlayerChat(ServerChatEvent event) {
         String player_message;
         player_message = event.getMessage();
         if (Minecraft_QQ.Config.getUser().isNotSendCommand()) {

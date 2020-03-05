@@ -2,10 +2,12 @@ package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.Command.CommandForge;
 import Color_yr.Minecraft_QQ.Config.Load;
+import Color_yr.Minecraft_QQ.Listener.ForgeEvent;
 import Color_yr.Minecraft_QQ.Side.IForge;
 import Color_yr.Minecraft_QQ.Socket.SocketControl;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -49,7 +51,8 @@ public class Minecraft_QQForge {
             "    \"SendOneByOneMessage\": \"\\n[%Server%-%PlayerNumber%]-%PlayerList%\",\n" +
             "    \"HideEmptyServer\": true,\n" +
             "    \"PlayerListMessage\": \"%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%\",\n" +
-            "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\"\n" +
+            "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\",\n" +
+            "    \"BungeeCord\": false\n" +
             "  },\n" +
             "  \"Servers\": {\n" +
             "    \"lobby\": \"登陆大厅\",\n" +
@@ -138,7 +141,11 @@ public class Minecraft_QQForge {
             "    发送在线人数到群的格式\n" +
             "    \"PlayerListMessage\": \"%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%\",\n" +
             "    发送服务器在线到群的格式\n" +
-            "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\"\n" +
+            "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\",\n" +
+            "    群组服支持，如果你想要子服执行命令，则所有服务器都要装Minecraft_QQ并且子服开启这个\n" +
+            "    开启后，服务器插件只有执行群发来命令的功能\n" +
+            "    BungeeCord端开不开都一样\n" +
+            "    \"BungeeCord\": false\n" +
             "  },\n" +
             "\n" +
             "子服别名，仅BC有这个功能\n" +
@@ -263,7 +270,7 @@ public class Minecraft_QQForge {
         try {
             new logs(self);
             File wiki = new File(self, "Wiki.txt");
-            if(!wiki.exists()) {
+            if (!wiki.exists()) {
                 Files.copy(new ByteArrayInputStream(Wiki.getBytes()), wiki.toPath());
             }
         } catch (IOException e) {
@@ -277,7 +284,10 @@ public class Minecraft_QQForge {
     @EventHandler
     public void init(FMLServerStartingEvent event) {
 
-        event.registerServerCommand(new CommandForge());
+        if (!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+            MinecraftForge.EVENT_BUS.register(new ForgeEvent());
+            event.registerServerCommand(new CommandForge());
+        }
         SocketControl socket = new SocketControl();
 
         logger.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");

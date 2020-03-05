@@ -29,10 +29,12 @@ public class IBukkit implements IMinecraft_QQ {
     public void LogInfo(String message) {
         Minecraft_QQBukkit.log_b.info(message);
     }
+
     @Override
     public void LogError(String message) {
         Minecraft_QQBukkit.log_b.warning(message);
     }
+
     @Override
     public void Message(String message) {
         try {
@@ -51,7 +53,7 @@ public class IBukkit implements IMinecraft_QQ {
                     LogInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
-                if (readobj.getIs_commder().equals("false")) {
+                if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
                     if (readobj.getCommder().equalsIgnoreCase("speak")) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
@@ -61,10 +63,10 @@ public class IBukkit implements IMinecraft_QQ {
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);
                         }
-                        org.bukkit.Bukkit.getScheduler().runTask(Minecraft_QQBukkit.plugin, () ->
+                        Bukkit.getScheduler().runTask(Minecraft_QQBukkit.plugin, () ->
                         {
                             try {
-                                for (Player b : org.bukkit.Bukkit.getOnlinePlayers()) {
+                                for (Player b : Bukkit.getOnlinePlayers()) {
                                     if (!Minecraft_QQ.Config.getMute().contains(b.getName()))
                                         b.sendMessage(finalSay);
                                 }
@@ -75,7 +77,7 @@ public class IBukkit implements IMinecraft_QQ {
                     } else if (readobj.getCommder().equalsIgnoreCase("online")) {
                         String player;
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
-                        player = org.bukkit.Bukkit.getOnlinePlayers().toString();
+                        player = Bukkit.getOnlinePlayers().toString();
                         if (player.equals("[]")) {
                             try {
                                 send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
