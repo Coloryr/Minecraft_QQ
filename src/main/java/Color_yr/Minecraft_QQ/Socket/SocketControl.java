@@ -43,6 +43,7 @@ public class SocketControl {
         Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§5正在连接酷Q");
         try {
             Minecraft_QQ.hand.socket = new Socket(Minecraft_QQ.Config.getSystem().getIP(), Minecraft_QQ.Config.getSystem().getPort());
+            Thread.sleep(1000);
             socketSend.send_data(Placeholder.start,null,null, Minecraft_QQ.Config.getServerSet().getServerName());
             Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§5酷Q已连接");
             return true;
