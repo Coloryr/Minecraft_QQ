@@ -44,7 +44,7 @@ public class SocketControl {
         try {
             Minecraft_QQ.hand.socket = new Socket(Minecraft_QQ.Config.getSystem().getIP(), Minecraft_QQ.Config.getSystem().getPort());
             Thread.sleep(1000);
-            socketSend.send_data(Placeholder.start,Placeholder.group,"服务器名字", Minecraft_QQ.Config.getServerSet().getServerName());
+            socketSend.send_data(Placeholder.start, null, null, Minecraft_QQ.Config.getServerSet().getServerName());
             Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§5酷Q已连接");
             return true;
         } catch (Exception e) {

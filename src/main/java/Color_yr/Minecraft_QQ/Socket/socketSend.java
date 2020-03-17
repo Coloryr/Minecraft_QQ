@@ -18,7 +18,7 @@ public class socketSend {
             Minecraft_QQ.hand.os = Minecraft_QQ.hand.socket.getOutputStream();
             Minecraft_QQ.hand.os.write(send.getBytes());
             if (Minecraft_QQ.Config.getLogs().isServer()) {
-                logs.logWrite("[Server]" + Player + ":" + message);
+                logs.logWrite("[Server]" + (Player == null ? "测试" : Player) + ":" + message);
             }
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
