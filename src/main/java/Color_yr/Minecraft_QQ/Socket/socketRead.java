@@ -36,7 +36,7 @@ public class socketRead extends Thread {
             } catch (Exception e) {
                 Minecraft_QQ.MinecraftQQ.LogInfo("§d[Minecraft_QQ]§c酷Q连接中断");
                 Minecraft_QQ.hand.socketIsRun = false;
-                if(!Minecraft_QQ.hand.server_isclose)
+                if (!Minecraft_QQ.hand.server_isclose)
                     new socketRestart();
                 return;
             }

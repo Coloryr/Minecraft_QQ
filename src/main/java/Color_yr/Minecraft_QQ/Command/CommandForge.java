@@ -53,7 +53,7 @@ public class CommandForge implements ICommand {
             if (string[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2帮助手册"));
                 sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq chat 来启用关闭群聊天"));
-                if(checkPermission(server, sender)) {
+                if (checkPermission(server, sender)) {
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq say 内容 往群里发送测试消息"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接"));
                     sender.sendMessage(new TextComponentString("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件"));

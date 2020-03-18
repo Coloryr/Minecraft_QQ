@@ -4,8 +4,7 @@ public class LogsOBJ {
     private boolean Group;
     private boolean Server;
 
-    public LogsOBJ()
-    {
+    public LogsOBJ() {
         Group = true;
         Server = true;
     }

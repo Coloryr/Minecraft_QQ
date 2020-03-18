@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ.Socket;
 
-import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Json.SendOBJ;
+import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
 

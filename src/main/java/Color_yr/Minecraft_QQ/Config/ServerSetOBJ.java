@@ -13,16 +13,15 @@ public class ServerSetOBJ {
     private String ServerOnlineMessage;
     private boolean BungeeCord;
 
-    public ServerSetOBJ()
-    {
+    public ServerSetOBJ() {
         ServerName = "[MC服务器]";
         Check = "群：";
-        Message= "%ServerName%-%Server%-%Player%:%Message%";
+        Message = "%ServerName%-%Server%-%Player%:%Message%";
         Say = "[%ServerName%][群消息]%Message%";
         Mode = 1;
         SendOneByOne = true;
         SendOneByOneMessage = "\n[%Server%-%PlayerNumber%]-%PlayerList%";
-        HideEmptyServer =true;
+        HideEmptyServer = true;
         PlayerListMessage = "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%";
         ServerOnlineMessage = "%ServerName%服务器在线";
         BungeeCord = false;

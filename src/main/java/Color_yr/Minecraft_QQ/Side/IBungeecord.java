@@ -1,9 +1,9 @@
 package Color_yr.Minecraft_QQ.Side;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
+import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBC;
-import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Socket.socketSend;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
@@ -16,13 +16,17 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class IBungeecord implements IMinecraft_QQ {
     @Override
     public void LogInfo(String message) {
         Minecraft_QQBC.log_b.info(message);
     }
+
     @Override
     public void LogError(String message) {
         Minecraft_QQBC.log_b.warning(message);
@@ -74,10 +78,10 @@ public class IBungeecord implements IMinecraft_QQ {
                                         one_player_number = 0;
                                     } else {
                                         String Server_name = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
-                                        if (Server_name == null || Server_name.isEmpty()){
+                                        if (Server_name == null || Server_name.isEmpty()) {
                                             Server_name = serverinfo.getName();
                                         }
-                                            one_server_player = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
+                                        one_server_player = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server_name)
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
@@ -91,7 +95,7 @@ public class IBungeecord implements IMinecraft_QQ {
                                         }
                                     }
                                     String Server_name = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
-                                    if (Server_name == null || Server_name.isEmpty()){
+                                    if (Server_name == null || Server_name.isEmpty()) {
                                         Server_name = serverinfo.getName();
                                     }
                                     one_server_player = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()

@@ -39,32 +39,31 @@ public class BukkitEvent implements Listener {
 
     @EventHandler
     public void onPlayerSay(AsyncPlayerChatEvent event) {
-        String player_message;
-        player_message = event.getMessage();
+        String playerMessage = event.getMessage();
         if (Minecraft_QQ.Config.getUser().isNotSendCommand()) {
-            if (player_message.indexOf("/") == 0)
+            if (playerMessage.indexOf("/") == 0)
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(event.getPlayer().getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
-            boolean send_ok = false;
-            Player player = event.getPlayer();
-            String message = Minecraft_QQ.Config.getServerSet().getMessage();
-            String playerName = player.getName();
-            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName);
-            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-            message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0 && Minecraft_QQ.Config.getServerSet().getMode() == 1) {
-                player_message = player_message.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
-                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
-            } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
-                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
-            }
-            if (Minecraft_QQ.Config.getUser().isSendSucceed() && send_ok)
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage()));
+        Player player = event.getPlayer();
+        boolean sendok = false;
+        String message = Minecraft_QQ.Config.getServerSet().getMessage();
+        String playerName = player.getName();
+        message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
+                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "");
+        message = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
+        if (Minecraft_QQ.Config.getServerSet().getMode() == 1 &&
+                playerMessage.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
+            playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
+            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
+            sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+        } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
+            message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
+            sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
         }
+        if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendok)
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage()));
     }
 }

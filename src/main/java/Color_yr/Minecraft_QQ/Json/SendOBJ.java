@@ -5,6 +5,7 @@ public class SendOBJ {
     private String message;
     private String data;
     private String player;
+
     public SendOBJ(String data, String group, String player, String message) {
         this.data = data;
         this.group = group;

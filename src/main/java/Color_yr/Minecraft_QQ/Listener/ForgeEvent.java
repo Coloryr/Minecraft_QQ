@@ -6,7 +6,6 @@ import Color_yr.Minecraft_QQ.Socket.socketSend;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class ForgeEvent {
@@ -27,8 +26,9 @@ public final class ForgeEvent {
             String playerName = player.getName();
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName);
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
-                                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(),"");
-            if (player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0 && Minecraft_QQ.Config.getServerSet().getMode() == 1) {
+                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "");
+            if (Minecraft_QQ.Config.getServerSet().getMode() == 1
+                    && player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
                 player_message = player_message.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
                 send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);

@@ -61,7 +61,7 @@ public class Minecraft_QQBC extends Plugin {
         try {
             new logs(plugin.getDataFolder());
             File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
-            if(!wiki.exists()) {
+            if (!wiki.exists()) {
                 Files.copy(plugin.getResourceAsStream("Wiki.txt"), wiki.toPath());
             }
         } catch (IOException e) {

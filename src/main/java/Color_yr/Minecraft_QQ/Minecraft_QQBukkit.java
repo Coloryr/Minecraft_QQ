@@ -24,8 +24,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
     public static Plugin plugin;
     public static Logger log_b;
 
-    public static void Load()
-    {
+    public static void Load() {
         try {
             new Load(plugin.getDataFolder(), plugin.getResource("Mineraft_QQconfig.json"));
         } catch (Throwable e) {
@@ -62,7 +61,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
         try {
             new logs(plugin.getDataFolder());
             File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
-            if(!wiki.exists()) {
+            if (!wiki.exists()) {
                 Files.copy(plugin.getResource("Wiki.txt"), wiki.toPath());
             }
         } catch (IOException e) {
@@ -70,7 +69,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
             e.printStackTrace();
         }
 
-        if(!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+        if (!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
             Bukkit.getPluginManager().registerEvents(new BukkitEvent(), this);
             Bukkit.getPluginCommand("qq").setExecutor(new CommandBukkit());
             Bukkit.getPluginCommand("qq").setTabCompleter(new CommandBukkit());

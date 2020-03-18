@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Side.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.Config.ConfigOBJ;
+import Color_yr.Minecraft_QQ.Side.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.Socket.SocketHand;
 
 import java.io.File;

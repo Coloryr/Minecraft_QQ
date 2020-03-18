@@ -1,12 +1,12 @@
 package Color_yr.Minecraft_QQ.Side;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
+import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQForge;
-import Color_yr.Minecraft_QQ.Json.ReadOBJ;
+import Color_yr.Minecraft_QQ.Socket.socketSend;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
@@ -154,8 +154,8 @@ public class IForge implements IMinecraft_QQ {
     public class CommandSender extends CommandBlockBaseLogic {
         private final Entity entity;
         private final String name;
-        public List<String> message = new ArrayList<>();
         private final World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
+        public List<String> message = new ArrayList<>();
 
         private CommandSender(Entity entity, String name) {
             this.entity = entity;

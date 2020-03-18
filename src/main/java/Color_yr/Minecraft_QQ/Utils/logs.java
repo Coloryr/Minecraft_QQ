@@ -2,8 +2,10 @@ package Color_yr.Minecraft_QQ.Utils;
 
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 public class logs {

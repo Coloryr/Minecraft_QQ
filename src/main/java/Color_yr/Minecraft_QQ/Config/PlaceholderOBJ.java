@@ -20,6 +20,7 @@ public class PlaceholderOBJ {
     public String getMessage() {
         return Message;
     }
+
     public String getPlayer() {
         return Player;
     }

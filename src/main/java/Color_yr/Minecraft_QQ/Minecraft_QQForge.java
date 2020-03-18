@@ -232,8 +232,7 @@ public class Minecraft_QQForge {
     public static Logger logger;
     private static File self;
 
-    public static void Load()
-    {
+    public static void Load() {
         try {
             new Load(self, new ByteArrayInputStream(config.getBytes()));
         } catch (Throwable e) {
@@ -242,8 +241,7 @@ public class Minecraft_QQForge {
         }
     }
 
-    public static void Save()
-    {
+    public static void Save() {
         try {
             String data = new Gson().toJson(Minecraft_QQ.Config);
             if (Minecraft_QQ.FileName.exists()) {

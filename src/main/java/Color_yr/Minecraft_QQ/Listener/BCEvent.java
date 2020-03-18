@@ -47,7 +47,7 @@ public class BCEvent implements Listener {
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
             String Server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
-            if (Server == null || Server.isEmpty()){
+            if (Server == null || Server.isEmpty()) {
                 Server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
@@ -59,16 +59,15 @@ public class BCEvent implements Listener {
 
     @EventHandler
     public void onChar(ChatEvent event) {
-        String player_message;
-        player_message = event.getMessage();
+        String playerMessage = event.getMessage();
         ProxiedPlayer player = (ProxiedPlayer) event.getSender();
         if (Minecraft_QQ.Config.getUser().isNotSendCommand()) {
-            if (player_message.indexOf("/") == 0)
+            if (playerMessage.indexOf("/") == 0)
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(player.getName()))
             return;
         if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
-            boolean send_ok = false;
+            boolean sendok = false;
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();
             String Server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
@@ -79,14 +78,14 @@ public class BCEvent implements Listener {
                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            if (player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0
-                    && Minecraft_QQ.Config.getServerSet().getMode() == 1) {
-                player_message = player_message.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
-                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+            if (Minecraft_QQ.Config.getServerSet().getMode() == 1
+                    && playerMessage.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
+                playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
+                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
+                sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
             } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
-                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+                message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
+                sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
             }
             if (Minecraft_QQ.Config.getSendAllServer().isEnable()) {
                 String SendAllServer_send = Minecraft_QQ.Config.getSendAllServer().getMessage();
@@ -94,7 +93,7 @@ public class BCEvent implements Listener {
                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server)
                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
-                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
+                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
                 SendAllServer_send = ChatColor.translateAlternateColorCodes('&', SendAllServer_send);
                 if (Minecraft_QQ.Config.getSendAllServer().isOnlySideServer()) {
                     for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
@@ -109,7 +108,7 @@ public class BCEvent implements Listener {
                     event.setCancelled(true);
                 }
             }
-            if (Minecraft_QQ.Config.getUser().isSendSucceed() && send_ok)
+            if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendok)
                 player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
                         "§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage())));
         }

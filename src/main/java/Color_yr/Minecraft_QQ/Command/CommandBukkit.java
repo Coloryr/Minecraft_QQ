@@ -47,19 +47,17 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                     socket.Start();
                 }
                 return true;
-            }
-            else if (args[0].equalsIgnoreCase("help")) {
+            } else if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage("§d[Minecraft_QQ]§2帮助手册");
                 sender.sendMessage("§d[Minecraft_QQ]§2使用/qq chat 来启用关闭群聊天");
-                if(sender.isOp()) {
+                if (sender.isOp()) {
                     sender.sendMessage("§d[Minecraft_QQ]§2使用/qq say 内容 往群里发送测试消息");
                     sender.sendMessage("§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接");
                     sender.sendMessage("§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件");
                     sender.sendMessage("§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接");
                 }
                 return true;
-            }
-            else if (args[0].equalsIgnoreCase("say") && sender.isOp()) {
+            } else if (args[0].equalsIgnoreCase("say") && sender.isOp()) {
                 if (args.length > 1) {
                     if (Minecraft_QQ.hand.socketIsRun) {
                         socketSend.send_data(Placeholder.data, Placeholder.group, "无", args[1]);
