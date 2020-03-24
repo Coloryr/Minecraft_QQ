@@ -8,14 +8,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Load {
-    public Load(File file, InputStream inputStream) throws Throwable {
+    public Load(File file) throws Throwable {
         if (Minecraft_QQ.FileName == null) {
-            Minecraft_QQ.FileName = new File(file, "Mineraft_QQconfig.json");
+            Minecraft_QQ.FileName = new File(file, "config.json");
             if (!file.exists()) {
                 file.mkdir();
             }
             if (!Minecraft_QQ.FileName.exists()) {
-                Files.copy(inputStream, Minecraft_QQ.FileName.toPath());
+                Files.copy(new ByteArrayInputStream(Minecraft_QQ.config.getBytes()), Minecraft_QQ.FileName.toPath());
             }
         }
         InputStreamReader reader = new InputStreamReader(new FileInputStream(Minecraft_QQ.FileName), StandardCharsets.UTF_8);

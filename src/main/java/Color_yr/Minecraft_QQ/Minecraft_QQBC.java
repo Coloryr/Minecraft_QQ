@@ -11,10 +11,7 @@ import com.google.gson.Gson;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.logging.Logger;
 
@@ -25,7 +22,7 @@ public class Minecraft_QQBC extends Plugin {
 
     public static void Load() {
         try {
-            new Load(plugin.getDataFolder(), plugin.getResourceAsStream("Mineraft_QQconfig.json"));
+            new Load(plugin.getDataFolder());
         } catch (Throwable e) {
             log_b.warning("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
@@ -62,7 +59,7 @@ public class Minecraft_QQBC extends Plugin {
             new logs(plugin.getDataFolder());
             File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
             if (!wiki.exists()) {
-                Files.copy(plugin.getResourceAsStream("Wiki.txt"), wiki.toPath());
+                Files.copy(new ByteArrayInputStream(Minecraft_QQ.Wiki.getBytes()), wiki.toPath());
             }
         } catch (IOException e) {
             log_b.warning("§d[Minecraft_QQ]§c日志文件错误");

@@ -8,6 +8,7 @@ import Color_yr.Minecraft_QQ.Socket.socketSend;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -59,6 +60,9 @@ public class IBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
+                        if(Minecraft_QQBukkit.PAPI) {
+                            say = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), say);
+                        }
                         final String finalSay = say;
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);
@@ -103,6 +107,9 @@ public class IBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player);
                         }
+                        if(Minecraft_QQBukkit.PAPI) {
+                            send = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), send);
+                        }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询在线人数");
@@ -112,6 +119,9 @@ public class IBukkit implements IMinecraft_QQ {
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
+                        if(Minecraft_QQBukkit.PAPI) {
+                            send = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), send);
+                        }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询服务器状态");

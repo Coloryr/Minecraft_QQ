@@ -2,7 +2,9 @@ package Color_yr.Minecraft_QQ.Listener;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
+import Color_yr.Minecraft_QQ.Minecraft_QQBukkit;
 import Color_yr.Minecraft_QQ.Socket.socketSend;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +15,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class BukkitEvent implements Listener {
 
-    private String message(String message, String playerName) {
-        message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName);
+    private String message(String message, Player player) {
+        if (Minecraft_QQBukkit.PAPI) {
+            message = PlaceholderAPI.setBracketPlaceholders(player, message);
+        }
+        message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), player.getName());
         message = ChatColor.translateAlternateColorCodes('&', message);
         return message;
     }
@@ -24,7 +29,7 @@ public class BukkitEvent implements Listener {
         if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getJoin().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
+                    playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), event.getPlayer()));
         }
     }
 
@@ -33,7 +38,7 @@ public class BukkitEvent implements Listener {
         if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getQuit().isSendQQ()) {
             String playerName = event.getPlayer().getName();
             socketSend.send_data(Placeholder.data, Placeholder.group,
-                    playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
+                    playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), event.getPlayer()));
         }
     }
 
@@ -60,6 +65,9 @@ public class BukkitEvent implements Listener {
             sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
         } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
+            if (Minecraft_QQBukkit.PAPI) {
+                message = PlaceholderAPI.setBracketPlaceholders(player, message);
+            }
             sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
         }
         if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendok)

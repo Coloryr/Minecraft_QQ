@@ -19,7 +19,7 @@ configurations.all {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.3.1"
+version = "2.3.2"
 group = "com.Color_yr.Minecraft_QQ"
 archivesBaseName = "Minecraft_QQ"
 
@@ -54,11 +54,15 @@ repositories {
         name 'Spigot'
         url 'https://hub.spigotmc.org/nexus/content/groups/public'
     }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
 }
 
 dependencies {
     compile 'org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT'
 	compile 'net.md-5:bungeecord-api:1.15-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.10.4'
 }
 
 publishing {

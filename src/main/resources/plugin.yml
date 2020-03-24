@@ -1,7 +1,10 @@
 name: Minecraft_QQ
 main: Color_yr.Minecraft_QQ.Minecraft_QQBukkit
 author: Color_yr
-version: 2.3.1
+version: 2.3.2
+
+loadbefore: [PlaceholderAPI]
+softdepend: [PlaceholderAPI]
 
 commands:
   qq:

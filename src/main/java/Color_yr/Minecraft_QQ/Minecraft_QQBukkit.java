@@ -12,10 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.logging.Logger;
 
@@ -23,10 +20,11 @@ public class Minecraft_QQBukkit extends JavaPlugin {
 
     public static Plugin plugin;
     public static Logger log_b;
+    public static boolean PAPI = false;
 
     public static void Load() {
         try {
-            new Load(plugin.getDataFolder(), plugin.getResource("Mineraft_QQconfig.json"));
+            new Load(plugin.getDataFolder());
         } catch (Throwable e) {
             log_b.warning("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
@@ -62,7 +60,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
             new logs(plugin.getDataFolder());
             File wiki = new File(plugin.getDataFolder(), "Wiki.txt");
             if (!wiki.exists()) {
-                Files.copy(plugin.getResource("Wiki.txt"), wiki.toPath());
+                Files.copy(new ByteArrayInputStream(Minecraft_QQ.Wiki.getBytes()), wiki.toPath());
             }
         } catch (IOException e) {
             log_b.warning("§d[Minecraft_QQ]§c日志文件错误");
@@ -76,6 +74,14 @@ public class Minecraft_QQBukkit extends JavaPlugin {
         }
 
         new MetricsBukkit(this, 6608);
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            PAPI = true;
+            log_b.info("§2PAPI支持已启动");
+        } else {
+            log_b.info("§2PAPI未挂钩");
+            PAPI = false;
+        }
 
         log_b.info("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
         log_b.info("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
