@@ -18,6 +18,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,6 +140,7 @@ public class IBukkit implements IMinecraft_QQ {
                     try {
                         Bukkit.getScheduler().callSyncMethod(Minecraft_QQBukkit.plugin, () ->
                                 Bukkit.dispatchCommand(send, readobj.getCommder())).get();
+                        Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         LogError("§d[Minecraft_QQ]§c指令执行出现错误");
                         e.printStackTrace();

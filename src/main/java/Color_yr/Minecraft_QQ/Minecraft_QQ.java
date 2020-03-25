@@ -7,7 +7,7 @@ import Color_yr.Minecraft_QQ.Socket.SocketHand;
 import java.io.File;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.3.2";
+    public final static String Version = "2.3.3";
     public static final String Wiki = "Minecraft_QQ帮助手册\n" +
             "该配置文件是Bukkit/BungeeCord(下面简称BC)/Forge的集合\n" +
             "配置文件说明：\n" +
@@ -56,6 +56,8 @@ public class Minecraft_QQ {
             "    开启后，服务器插件只有执行群发来命令的功能\n" +
             "    BungeeCord端开不开都一样\n" +
             "    \"BungeeCord\": false\n" +
+            "    指令返回延迟\n" +
+            "    \"CommandDelay\": 2000\n" +
             "  },\n" +
             "\n" +
             "子服别名，仅BC有这个功能\n" +
@@ -163,7 +165,8 @@ public class Minecraft_QQ {
             "    \"HideEmptyServer\": true,\n" +
             "    \"PlayerListMessage\": \"%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%\",\n" +
             "    \"ServerOnlineMessage\": \"%ServerName%服务器在线\",\n" +
-            "    \"BungeeCord\": false\n" +
+            "    \"BungeeCord\": false,\n" +
+            "    \"CommandDelay\": 2000\n" +
             "  },\n" +
             "  \"Servers\": {\n" +
             "    \"lobby\": \"登陆大厅\",\n" +

@@ -155,6 +155,7 @@ public class IBungeecord implements IMinecraft_QQ {
                     }
                     try {
                         proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommder());
+                        Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         LogInfo(e.toString());
                     }

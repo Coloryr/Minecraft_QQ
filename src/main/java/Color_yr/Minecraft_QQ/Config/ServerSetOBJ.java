@@ -12,6 +12,7 @@ public class ServerSetOBJ {
     private String PlayerListMessage;
     private String ServerOnlineMessage;
     private boolean BungeeCord;
+    private int CommandDelay;
 
     public ServerSetOBJ() {
         ServerName = "[MC服务器]";
@@ -25,6 +26,11 @@ public class ServerSetOBJ {
         PlayerListMessage = "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%";
         ServerOnlineMessage = "%ServerName%服务器在线";
         BungeeCord = false;
+        CommandDelay = 2000;
+    }
+
+    public int getCommandDelay() {
+        return CommandDelay;
     }
 
     public boolean isBungeeCord() {

@@ -125,6 +125,7 @@ public class IForge implements IMinecraft_QQ {
                                 sender = new CommandSender(player, "控制台");
                             }
                             server.getFunctionManager().execute(func, sender);
+                            Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                         } else
                             noUUID = true;
                     } catch (Exception e) {
