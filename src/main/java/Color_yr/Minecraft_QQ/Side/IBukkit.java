@@ -62,7 +62,9 @@ public class IBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         if(Minecraft_QQBukkit.PAPI) {
-                            say = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), say);
+                            Player player = Bukkit.getPlayer(readobj.getPlayer());
+                            if (player != null)
+                                say = PlaceholderAPI.setBracketPlaceholders(player, say);
                         }
                         final String finalSay = say;
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
@@ -109,7 +111,9 @@ public class IBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player);
                         }
                         if(Minecraft_QQBukkit.PAPI) {
-                            send = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), send);
+                            Player player1 = Bukkit.getPlayer(readobj.getPlayer());
+                            if (player1 != null)
+                                send = PlaceholderAPI.setBracketPlaceholders(player1, send);
                         }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
@@ -121,7 +125,9 @@ public class IBukkit implements IMinecraft_QQ {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         if(Minecraft_QQBukkit.PAPI) {
-                            send = PlaceholderAPI.setBracketPlaceholders(Bukkit.getPlayer(readobj.getPlayer()), send);
+                            Player player = Bukkit.getPlayer(readobj.getPlayer());
+                            if (player != null)
+                                send = PlaceholderAPI.setBracketPlaceholders(player, send);
                         }
                         socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
