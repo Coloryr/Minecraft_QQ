@@ -61,7 +61,7 @@ public class IBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
                         say = ChatColor.translateAlternateColorCodes('&', say);
-                        if(Minecraft_QQBukkit.PAPI) {
+                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
                             Player player = Bukkit.getPlayer(readobj.getPlayer());
                             if (player != null)
                                 say = PlaceholderAPI.setBracketPlaceholders(player, say);
@@ -110,7 +110,7 @@ public class IBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player);
                         }
-                        if(Minecraft_QQBukkit.PAPI) {
+                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
                             Player player1 = Bukkit.getPlayer(readobj.getPlayer());
                             if (player1 != null)
                                 send = PlaceholderAPI.setBracketPlaceholders(player1, send);
@@ -124,7 +124,7 @@ public class IBukkit implements IMinecraft_QQ {
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        if(Minecraft_QQBukkit.PAPI) {
+                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
                             Player player = Bukkit.getPlayer(readobj.getPlayer());
                             if (player != null)
                                 send = PlaceholderAPI.setBracketPlaceholders(player, send);
@@ -168,7 +168,8 @@ public class IBukkit implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            LogInfo("发送错误：" + e.getMessage());
+            LogInfo("发送错误：");
+            e.printStackTrace();
         }
     }
 

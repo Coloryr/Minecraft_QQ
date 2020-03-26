@@ -1,7 +1,7 @@
 name: Minecraft_QQ
 main: Color_yr.Minecraft_QQ.Minecraft_QQBukkit
 author: Color_yr
-version: 2.3.3
+version: 2.3.3.1
 
 loadbefore: [PlaceholderAPI]
 softdepend: [PlaceholderAPI]
