@@ -7,7 +7,7 @@ import Color_yr.Minecraft_QQ.Socket.SocketHand;
 import java.io.File;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.3.3.1";
+    public final static String Version = "2.3.4.0";
     public static final String Wiki = "Minecraft_QQ帮助手册\n" +
             "该配置文件是Bukkit/BungeeCord(下面简称BC)/Forge的集合\n" +
             "配置文件说明：\n" +
@@ -39,7 +39,7 @@ public class Minecraft_QQ {
             "    发送至群的格式，%Server%变量为BC专属，其他端会删掉\n" +
             "    \"Message\": \"%ServerName%-%Server%-%Player%:%Message%\",\n" +
             "    发送至服务器的格式\n" +
-            "    \"Say\": \"[%ServerName%][群消息]%Message%\",\n" +
+            "    \"Say\": \"[%ServerName%][群消息]%Player%:%Message%\",\n" +
             "    机器人模式，0：不发送玩家消息到群，1：检测是否有检测头，若玩家聊天的第一个字符存在检测头，则会把这句话发送到群，2：无论玩家说什么都会完整的发送到群\n" +
             "    \"Mode\": 1,\n" +
             "    单独显示子服的人数而不是混在一起显示，仅BC有这个功能\n" +
@@ -158,7 +158,7 @@ public class Minecraft_QQ {
             "    \"ServerName\": \"[MC服务器]\",\n" +
             "    \"Check\": \"群：\",\n" +
             "    \"Message\": \"%ServerName%-%Server%-%Player%:%Message%\",\n" +
-            "    \"Say\": \"[%ServerName%][群消息]%Message%\",\n" +
+            "    \"Say\": \"[%ServerName%][群消息]%Player%:%Message%\",\n" +
             "    \"Mode\": 1,\n" +
             "    \"SendOneByOne\": true,\n" +
             "    \"SendOneByOneMessage\": \"\\n[%Server%-%PlayerNumber%]-%PlayerList%\",\n" +

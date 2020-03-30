@@ -53,8 +53,10 @@ public class IBungeecord implements IMinecraft_QQ {
                 }
                 if (readobj.getIs_commder().equals("false")) {
                     if (readobj.getCommder().equalsIgnoreCase("speak")) {
-                        String say = Minecraft_QQ.Config.getServerSet().getSay().replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
+                        String say = Minecraft_QQ.Config.getServerSet().getSay()
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);

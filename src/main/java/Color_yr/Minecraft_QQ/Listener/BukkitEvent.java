@@ -57,7 +57,7 @@ public class BukkitEvent implements Listener {
         message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "");
-        message = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
+        message = ChatColor.translateAlternateColorCodes('&', message);
         if (Minecraft_QQ.Config.getServerSet().getMode() == 1 &&
                 playerMessage.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
             playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");

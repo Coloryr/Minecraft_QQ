@@ -59,7 +59,8 @@ public class IBukkit implements IMinecraft_QQ {
                     if (readobj.getCommder().equalsIgnoreCase("speak")) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
                             Player player = Bukkit.getPlayer(readobj.getPlayer());

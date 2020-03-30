@@ -58,8 +58,10 @@ public class IForge implements IMinecraft_QQ {
                 }
                 if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
                     if (readobj.getCommder().equalsIgnoreCase("speak")) {
-                        final String say = Minecraft_QQ.Config.getServerSet().getSay().replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(),
-                                Minecraft_QQ.Config.getServerSet().getServerName()).replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage());
+                        final String say = Minecraft_QQ.Config.getServerSet().getSay()
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);
                         }

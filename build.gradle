@@ -19,7 +19,7 @@ configurations.all {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.3.3.1"
+version = "2.3.4.0"
 group = "com.Color_yr.Minecraft_QQ"
 archivesBaseName = "Minecraft_QQ"
 
@@ -92,7 +92,8 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
+        include 'bungee.yml'
+        include 'plugin.yml'
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
@@ -100,5 +101,7 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+        exclude 'bungee.yml'
+        exclude 'plugin.yml'
     }
 }
