@@ -7,7 +7,7 @@ import Color_yr.Minecraft_QQ.Socket.SocketHand;
 import java.io.File;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.3.4.0";
+    public final static String Version = "2.3.4.1";
     public static final String Wiki = "Minecraft_QQ帮助手册\n" +
             "该配置文件是Bukkit/BungeeCord(下面简称BC)/Forge的集合\n" +
             "配置文件说明：\n" +

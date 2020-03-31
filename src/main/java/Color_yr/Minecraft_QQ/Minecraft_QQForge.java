@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
@@ -22,7 +23,8 @@ import java.nio.file.Files;
 
 @Mod(modid = Minecraft_QQForge.MODID,
         name = Minecraft_QQForge.NAME,
-        version = Minecraft_QQForge.VERSION)
+        version = Minecraft_QQForge.VERSION,
+        serverSideOnly = true)
 public class Minecraft_QQForge {
     public static final String MODID = "minecraft_qq";
     public static final String NAME = "Minecraft_QQ";
@@ -60,7 +62,7 @@ public class Minecraft_QQForge {
         logger = event.getModLog();
 
         Minecraft_QQ.MinecraftQQ = new IForge();
-        self = event.getModConfigurationDirectory();
+        self = new File(event.getModConfigurationDirectory().getPath() + "/Minecraft_QQ");
 
         Load();
 
