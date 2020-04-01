@@ -24,7 +24,8 @@ import java.nio.file.Files;
 @Mod(modid = Minecraft_QQForge.MODID,
         name = Minecraft_QQForge.NAME,
         version = Minecraft_QQForge.VERSION,
-        serverSideOnly = true)
+        serverSideOnly = true,
+        acceptableRemoteVersions="*")
 public class Minecraft_QQForge {
     public static final String MODID = "minecraft_qq";
     public static final String NAME = "Minecraft_QQ";
