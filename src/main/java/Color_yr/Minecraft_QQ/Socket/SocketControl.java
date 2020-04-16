@@ -71,7 +71,7 @@ public class SocketControl implements ISocketControl {
                         readThread.start();
                         break;
                     }
-                    if(!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
+                    if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
                         break;
                     }
                     Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
@@ -83,14 +83,19 @@ public class SocketControl implements ISocketControl {
         }
     };
 
+    private void waitItStop() {
+        while (readThread != null && readThread.isAlive()) {
+            readThread.stop();
+        }
+        readThread = null;
+    }
+
     private void clear() {
         try {
             if (socket != null && !socket.isClosed()) {
                 socket.close();
             }
-            while (readThread.isAlive()) {
-                readThread.stop();
-            }
+            waitItStop();
             socket = null;
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5[Debug]线程已关闭");
@@ -116,7 +121,7 @@ public class SocketControl implements ISocketControl {
     @Override
     public void close() {
         socketRun = false;
-        if (restartThread.isAlive()) {
+        if (restartThread != null && restartThread.isAlive()) {
             restartThread.stop();
         }
         clear();
@@ -132,6 +137,9 @@ public class SocketControl implements ISocketControl {
     public boolean socketConnect() {
         Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5正在连接酷Q");
         try {
+            if (socket != null && !socket.isClosed())
+                socket.close();
+            waitItStop();
             socket = new Socket(Minecraft_QQ.Config.getSystem().getIP(), Minecraft_QQ.Config.getSystem().getPort());
             Thread.sleep(1000);
             sendData(Placeholder.start, null, null, Minecraft_QQ.Config.getServerSet().getServerName());
