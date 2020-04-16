@@ -1,14 +1,15 @@
 package Color_yr.Minecraft_QQ.Side;
 
+import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBukkit;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -18,7 +19,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
-import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,23 +28,28 @@ import java.util.Set;
 public class IBukkit implements IMinecraft_QQ {
 
     @Override
-    public void LogInfo(String message) {
+    public void logInfo(String message) {
         Minecraft_QQBukkit.log_b.info(message);
     }
 
     @Override
-    public void LogError(String message) {
+    public void logError(String message) {
         Minecraft_QQBukkit.log_b.warning(message);
     }
 
     @Override
-    public void Message(String message) {
+    public void send(Object sender, String message) {
+        CommandSender temp = (CommandSender) sender;
+        temp.sendMessage(message);
+    }
+
+
+    @Override
+    public void message(String message) {
         try {
             String msg = message;
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                LogInfo("处理数据：" + msg);
-            if (!Minecraft_QQ.hand.socketIsRun)
-                return;
+                logInfo("处理数据：" + msg);
             while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
                 String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
                 ReadOBJ readobj;
@@ -52,7 +57,7 @@ public class IBukkit implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    LogInfo("数据传输发生错误:" + e.getMessage());
+                    logInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
@@ -79,7 +84,7 @@ public class IBukkit implements IMinecraft_QQ {
                                         b.sendMessage(finalSay);
                                 }
                             } catch (Exception e) {
-                                LogInfo(e.toString());
+                                logInfo(e.toString());
                             }
                         });
                     } else if (readobj.getCommder().equalsIgnoreCase("online")) {
@@ -116,12 +121,14 @@ public class IBukkit implements IMinecraft_QQ {
                             if (player1 != null)
                                 send = PlaceholderAPI.setBracketPlaceholders(player1, send);
                         }
-                        socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
+                        if (Minecraft_QQ.Config.getLogs().isGroup())
                             logs.logWrite("[group]查询在线人数");
-                        }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
-                            LogInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                            logInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c数据发送失败");
+
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
@@ -130,12 +137,14 @@ public class IBukkit implements IMinecraft_QQ {
                             if (player != null)
                                 send = PlaceholderAPI.setBracketPlaceholders(player, send);
                         }
-                        socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c数据发送失败");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询服务器状态");
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
-                            LogInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                            logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                     }
                 } else if (readobj.getIs_commder().equals("true")) {
                     StringBuilder send_message;
@@ -149,7 +158,7 @@ public class IBukkit implements IMinecraft_QQ {
                                 Bukkit.dispatchCommand(send, readobj.getCommder())).get();
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
-                        LogError("§d[Minecraft_QQ]§c指令执行出现错误");
+                        logError("§d[Minecraft_QQ]§c指令执行出现错误");
                         e.printStackTrace();
                     }
                     if (send.getMessage().size() == 1) {
@@ -161,15 +170,16 @@ public class IBukkit implements IMinecraft_QQ {
                             send_message.append(send.getMessage().get(i));
                         }
                     } else
-                        send_message = new StringBuilder("指令无返回");
-                    socketSend.send_data(Placeholder.data, readobj.getGroup(),
-                            "控制台", send_message.toString());
+                        send_message = new StringBuilder("已执行，指令无返回");
+                    boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "控制台", send_message.toString());
+                    if (!sendok)
+                        logError("§d[Minecraft_QQ]§c数据发送失败");
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            LogInfo("发送错误：");
+            logInfo("发送错误：");
             e.printStackTrace();
         }
     }
@@ -208,7 +218,18 @@ public class IBukkit implements IMinecraft_QQ {
 
         @Override
         public Spigot spigot() {
-            return null;
+            return new Spigot() {
+                @Override
+                public void sendMessage(BaseComponent component) {
+                    message.add(component.toLegacyText());
+                }
+
+                @Override
+                public void sendMessage(BaseComponent... components) {
+                    for (BaseComponent temp : components)
+                        message.add(temp.toLegacyText());
+                }
+            };
         }
 
         @Override

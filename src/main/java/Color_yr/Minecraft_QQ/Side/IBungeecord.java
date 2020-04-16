@@ -1,10 +1,10 @@
 package Color_yr.Minecraft_QQ.Side;
 
+import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBC;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
@@ -23,23 +23,27 @@ import java.util.List;
 
 public class IBungeecord implements IMinecraft_QQ {
     @Override
-    public void LogInfo(String message) {
+    public void logInfo(String message) {
         Minecraft_QQBC.log_b.info(message);
     }
 
     @Override
-    public void LogError(String message) {
+    public void logError(String message) {
         Minecraft_QQBC.log_b.warning(message);
     }
 
     @Override
-    public void Message(String message) {
+    public void send(Object sender, String message) {
+        CommandSender temp = (CommandSender) sender;
+        temp.sendMessage(new TextComponent(message));
+    }
+
+    @Override
+    public void message(String message) {
         try {
             String msg = message;
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                LogInfo("处理数据：" + msg);
-            if (!Minecraft_QQ.hand.socketIsRun)
-                return;
+                logInfo("处理数据：" + msg);
             ProxyServer proxyserver = ProxyServer.getInstance();
             while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
                 String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
@@ -48,7 +52,7 @@ public class IBungeecord implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    LogInfo("数据传输发生错误:" + e.getMessage());
+                    logInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (readobj.getIs_commder().equals("false")) {
@@ -66,84 +70,80 @@ public class IBungeecord implements IMinecraft_QQ {
                                 player1.sendMessage(new TextComponent(say));
                         }
                     } else if (readobj.getCommder().equalsIgnoreCase("online")) {
-                        int all_player_number = 0;
-                        String one_server_player = "";
-                        StringBuilder all_server_player = new StringBuilder();
+                        int allPlayerNumber = 0;
+                        StringBuilder allServerPlayer = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
                         if (Minecraft_QQ.Config.getServerSet().isSendOneByOne()) {
                             for (final ServerInfo serverinfo : proxyserver.getServers().values()) {
-                                final String player_onserver = serverinfo.getPlayers().toString();
-                                if (player_onserver.equals("[]")) {
-                                    int one_player_number = 0;
-                                    if (Minecraft_QQ.Config.getServerSet().isHideEmptyServer()) {
-                                        one_server_player = "";
-                                        one_player_number = 0;
-                                    } else {
-                                        String Server_name = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
-                                        if (Server_name == null || Server_name.isEmpty()) {
-                                            Server_name = serverinfo.getName();
+                                String oneServerPlayer;
+                                int oneServerNumber;
+                                final Collection<ProxiedPlayer> oneServerPlayers = serverinfo.getPlayers();
+                                if (oneServerPlayers.size() == 0) {
+                                    if (!Minecraft_QQ.Config.getServerSet().isHideEmptyServer()) {
+                                        String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
+                                        if (serverName == null || serverName.isEmpty()) {
+                                            serverName = serverinfo.getName();
                                         }
-                                        one_server_player = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
-                                                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server_name)
+                                        oneServerPlayer = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
+                                                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), serverName)
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
-                                        all_server_player.append(one_server_player);
+                                        allServerPlayer.append(oneServerPlayer);
                                     }
                                 } else {
-                                    int one_player_number = 1;
-                                    for (int i = 0; i < player_onserver.length(); ++i) {
-                                        if (player_onserver.charAt(i) == ',') {
-                                            ++one_player_number;
-                                        }
+                                    oneServerNumber = oneServerPlayers.size();
+                                    String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
+                                    if (serverName == null || serverName.isEmpty()) {
+                                        serverName = serverinfo.getName();
                                     }
-                                    String Server_name = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
-                                    if (Server_name == null || Server_name.isEmpty()) {
-                                        Server_name = serverinfo.getName();
+                                    StringBuilder players = new StringBuilder();
+                                    for (ProxiedPlayer player : oneServerPlayers) {
+                                        players.append(player.getName()).append(",");
                                     }
-                                    one_server_player = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
-                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server_name)
-                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + one_player_number)
-                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player_onserver.replace("[", "")
-                                                    .replace("]", ""));
-                                    all_player_number += one_player_number;
-                                    all_server_player.append(one_server_player);
+                                    String players1 = players.toString();
+                                    oneServerPlayer = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
+                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), serverName)
+                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + oneServerNumber)
+                                            .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), players1.substring(0, players1.length() - 1));
+                                    allPlayerNumber += oneServerNumber;
+                                    allServerPlayer.append(oneServerPlayer);
                                 }
                             }
-                            if (all_player_number == 0) {
-                                if (Minecraft_QQ.Config.getServerSet().isHideEmptyServer())
-                                    send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "");
-                                else
-                                    send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0");
-                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
-                            } else {
-                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + all_player_number)
-                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), all_server_player.toString().replace("null", ""));
-                            }
-                        } else {
-                            all_server_player = new StringBuilder(proxyserver.getPlayers().toString());
-                            if (all_server_player.toString().equals("[]")) {
+                            if (allPlayerNumber == 0) {
                                 send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } else {
-                                for (int j = 0; j < all_server_player.length(); ++j) {
-                                    if (all_server_player.charAt(j) == ',') {
-                                        ++all_player_number;
-                                    }
+                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + allPlayerNumber)
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), allServerPlayer.toString());
+                            }
+                        } else {
+                            final Collection<ProxiedPlayer> players = proxyserver.getPlayers();
+                            if (players.size() == 0) {
+                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
+                            } else {
+                                StringBuilder temp = new StringBuilder();
+                                for (ProxiedPlayer player : players) {
+                                    temp.append(player.getName()).append(",");
                                 }
-                                final String number = String.valueOf(all_player_number);
-                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), number)
-                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), all_server_player.toString().replace("[", "").replace("]", ""));
+                                String players1 = temp.toString();
+                                send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + players.size())
+                                        .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), players1.substring(0, players1.length() - 1));
                             }
                         }
                         send = send.replace(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c数据发送失败");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询在线人数");
                         }
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage()
                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        socketSend.send_data(Placeholder.data, readobj.getGroup(), "无", send);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c数据发送失败");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询服务器状态");
                         }
@@ -159,7 +159,7 @@ public class IBungeecord implements IMinecraft_QQ {
                         proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommder());
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
-                        LogInfo(e.toString());
+                        logInfo(e.toString());
                     }
                     if (send.getMessage().size() == 1) {
                         send_message = new StringBuilder(send.getMessage().get(0));
@@ -170,15 +170,17 @@ public class IBungeecord implements IMinecraft_QQ {
                             send_message.append(send.getMessage().get(i));
                         }
                     } else
-                        send_message = new StringBuilder("指令无返回");
-                    socketSend.send_data(Placeholder.data, readobj.getGroup(),
+                        send_message = new StringBuilder("已执行，指令无返回");
+                    boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
                             "控制台", send_message.toString());
+                    if (!sendok)
+                        logError("§d[Minecraft_QQ]§c数据发送失败");
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            LogInfo("发生错误" + e.getMessage());
+            logInfo("发生错误" + e.getMessage());
         }
     }
 

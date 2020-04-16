@@ -1,8 +1,8 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class LogsOBJ {
-    private boolean Group;
-    private boolean Server;
+    private final boolean Group;
+    private final boolean Server;
 
     public LogsOBJ() {
         Group = true;

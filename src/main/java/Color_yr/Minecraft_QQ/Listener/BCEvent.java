@@ -2,7 +2,6 @@ package Color_yr.Minecraft_QQ.Listener;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -24,36 +23,42 @@ public class BCEvent implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getJoin().isSendQQ()) {
+        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.getJoin().isSendQQ()) {
             String playerName = event.getPlayer().getName();
-            socketSend.send_data(Placeholder.data, Placeholder.group,
+            boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
+            if (!sendOk)
+                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getQuit().isSendQQ()) {
+        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.getQuit().isSendQQ()) {
             String playerName = event.getPlayer().getName();
-            socketSend.send_data(Placeholder.data, Placeholder.group,
+            boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
+            if (!sendOk)
+                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getChangeServer().isSendQQ()) {
+        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.getChangeServer().isSendQQ()) {
             String message = Minecraft_QQ.Config.getChangeServer().getMessage();
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
-            String Server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
-            if (Server == null || Server.isEmpty()) {
-                Server = player.getServer().getInfo().getName();
+            String server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
+            if (server == null || server.isEmpty()) {
+                server = player.getServer().getInfo().getName();
             }
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName)
-                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), Server);
+                    .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-            socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+            boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
+            if (!sendOk)
+                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
@@ -66,8 +71,8 @@ public class BCEvent implements Listener {
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(player.getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
-            boolean sendok = false;
+        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.control.isRun()) {
+            boolean sendOk = false;
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();
             String Server = Minecraft_QQ.Config.getServers().get(player.getServer().getInfo().getName());
@@ -82,10 +87,10 @@ public class BCEvent implements Listener {
                     && playerMessage.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
                 playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
-                sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+                sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
-                sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+                sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             }
             if (Minecraft_QQ.Config.getSendAllServer().isEnable()) {
                 String SendAllServer_send = Minecraft_QQ.Config.getSendAllServer().getMessage();
@@ -108,9 +113,11 @@ public class BCEvent implements Listener {
                     event.setCancelled(true);
                 }
             }
-            if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendok)
+            if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendOk)
                 player.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
                         "§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage())));
+            else if (!sendOk)
+                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 }

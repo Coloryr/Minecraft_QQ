@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOBJ {
-    private MessageOBJ Join;
-    private MessageOBJ Quit;
-    private MessageOBJ ChangeServer;
-    private ServerSetOBJ ServerSet;
-    private Map<String, String> Servers;
-    private SendAllServerOBJ SendAllServer;
-    private SystemOBJ System;
-    private UserOBJ User;
-    private LogsOBJ Logs;
-    private PlaceholderOBJ Placeholder;
-    private LanguageOBJ Language;
-    private List<String> Mute;
-    private String Version;
+    private final MessageOBJ Join;
+    private final MessageOBJ Quit;
+    private final MessageOBJ ChangeServer;
+    private final ServerSetOBJ ServerSet;
+    private final Map<String, String> Servers;
+    private final SendAllServerOBJ SendAllServer;
+    private final SystemOBJ System;
+    private final UserOBJ User;
+    private final LogsOBJ Logs;
+    private final PlaceholderOBJ Placeholder;
+    private final LanguageOBJ Language;
+    private final List<String> Mute;
+    private final String Version;
 
     public ConfigOBJ() {
         Join = new MessageOBJ("%Player%加入了服务器");

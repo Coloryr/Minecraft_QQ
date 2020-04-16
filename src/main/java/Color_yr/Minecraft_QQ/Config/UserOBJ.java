@@ -1,8 +1,8 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class UserOBJ {
-    private boolean SendSucceed;
-    private boolean NotSendCommand;
+    private final boolean SendSucceed;
+    private final boolean NotSendCommand;
 
     public UserOBJ() {
         SendSucceed = true;

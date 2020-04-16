@@ -64,7 +64,7 @@ public class MetricsBukkit {
     // A list with all custom charts
     private final List<CustomChart> charts = new ArrayList<>();
     // Is bStats enabled on this server?
-    private boolean enabled;
+    private final boolean enabled;
 
     /**
      * Class constructor.
@@ -112,7 +112,7 @@ public class MetricsBukkit {
             }
         }
 
-        // Load the data
+        // load the data
         enabled = config.getBoolean("enabled", true);
         serverUUID = config.getString("serverUuid");
         logFailedRequests = config.getBoolean("logFailedRequests", false);

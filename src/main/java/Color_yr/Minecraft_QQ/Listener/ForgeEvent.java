@@ -2,7 +2,6 @@ package Color_yr.Minecraft_QQ.Listener;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.ServerChatEvent;
@@ -19,8 +18,8 @@ public final class ForgeEvent {
                 return;
         } else if (Minecraft_QQ.Config.getMute().contains(event.getPlayer().getName()))
             return;
-        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.hand.socketIsRun) {
-            boolean send_ok = false;
+        if (Minecraft_QQ.Config.getServerSet().getMode() != 0 && Minecraft_QQ.control.isRun()) {
+            boolean sendOk = false;
             EntityPlayer player = event.getPlayer();
             String message = Minecraft_QQ.Config.getServerSet().getMessage();
             String playerName = player.getName();
@@ -31,13 +30,15 @@ public final class ForgeEvent {
                     && player_message.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
                 player_message = player_message.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+                sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
                 message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), player_message);
-                send_ok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+                sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             }
-            if (Minecraft_QQ.Config.getUser().isSendSucceed() && send_ok)
+            if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendOk)
                 player.sendMessage(new TextComponentString("§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage()));
+            else if (!sendOk)
+                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 }

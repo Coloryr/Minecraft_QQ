@@ -4,5 +4,5 @@ public class Placeholder {
     public static final String data = "data";
     public static final String group = "group";
     public static final String start = "start";
-
+    public static final String pause = "pause";
 }

@@ -1,0 +1,130 @@
+Minecraft_QQ帮助手册
+该配置文件是Bukkit/BungeeCord(下面简称BC)/Forge的集合
+配置文件说明：
+玩家加入服务器后会往群里发送消息，Forge无这个功能
+  "Join": {
+    "Message": "%Player%加入了服务器",
+    "sendQQ": true
+  },
+
+玩家退出服务器后会往群里发送消息，Forge无这个功能
+  "Quit": {
+    "Message": "%Player%退出了服务器",
+    "sendQQ": true
+  },
+
+玩家切换子服后会往群里发送消息，仅BC有这个功能
+  "ChangeServer": {
+    "Message": "%Player%加入了子服%Server%",
+    "sendQQ": true
+  },
+
+服务器相关设定
+  "ServerSet": {
+    服务器名字设置，用于发送至群
+    "ServerName": "[MC服务器]",
+    对话检测头
+    "Check": "群：",
+    发送至群的格式，%Server%变量为BC专属，其他端会删掉
+    "Message": "%ServerName%-%Server%-%Player%:%Message%",
+    发送至服务器的格式
+    "Say": "[%ServerName%][群消息]%Player%:%Message%",
+    机器人模式，0：不发送玩家消息到群，1：检测是否有检测头，若玩家聊天的第一个字符存在检测头，则会把这句话发送到群，2：无论玩家说什么都会完整的发送到群
+    "Mode": 1,
+    单独显示子服的人数而不是混在一起显示，仅BC有这个功能
+    "SendOneByOne": true,
+    单独显示子服的人数的格式，仅BC有这个功能
+    "SendOneByOneMessage": "n[%Server%-%player_number%]-%player_list%",
+    单独显示子服的人数的格式，仅BC有这个功能
+    "HideEmptyServer": true,
+    发送在线人数到群的格式
+    "PlayerListMessage": "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%",
+    发送服务器在线到群的格式
+    "ServerOnlineMessage": "%ServerName%服务器在线",
+    群组服支持，如果你想要子服执行命令，则所有服务器都要装Minecraft_QQ并且子服开启这个
+    开启后，服务器插件只有执行群发来命令的功能
+    BungeeCord端开不开都一样
+    "BungeeCord": false,
+    指令返回延迟
+    "CommandDelay": 2000
+  },
+子服别名，仅BC有这个功能
+  "Servers": {
+    "lobby": "登陆大厅",
+    "server": "服务器"
+  },
+
+发送消息到其他子服，仅BC有这个功能
+  "SendAllServer": {
+    "Enable": true,
+    "Message": "[%ServerName%-%Server%]玩家：[%Player%]发送群消息：[%Message%]",
+    "OnlySideServer": true
+  },
+
+插件相关设置
+  "System": {
+     酷Q服务器地址
+     "IP": "localhost",
+     酷Q服务器端口
+     "Port": 25555,
+     是否自动重连
+     "AutoConnect": false,
+     自动重连间隔
+     "AutoConnectTime": 10000,
+     调试模式
+     "Debug": false,
+     数据包头
+     "Head": "[Head]",
+     数据包尾
+     "End": "[End]",
+     线程休眠
+     "Sleep": 50
+  },
+
+玩家相关设置
+  "User": {
+    发送消息到群后提示玩家
+    "SendSucceed": true,
+    不发送玩家输入的指令到群里
+    "NotSendCommand": true
+  },
+
+日志相关
+  "Logs": {
+    记录群发来的消息
+    "Group": true,
+    记录发送到服务器的消息
+    "Server": true
+  },
+
+占位符相关，替换上面的内容
+  "Placeholder": {
+    消息
+    "Message": "%Message%",
+    玩家名字
+    "Player": "%Player%",
+    服务器名字
+    "Servername": "%ServerName%",
+    子服名字
+    "Server": "%Server%",
+    玩家数量
+    "PlayerNumber": "%PlayerNumber%",
+    玩家列表
+    "PlayerList": "%PlayerList%"
+  },
+
+发送给玩家的内容
+  "Language": {
+    禁用聊天
+    "MessageOFF": "§2你已不会在收到群消息",
+    启用聊天
+    "MessageON": "§2你开始接受群消息",
+    成功发送消息
+    "SucceedMessage": "§2已发送消息至群内"
+  },
+
+不参与聊天列表
+"Mute": [],
+
+配置文件版本号
+"Version": "${version}"

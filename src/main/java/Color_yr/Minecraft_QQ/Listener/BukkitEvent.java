@@ -3,7 +3,6 @@ package Color_yr.Minecraft_QQ.Listener;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBukkit;
-import Color_yr.Minecraft_QQ.Socket.socketSend;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,18 +25,18 @@ public class BukkitEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getJoin().isSendQQ()) {
+        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.getJoin().isSendQQ()) {
             String playerName = event.getPlayer().getName();
-            socketSend.send_data(Placeholder.data, Placeholder.group,
+            Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), event.getPlayer()));
         }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (Minecraft_QQ.hand.socketIsRun && Minecraft_QQ.Config.getQuit().isSendQQ()) {
+        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.getQuit().isSendQQ()) {
             String playerName = event.getPlayer().getName();
-            socketSend.send_data(Placeholder.data, Placeholder.group,
+            Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), event.getPlayer()));
         }
     }
@@ -62,16 +61,18 @@ public class BukkitEvent implements Listener {
                 playerMessage.indexOf(Minecraft_QQ.Config.getServerSet().getCheck()) == 0) {
             playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.getServerSet().getCheck(), "");
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
-            sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+            sendok = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
         } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
             if (Minecraft_QQBukkit.PAPI) {
                 message = PlaceholderAPI.setBracketPlaceholders(player, message);
             }
-            sendok = socketSend.send_data(Placeholder.data, Placeholder.group, playerName, message);
+            sendok = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
         }
         if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendok)
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     "§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage()));
+        else if (!sendok)
+            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
     }
 }

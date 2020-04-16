@@ -1,15 +1,15 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class PlaceholderOBJ {
-    private String Message;
-    private String Player;
-    private String ServerName;
-    private String Server;
-    private String PlayerNumber;
-    private String PlayerList;
+    private final String Message;
+    private final String Player;
+    private final String ServerName;
+    private final String Server;
+    private final String PlayerNumber;
+    private final String PlayerList;
 
     public PlaceholderOBJ() {
-        Message = "%Message%";
+        Message = "%message%";
         Player = "%Player%";
         ServerName = "%ServerName%";
         Server = "%Server%";
