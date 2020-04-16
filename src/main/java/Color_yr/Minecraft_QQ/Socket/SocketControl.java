@@ -7,7 +7,6 @@ import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -22,7 +21,6 @@ public class SocketControl implements ISocketControl {
     private boolean serverIsClose = false;
     private boolean isRestart = false;
     private Thread readThread;
-    private Thread restartThread;
     private final Runnable read = () -> {
         while (socketRun) {
             try {
@@ -55,7 +53,7 @@ public class SocketControl implements ISocketControl {
         if (!serverIsClose && Minecraft_QQ.Config.getSystem().isAutoConnect())
             socketRestart();
     };
-
+    private Thread restartThread;
     private final Runnable restart = () -> {
         if (!serverIsClose && !isRestart) {
             isRestart = true;
