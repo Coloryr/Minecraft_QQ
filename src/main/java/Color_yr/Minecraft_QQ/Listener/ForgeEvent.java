@@ -37,8 +37,6 @@ public final class ForgeEvent {
             }
             if (Minecraft_QQ.Config.getUser().isSendSucceed() && sendOk)
                 player.sendMessage(new TextComponentString("§d[Minecraft_QQ]" + Minecraft_QQ.Config.getLanguage().getSucceedMessage()));
-            else if (!sendOk)
-                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 }

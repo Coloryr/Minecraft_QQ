@@ -46,8 +46,6 @@ public class CommandEX {
                     boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, "无", args[1]);
                     if (sendok)
                         Minecraft_QQ.MinecraftQQ.send(sender, "§d[Minecraft_QQ]§2已发送" + args[1]);
-                    else
-                        Minecraft_QQ.MinecraftQQ.send(sender, "§d[Minecraft_QQ]§c发送失败");
                 } else
                     Minecraft_QQ.MinecraftQQ.send(sender, "§d[Minecraft_QQ]§c错误，酷Q未连接");
             } else {

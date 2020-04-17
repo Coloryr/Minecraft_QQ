@@ -141,9 +141,7 @@ public class IBungeecord implements IMinecraft_QQ {
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage()
                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c数据发送失败");
+                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询服务器状态");
                         }
@@ -175,16 +173,15 @@ public class IBungeecord implements IMinecraft_QQ {
                         }
                     } else
                         send_message = new StringBuilder("已执行，指令无返回");
-                    boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
+                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
                             "控制台", send_message.toString());
-                    if (!sendok)
-                        logError("§d[Minecraft_QQ]§c数据发送失败");
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            logInfo("发生错误" + e.getMessage());
+            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发送错误：");
+            e.printStackTrace();
         }
     }
 

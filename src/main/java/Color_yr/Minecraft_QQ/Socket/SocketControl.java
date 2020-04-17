@@ -89,6 +89,7 @@ public class SocketControl implements ISocketControl {
 
     private void clear() {
         try {
+            Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5连接已断开");
             socketRun = false;
             if (os != null) os.close();
             if (is != null) is.close();
@@ -145,6 +146,7 @@ public class SocketControl implements ISocketControl {
             return true;
         } catch (Exception e) {
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§c酷Q连接失败");
+            e.printStackTrace();
             return false;
         }
     }
@@ -171,7 +173,7 @@ public class SocketControl implements ISocketControl {
                 Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
             return true;
         } catch (Exception e) {
-            Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§c酷Q连接中断");
+            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
             e.printStackTrace();
             clear();
         }

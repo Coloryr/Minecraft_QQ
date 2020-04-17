@@ -55,7 +55,8 @@ public class IForge implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    logInfo("数据传输发生错误:" + e.getMessage());
+                    Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                    e.printStackTrace();
                     return;
                 }
                 if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
@@ -93,9 +94,7 @@ public class IForge implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + player_number)
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player1.substring(0, player1.length() - 1));
                         }
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c数据发送失败");
+                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询在线人数");
                         }
@@ -104,9 +103,7 @@ public class IForge implements IMinecraft_QQ {
                     } else if (readobj.getCommder().equalsIgnoreCase("server")) {
                         String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
                         send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c数据发送失败");
+                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询服务器状态");
                         }
@@ -142,7 +139,7 @@ public class IForge implements IMinecraft_QQ {
                         } else
                             noUUID = true;
                     } catch (Exception e) {
-                        logError("§d[Minecraft_QQ]§c发生错误");
+                        Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
                         e.printStackTrace();
                     }
                     if (sender == null) {
@@ -161,16 +158,15 @@ public class IForge implements IMinecraft_QQ {
                     } else {
                         send_message = "已执行，指令无返回";
                     }
-                    boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
+                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
                             "控制台", send_message);
-                    if (!sendok)
-                        logError("§d[Minecraft_QQ]§c数据发送失败");
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            logInfo("发送错误：" + e.getMessage());
+            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+            e.printStackTrace();
         }
     }
 
