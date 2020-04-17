@@ -57,7 +57,6 @@ public class SocketControl implements ISocketControl {
     private final Runnable restart = () -> {
         if (!serverIsClose && !isRestart) {
             isRestart = true;
-            socketRun = false;
             clear();
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5正在进行自动重连");
             while (isRestart) {
@@ -90,6 +89,9 @@ public class SocketControl implements ISocketControl {
 
     private void clear() {
         try {
+            socketRun = false;
+            if (os != null) os.close();
+            if (is != null) is.close();
             if (socket != null && !socket.isClosed()) {
                 socket.close();
             }
@@ -97,8 +99,6 @@ public class SocketControl implements ISocketControl {
             socket = null;
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5[Debug]线程已关闭");
-            if (os != null) os.close();
-            if (is != null) is.close();
             os = null;
             is = null;
         } catch (Exception ignored) {
@@ -149,6 +149,7 @@ public class SocketControl implements ISocketControl {
         }
     }
 
+    @Override
     public boolean sendData(String data, String group, String player, String message) {
         SendOBJ send_bean = new SendOBJ(data, group, player, message);
         Gson send_gson = new Gson();
@@ -159,7 +160,8 @@ public class SocketControl implements ISocketControl {
         try {
             send = Minecraft_QQ.Config.getSystem().getHead() + send
                     + Minecraft_QQ.Config.getSystem().getEnd();
-            os = socket.getOutputStream();
+            if (os == null)
+                os = socket.getOutputStream();
             os.write(send.getBytes());
             os.flush();
             if (Minecraft_QQ.Config.getLogs().isServer()) {
