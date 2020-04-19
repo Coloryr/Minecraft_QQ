@@ -20,6 +20,8 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class IBukkit implements IMinecraft_QQ {
