@@ -23,6 +23,7 @@ public class SocketControl implements ISocketControl {
     private boolean isRestart = false;
     private Thread readThread;
     private final Runnable read = () -> {
+        socketRun = true;
         while (socketRun) {
             try {
                 is = socket.getInputStream();
@@ -53,7 +54,6 @@ public class SocketControl implements ISocketControl {
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5正在进行自动重连");
             while (isRestart && !serverIsClose) {
                 try {
-                    socketRun = false;
                     if (socketConnect()) {
                         break;
                     }
@@ -121,7 +121,6 @@ public class SocketControl implements ISocketControl {
             Thread.sleep(1000);
             sendData(Placeholder.start, null, null, Minecraft_QQ.Config.getServerSet().getServerName());
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5酷Q已连接");
-            socketRun = true;
             readThread = new Thread(read);
             readThread.start();
             return true;
