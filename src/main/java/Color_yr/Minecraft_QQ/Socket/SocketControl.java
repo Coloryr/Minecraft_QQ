@@ -76,6 +76,7 @@ public class SocketControl implements ISocketControl {
             if (is != null) is.close();
             socket = null;
             while (restartThread != null && restartThread.isAlive()) {
+                socketRun = false;
                 restartThread.stop();
             }
             readThread = null;
@@ -123,6 +124,7 @@ public class SocketControl implements ISocketControl {
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5酷Q已连接");
             readThread = new Thread(read);
             readThread.start();
+            socketRun = true;
             return true;
         } catch (Exception e) {
             Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§c酷Q连接失败");
