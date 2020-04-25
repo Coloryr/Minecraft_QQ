@@ -38,7 +38,7 @@ public class SocketControl implements ISocketControl {
                 }
                 Thread.sleep(Minecraft_QQ.Config.getSystem().getSleep());
             } catch (Exception e) {
-                if (isRestart)
+                if (isRestart || serverIsClose)
                     break;
                 Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§c数据接受发生错误");
                 e.printStackTrace();
@@ -137,6 +137,8 @@ public class SocketControl implements ISocketControl {
     public boolean sendData(String data, String group, String player, String message) {
         SendOBJ send_bean = new SendOBJ(data, group, player, message);
         Gson send_gson = new Gson();
+        if(isRestart || serverIsClose)
+            return true;
         return socketSend(send_gson.toJson(send_bean), player, message);
     }
 
