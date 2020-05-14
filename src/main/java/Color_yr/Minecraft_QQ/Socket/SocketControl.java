@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class SocketControl implements ISocketControl {
@@ -57,7 +58,7 @@ public class SocketControl implements ISocketControl {
             isRestart = true;
             while (isRestart && !serverIsClose) {
                 try {
-                    Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5正在进行自动重连");
+                    Minecraft_QQ.MinecraftQQ.logInfo("§d[Minecraft_QQ]§5正在进行自动连接");
                     if (socketConnect()) {
                         break;
                     } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
@@ -101,8 +102,7 @@ public class SocketControl implements ISocketControl {
 
     @Override
     public void start() {
-        if (!socketConnect() && Minecraft_QQ.Config.getSystem().isAutoConnect())
-            socketRestart();
+        socketRestart();
     }
 
     @Override
@@ -125,7 +125,9 @@ public class SocketControl implements ISocketControl {
         try {
             Thread.sleep(200);
             waitItStop();
-            socket = new Socket(Minecraft_QQ.Config.getSystem().getIP(), Minecraft_QQ.Config.getSystem().getPort());
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(Minecraft_QQ.Config.getSystem().getIP(),
+                    Minecraft_QQ.Config.getSystem().getPort()), 5000);
             readThread = new Thread(read);
             readThread.start();
             Thread.sleep(200);
