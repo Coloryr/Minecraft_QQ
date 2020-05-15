@@ -32,7 +32,7 @@ public class Minecraft_QQForge {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
 
-        Minecraft_QQ.MinecraftQQ = new IForge();
+        Minecraft_QQ.Side = new IForge();
         File self = new File(event.getModConfigurationDirectory().getPath() + "/Minecraft_QQ");
         new Minecraft_QQ().init(self);
     }

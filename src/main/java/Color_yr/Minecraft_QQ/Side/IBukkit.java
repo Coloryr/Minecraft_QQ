@@ -54,7 +54,7 @@ public class IBukkit implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                    Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                     e.printStackTrace();
                     return;
                 }
@@ -82,7 +82,7 @@ public class IBukkit implements IMinecraft_QQ {
                                         b.sendMessage(finalSay);
                                 }
                             } catch (Exception e) {
-                                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                                 e.printStackTrace();
                             }
                         });
@@ -96,7 +96,7 @@ public class IBukkit implements IMinecraft_QQ {
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } catch (Exception e) {
-                                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                                 e.printStackTrace();
                             }
                         } else {
@@ -135,15 +135,8 @@ public class IBukkit implements IMinecraft_QQ {
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
-                    } else if (readobj.getCommder().equalsIgnoreCase("pause")) {
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c心跳包发送失败");
-                    } else if (readobj.getCommder().equalsIgnoreCase("config")) {
-                        String config = new Gson().toJson(Minecraft_QQ.Config);
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.getGroup(), "无", config);
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c配置文件发送失败");
+                    } else {
+                        ASide.globeCheck(readobj);
                     }
                 } else if (readobj.getIs_commder().equals("true")) {
                     StringBuilder send_message;
@@ -176,7 +169,7 @@ public class IBukkit implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
             e.printStackTrace();
         }
     }

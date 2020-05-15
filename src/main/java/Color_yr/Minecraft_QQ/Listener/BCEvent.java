@@ -28,7 +28,7 @@ public class BCEvent implements Listener {
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
             if (!sendOk)
-                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
@@ -39,7 +39,7 @@ public class BCEvent implements Listener {
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
             if (!sendOk)
-                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
@@ -58,7 +58,7 @@ public class BCEvent implements Listener {
             message = ChatColor.translateAlternateColorCodes('&', message);
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             if (!sendOk)
-                Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 

@@ -14,7 +14,7 @@ import java.nio.file.Files;
 public class Minecraft_QQ {
     public final static String Version = "2.5.0.0";
     public static ISocketControl control = new SocketControl();
-    public static IMinecraft_QQ MinecraftQQ;
+    public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;
     private static File FileName;
 
@@ -31,7 +31,7 @@ public class Minecraft_QQ {
                 throw (new Throwable("配置文件为空"));
             }
         } catch (Throwable e) {
-            MinecraftQQ.logError("§d[Minecraft_QQ]§c配置文件读取发生错误");
+            Side.logError("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
         }
     }
@@ -45,25 +45,25 @@ public class Minecraft_QQ {
                 out.close();
             }
         } catch (Exception e) {
-            MinecraftQQ.logError("§d[Minecraft_QQ]§c配置文件保存错误");
+            Side.logError("§d[Minecraft_QQ]§c配置文件保存错误");
             e.printStackTrace();
         }
     }
 
     public static void start() {
         control.start();
-        MinecraftQQ.logInfo("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
-        MinecraftQQ.logInfo("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
+        Side.logInfo("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
+        Side.logInfo("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
     }
 
     public static void stop() {
         control.stop();
-        MinecraftQQ.logInfo("§d[Minecraft_QQ]§e已停止，感谢使用");
+        Side.logInfo("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 
     public void init(File file) {
         try {
-            MinecraftQQ.logInfo("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
+            Side.logInfo("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
             if (FileName == null) {
                 FileName = new File(file, "config.json");
                 if (!file.exists()) {
@@ -80,7 +80,7 @@ public class Minecraft_QQ {
             }
             load();
         } catch (Exception e) {
-            MinecraftQQ.logError("§d[Minecraft_QQ]§c配置文件初始化错误");
+            Side.logError("§d[Minecraft_QQ]§c配置文件初始化错误");
             e.printStackTrace();
         }
     }

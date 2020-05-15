@@ -55,7 +55,7 @@ public class IForge implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                    Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                     e.printStackTrace();
                     return;
                 }
@@ -100,15 +100,8 @@ public class IForge implements IMinecraft_QQ {
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             logInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                    } else if (readobj.getCommder().equalsIgnoreCase("server")) {
-                        String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
-                        send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[group]查询服务器状态");
-                        }
-                        if (Minecraft_QQ.Config.getSystem().isDebug())
-                            logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                    } else {
+                        ASide.globeCheck(readobj);
                     }
                 } else if (readobj.getIs_commder().equals("true")) {
                     String send_message;
@@ -135,7 +128,7 @@ public class IForge implements IMinecraft_QQ {
                         } else
                             noUUID = true;
                     } catch (Exception e) {
-                        Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                        Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                         e.printStackTrace();
                     }
                     if (sender == null) {
@@ -161,7 +154,7 @@ public class IForge implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
             e.printStackTrace();
         }
     }

@@ -19,7 +19,7 @@ public class Minecraft_QQBC extends Plugin {
         plugin = this;
         log_b = ProxyServer.getInstance().getLogger();
 
-        Minecraft_QQ.MinecraftQQ = new IBungeecord();
+        Minecraft_QQ.Side = new IBungeecord();
         new Minecraft_QQ().init(plugin.getDataFolder());
 
         ProxyServer.getInstance().getPluginManager().registerListener(this, new BCEvent());
