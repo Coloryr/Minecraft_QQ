@@ -149,6 +149,11 @@ public class IBungeecord implements IMinecraft_QQ {
                         boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
                         if (!sendok)
                             logError("§d[Minecraft_QQ]§c心跳包发送失败");
+                    } else if (readobj.getCommder().equalsIgnoreCase("config")) {
+                        String config = new Gson().toJson(Minecraft_QQ.Config);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.getGroup(), "无", config);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c配置文件发送失败");
                     }
                 } else if (readobj.getIs_commder().equals("true")) {
                     StringBuilder send_message;

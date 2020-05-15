@@ -20,8 +20,6 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class IBukkit implements IMinecraft_QQ {
@@ -141,6 +139,11 @@ public class IBukkit implements IMinecraft_QQ {
                         boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
                         if (!sendok)
                             logError("§d[Minecraft_QQ]§c心跳包发送失败");
+                    } else if (readobj.getCommder().equalsIgnoreCase("config")) {
+                        String config = new Gson().toJson(Minecraft_QQ.Config);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.getGroup(), "无", config);
+                        if (!sendok)
+                            logError("§d[Minecraft_QQ]§c配置文件发送失败");
                     }
                 } else if (readobj.getIs_commder().equals("true")) {
                     StringBuilder send_message;

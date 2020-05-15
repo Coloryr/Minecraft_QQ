@@ -23,7 +23,6 @@ public class SocketControl implements ISocketControl {
     private boolean serverIsClose = false;
     private boolean isRestart = false;
     private Thread restartThread;
-    private Thread readThread;
     private final Runnable read = () -> {
         socketRun = true;
         while (socketRun) {
@@ -53,6 +52,7 @@ public class SocketControl implements ISocketControl {
             }
         }
     };
+    private Thread readThread;
     private final Runnable restart = () -> {
         if (!isRestart) {
             isRestart = true;
