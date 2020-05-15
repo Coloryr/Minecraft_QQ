@@ -40,8 +40,11 @@ public class Minecraft_QQ {
         try {
             String data = new Gson().toJson(Config);
             if (FileName.exists()) {
-                Writer out = new FileWriter(FileName);
-                out.write(data);
+                FileOutputStream out = new FileOutputStream(FileName);
+                OutputStreamWriter write = new OutputStreamWriter(
+                        out, StandardCharsets.UTF_8);
+                write.write(data);
+                write.close();
                 out.close();
             }
         } catch (Exception e) {

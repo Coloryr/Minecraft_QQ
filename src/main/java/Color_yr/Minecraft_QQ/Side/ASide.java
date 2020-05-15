@@ -30,6 +30,7 @@ public class ASide {
         } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.set)) {
             try {
                 Minecraft_QQ.Config = new Gson().fromJson(readobj.getMessage(), ConfigOBJ.class);
+                Minecraft_QQ.save();
             } catch (Exception e) {
                 Minecraft_QQ.Side.logError("配置文件动态更新失败");
                 e.printStackTrace();

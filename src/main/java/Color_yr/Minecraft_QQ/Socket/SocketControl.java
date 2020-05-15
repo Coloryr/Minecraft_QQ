@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class SocketControl implements ISocketControl {
 
@@ -52,7 +53,7 @@ public class SocketControl implements ISocketControl {
                 is = socket.getInputStream();
                 int len = is.read(buf);
                 if (len > 0) {
-                    String a = new String(buf, 0, len);
+                    String a = new String(buf, StandardCharsets.UTF_8);
                     if (!a.isEmpty()) {
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
@@ -154,7 +155,7 @@ public class SocketControl implements ISocketControl {
                     + Minecraft_QQ.Config.getSystem().getEnd();
             if (os == null)
                 os = socket.getOutputStream();
-            os.write(send.getBytes());
+            os.write(send.getBytes(StandardCharsets.UTF_8));
             os.flush();
             if (Minecraft_QQ.Config.getLogs().isServer()) {
                 logs.logWrite("[Server]" + (Player == null ? "测试" : Player) + ":" + message);
