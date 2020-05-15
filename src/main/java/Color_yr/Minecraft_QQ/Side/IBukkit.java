@@ -58,8 +58,8 @@ public class IBukkit implements IMinecraft_QQ {
                     e.printStackTrace();
                     return;
                 }
-                if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
-                    if (readobj.getCommder().equalsIgnoreCase("speak")) {
+                if (readobj.getIsCommand().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
@@ -86,7 +86,7 @@ public class IBukkit implements IMinecraft_QQ {
                                 e.printStackTrace();
                             }
                         });
-                    } else if (readobj.getCommder().equalsIgnoreCase("online")) {
+                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
                         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
                         if (players.size() == 0) {
@@ -121,33 +121,19 @@ public class IBukkit implements IMinecraft_QQ {
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             logInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
                         Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                    } else if (readobj.getCommder().equalsIgnoreCase("server")) {
-                        String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
-                        send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            Player player = Bukkit.getPlayer(readobj.getPlayer());
-                            if (player != null)
-                                send = PlaceholderAPI.setBracketPlaceholders(player, send);
-                        }
-                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[group]查询服务器状态");
-                        }
-                        if (Minecraft_QQ.Config.getSystem().isDebug())
-                            logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
                     } else {
                         ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIs_commder().equals("true")) {
+                } else if (readobj.getIsCommand().equals("true")) {
                     StringBuilder send_message;
                     Command send = new Command();
                     send.setPlayer(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                     }
                     try {
                         Bukkit.getScheduler().callSyncMethod(Minecraft_QQBukkit.plugin, () ->
-                                Bukkit.dispatchCommand(send, readobj.getCommder())).get();
+                                Bukkit.dispatchCommand(send, readobj.getCommand())).get();
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         logError("§d[Minecraft_QQ]§c指令执行出现错误");

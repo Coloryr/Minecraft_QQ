@@ -55,8 +55,8 @@ public class IBungeecord implements IMinecraft_QQ {
                     logInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
-                if (readobj.getIs_commder().equals("false")) {
-                    if (readobj.getCommder().equalsIgnoreCase("speak")) {
+                if (readobj.getIsCommand().equals("false")) {
+                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
@@ -69,7 +69,7 @@ public class IBungeecord implements IMinecraft_QQ {
                             if (!Minecraft_QQ.Config.getMute().contains(player1.getName()))
                                 player1.sendMessage(new TextComponent(say));
                         }
-                    } else if (readobj.getCommder().equalsIgnoreCase("online")) {
+                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         int allPlayerNumber = 0;
                         StringBuilder allServerPlayer = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
@@ -141,15 +141,15 @@ public class IBungeecord implements IMinecraft_QQ {
                     } else {
                         ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIs_commder().equals("true")) {
+                } else if (readobj.getIsCommand().equals("true")) {
                     StringBuilder send_message;
                     Command send = new Command();
                     send.setPlayer(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                     }
                     try {
-                        proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommder());
+                        proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommand());
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         logInfo(e.toString());

@@ -59,8 +59,8 @@ public class IForge implements IMinecraft_QQ {
                     e.printStackTrace();
                     return;
                 }
-                if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
-                    if (readobj.getCommder().equalsIgnoreCase("speak")) {
+                if (readobj.getIsCommand().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
                         final String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
@@ -72,7 +72,7 @@ public class IForge implements IMinecraft_QQ {
                             if (!Minecraft_QQ.Config.getMute().contains(player.getName()))
                                 player.sendMessage(new TextComponentString(say));
                         }
-                    } else if (readobj.getCommder().equalsIgnoreCase("online")) {
+                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         String[] players = server.getOnlinePlayerNames();
                         StringBuilder player = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
@@ -103,16 +103,16 @@ public class IForge implements IMinecraft_QQ {
                     } else {
                         ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIs_commder().equals("true")) {
+                } else if (readobj.getIsCommand().equals("true")) {
                     String send_message;
                     commandSelf sender = null;
                     boolean noUUID = false;
                     int doReturn = 0;
                     try {
                         List<String> com = new ArrayList<String>();
-                        com.add(readobj.getCommder());
+                        com.add(readobj.getCommand());
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                            logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                         }
                         FunctionObject func = FunctionObject.create(server.getFunctionManager(), com);
                         GameProfile GameProfile = server.getPlayerProfileCache().getGameProfileForUsername(readobj.getPlayer());

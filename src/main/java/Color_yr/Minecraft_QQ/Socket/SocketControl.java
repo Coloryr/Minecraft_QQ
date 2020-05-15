@@ -23,6 +23,28 @@ public class SocketControl implements ISocketControl {
     private boolean serverIsClose = false;
     private boolean isRestart = false;
     private Thread restartThread;
+    private Thread readThread;
+    private final Runnable restart = () -> {
+        if (!isRestart) {
+            isRestart = true;
+            while (isRestart && !serverIsClose) {
+                try {
+                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在进行自动连接");
+                    if (socketConnect()) {
+                        break;
+                    } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
+                        break;
+                    }
+                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5" +
+                            Minecraft_QQ.Config.getSystem().getAutoConnectTime() + "毫秒后自动重连");
+                    Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        isRestart = false;
+    };
     private final Runnable read = () -> {
         socketRun = true;
         while (socketRun) {
@@ -51,28 +73,6 @@ public class SocketControl implements ISocketControl {
                 break;
             }
         }
-    };
-    private Thread readThread;
-    private final Runnable restart = () -> {
-        if (!isRestart) {
-            isRestart = true;
-            while (isRestart && !serverIsClose) {
-                try {
-                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在进行自动连接");
-                    if (socketConnect()) {
-                        break;
-                    } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
-                        break;
-                    }
-                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5" +
-                            Minecraft_QQ.Config.getSystem().getAutoConnectTime() + "毫秒后自动重连");
-                    Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        isRestart = false;
     };
 
     private void waitItStop() {
