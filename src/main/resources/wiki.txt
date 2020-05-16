@@ -35,7 +35,7 @@ Minecraft_QQ帮助手册
     "SendOneByOne": true,
     单独显示子服的人数的格式，仅BC有这个功能
     "SendOneByOneMessage": "n[%Server%-%player_number%]-%player_list%",
-    单独显示子服的人数的格式，仅BC有这个功能
+    隐藏空的子服，仅BC有这个功能
     "HideEmptyServer": true,
     发送在线人数到群的格式
     "PlayerListMessage": "%ServerName%当前在线人数：%PlayerNumber%，玩家列表：%PlayerList%",

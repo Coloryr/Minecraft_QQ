@@ -55,8 +55,8 @@ public class IBungeecord implements IMinecraft_QQ {
                     logInfo("数据传输发生错误:" + e.getMessage());
                     return;
                 }
-                if (readobj.getIs_commder().equals("false")) {
-                    if (readobj.getCommder().equalsIgnoreCase("speak")) {
+                if (readobj.getIsCommand().equals("false")) {
+                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
@@ -69,7 +69,7 @@ public class IBungeecord implements IMinecraft_QQ {
                             if (!Minecraft_QQ.Config.getMute().contains(player1.getName()))
                                 player1.sendMessage(new TextComponent(say));
                         }
-                    } else if (readobj.getCommder().equalsIgnoreCase("online")) {
+                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         int allPlayerNumber = 0;
                         StringBuilder allServerPlayer = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
@@ -138,27 +138,18 @@ public class IBungeecord implements IMinecraft_QQ {
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询在线人数");
                         }
-                    } else if (readobj.getCommder().equalsIgnoreCase("server")) {
-                        String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage()
-                                .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[group]查询服务器状态");
-                        }
-                    } else if (readobj.getCommder().equalsIgnoreCase("pause")) {
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c心跳包发送失败");
+                    } else {
+                        ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIs_commder().equals("true")) {
+                } else if (readobj.getIsCommand().equals("true")) {
                     StringBuilder send_message;
                     Command send = new Command();
                     send.setPlayer(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                     }
                     try {
-                        proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommder());
+                        proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommand());
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         logInfo(e.toString());
@@ -180,7 +171,7 @@ public class IBungeecord implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发送错误：");
+            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发送错误：");
             e.printStackTrace();
         }
     }

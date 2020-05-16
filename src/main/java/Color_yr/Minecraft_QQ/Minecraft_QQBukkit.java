@@ -21,7 +21,7 @@ public class Minecraft_QQBukkit extends JavaPlugin {
         plugin = this;
         log_b = getLogger();
 
-        Minecraft_QQ.MinecraftQQ = new IBukkit();
+        Minecraft_QQ.Side = new IBukkit();
         new Minecraft_QQ().init(getDataFolder());
 
         if (!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {

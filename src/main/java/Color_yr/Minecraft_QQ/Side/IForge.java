@@ -55,12 +55,12 @@ public class IForge implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                    Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                     e.printStackTrace();
                     return;
                 }
-                if (readobj.getIs_commder().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
-                    if (readobj.getCommder().equalsIgnoreCase("speak")) {
+                if (readobj.getIsCommand().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
                         final String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
@@ -72,7 +72,7 @@ public class IForge implements IMinecraft_QQ {
                             if (!Minecraft_QQ.Config.getMute().contains(player.getName()))
                                 player.sendMessage(new TextComponentString(say));
                         }
-                    } else if (readobj.getCommder().equalsIgnoreCase("online")) {
+                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         String[] players = server.getOnlinePlayerNames();
                         StringBuilder player = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
@@ -100,30 +100,19 @@ public class IForge implements IMinecraft_QQ {
                         }
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             logInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                    } else if (readobj.getCommder().equalsIgnoreCase("server")) {
-                        String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
-                        send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
-                        if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[group]查询服务器状态");
-                        }
-                        if (Minecraft_QQ.Config.getSystem().isDebug())
-                            logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
-                    } else if (readobj.getCommder().equalsIgnoreCase("pause")) {
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
-                        if (!sendok)
-                            logError("§d[Minecraft_QQ]§c心跳包发送失败");
+                    } else {
+                        ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIs_commder().equals("true")) {
+                } else if (readobj.getIsCommand().equals("true")) {
                     String send_message;
                     commandSelf sender = null;
                     boolean noUUID = false;
                     int doReturn = 0;
                     try {
                         List<String> com = new ArrayList<String>();
-                        com.add(readobj.getCommder());
+                        com.add(readobj.getCommand());
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                            logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommder());
+                            logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                         }
                         FunctionObject func = FunctionObject.create(server.getFunctionManager(), com);
                         GameProfile GameProfile = server.getPlayerProfileCache().getGameProfileForUsername(readobj.getPlayer());
@@ -139,7 +128,7 @@ public class IForge implements IMinecraft_QQ {
                         } else
                             noUUID = true;
                     } catch (Exception e) {
-                        Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+                        Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
                         e.printStackTrace();
                     }
                     if (sender == null) {
@@ -165,7 +154,7 @@ public class IForge implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.MinecraftQQ.logError("§d[Minecraft_QQ]§c发生错误：");
+            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
             e.printStackTrace();
         }
     }

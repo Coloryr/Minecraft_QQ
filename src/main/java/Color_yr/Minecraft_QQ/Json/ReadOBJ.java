@@ -4,8 +4,8 @@ public class ReadOBJ {
     private String group;
     private String message;
     private String player;
-    private String is_commder;
-    private String commder;
+    private String isCommand;
+    private String command;
 
     public String getGroup() {
         return group;
@@ -19,11 +19,11 @@ public class ReadOBJ {
         return player;
     }
 
-    public String getIs_commder() {
-        return is_commder;
+    public String getIsCommand() {
+        return isCommand;
     }
 
-    public String getCommder() {
-        return commder;
+    public String getCommand() {
+        return command;
     }
 }
