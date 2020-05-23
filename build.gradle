@@ -1,10 +1,11 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
 }
 
@@ -17,35 +18,13 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
 version = "2.5.0.0"
 group = "com.Color_yr.Minecraft_QQ"
 archivesBaseName = "Minecraft_QQ"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
-
-minecraft {
-    version = "1.12.2-14.23.5.2847"
-    runDir = "run"
-
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "stable_39"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-}
-
-// Version strings used for CI
-// Note the spaces before and after the equals sign
-ext.majorVersion = 1
-ext.minorVersion = 0
-ext.minecraftVersion = "1.8"
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
     jcenter()
@@ -60,26 +39,41 @@ repositories {
 }
 
 dependencies {
+
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+
     compile 'org.spigotmc:spigot-api:1.12-R0.1-SNAPSHOT'
-	compile 'net.md-5:bungeecord-api:1.15-SNAPSHOT'
+    compile 'net.md-5:bungeecord-api:1.15-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.4'
+
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId "Color_yr"
-            artifactId "Minecraft_QQ"
-            version "$majorVersion.$minorVersion-SNAPSHOT"
-            from components.java
+minecraft {
+
+    mappings channel: 'snapshot', version: '20171003-1.12'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
         }
-    }
-    repositories {
-        maven {
-            url "$buildDir/repo"
+
+        server {
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
         }
     }
 }
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
@@ -87,7 +81,6 @@ tasks.withType(JavaCompile) {
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
@@ -97,7 +90,7 @@ processResources {
         include 'wiki.txt'
         include 'Minecraft_QQ.json'
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version
     }
 
     // copy everything else except the mcmod.info
