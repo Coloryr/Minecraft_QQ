@@ -12,6 +12,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,7 +41,6 @@ public class IBukkit implements IMinecraft_QQ {
         temp.sendMessage(message);
     }
 
-
     @Override
     public void message(String message) {
         try {
@@ -66,9 +66,8 @@ public class IBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            Player player = Bukkit.getPlayer(readobj.getPlayer());
-                            if (player != null)
-                                say = PlaceholderAPI.setBracketPlaceholders(player, say);
+                            OfflinePlayer player = Bukkit.getOfflinePlayer(readobj.getPlayer());
+                            say = PlaceholderAPI.setBracketPlaceholders(player, say);
                         }
                         final String finalSay = say;
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
@@ -112,9 +111,8 @@ public class IBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player.substring(0, player.length() - 1));
                         }
                         if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            Player player1 = Bukkit.getPlayer(readobj.getPlayer());
-                            if (player1 != null)
-                                send = PlaceholderAPI.setBracketPlaceholders(player1, send);
+                            OfflinePlayer player = Bukkit.getOfflinePlayer(readobj.getPlayer());
+                            send = PlaceholderAPI.setBracketPlaceholders(player, send);
                         }
                         if (Minecraft_QQ.Config.getLogs().isGroup())
                             logs.logWrite("[group]查询在线人数");
