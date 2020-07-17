@@ -42,6 +42,11 @@ public class IBukkit implements IMinecraft_QQ {
     }
 
     @Override
+    public void run(Runnable runnable) {
+        Bukkit.getScheduler().runTaskAsynchronously(Minecraft_QQBukkit.plugin, runnable);
+    }
+
+    @Override
     public void message(String message) {
         try {
             String msg = message;

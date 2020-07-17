@@ -8,4 +8,6 @@ public interface IMinecraft_QQ {
     void logError(String message);
 
     void send(Object sender, String message);
+
+    void run(Runnable runnable);
 }

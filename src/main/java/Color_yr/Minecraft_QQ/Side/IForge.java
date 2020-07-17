@@ -165,6 +165,11 @@ public class IForge implements IMinecraft_QQ {
         sender1.sendMessage(new TextComponentString(message));
     }
 
+    @Override
+    public void run(Runnable runnable) {
+        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(runnable);
+    }
+
     private class commandSelf extends CommandBlockBaseLogic {
         private final Entity entity;
         private final String name;
