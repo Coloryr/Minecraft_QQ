@@ -26,26 +26,25 @@ public class SocketControl implements ISocketControl {
     private Thread restartThread;
     private Thread readThread;
     private final Runnable restart = () -> {
-        if (!isRestart) {
-            isRestart = true;
-            waitItStop();
-            while (isRestart && !serverIsClose) {
-                try {
-                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在进行自动连接");
-                    if (socketConnect()) {
-                        break;
-                    } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
-                        break;
-                    }
-                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5" +
-                            Minecraft_QQ.Config.getSystem().getAutoConnectTime() + "毫秒后自动重连");
-                    Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
-                } catch (Exception e) {
-                    e.printStackTrace();
+        isRestart = true;
+        waitItStop();
+        while (!serverIsClose) {
+            try {
+                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在进行连接");
+                if (socketConnect()) {
+                    break;
+                } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
+                    break;
                 }
+                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5" +
+                        Minecraft_QQ.Config.getSystem().getAutoConnectTime() + "毫秒后自动重连");
+                Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            isRestart = false;
         }
+        isRestart = false;
+        restartThread = null;
     };
     private final Runnable read = () -> {
         socketRun = true;
@@ -62,7 +61,7 @@ public class SocketControl implements ISocketControl {
                     }
                 } else if (len == -1) {
                     Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c连接中断");
-                    Minecraft_QQ.Side.run(this::stopRestart);
+                    stopRestart();
                     break;
                 }
                 Thread.sleep(Minecraft_QQ.Config.getSystem().getSleep());
@@ -71,10 +70,12 @@ public class SocketControl implements ISocketControl {
                     break;
                 Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c数据接受发生错误");
                 e.printStackTrace();
-                Minecraft_QQ.Side.run(this::stopRestart);
+                stopRestart();
                 break;
             }
         }
+        socketRun = false;
+        readThread = null;
     };
 
     private void waitItStop() {
@@ -174,13 +175,13 @@ public class SocketControl implements ISocketControl {
     }
 
     public void socketRestart() {
-        isRestart = false;
+        if(isRestart)
+            return;
         if (restartThread == null) {
             restartThread = new Thread(restart);
             restartThread.start();
         } else {
             try {
-                restartThread.join();
                 restartThread = new Thread(restart);
                 restartThread.start();
             } catch (Exception e) {
