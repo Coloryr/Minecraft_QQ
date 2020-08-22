@@ -1,6 +1,5 @@
 package Color_yr.Minecraft_QQ.Socket;
 
-import Color_yr.Minecraft_QQ.API.ISocketControl;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.SendOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
@@ -14,7 +13,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-public class SocketControl implements ISocketControl {
+public class SocketControl {
 
     private final byte[] buf = new byte[4096];
     private OutputStream os = null;
@@ -113,12 +112,10 @@ public class SocketControl implements ISocketControl {
             socketRestart();
     }
 
-    @Override
     public void start() {
         socketRestart();
     }
 
-    @Override
     public void close() {
         Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5连接已断开");
         waitItStop();
@@ -126,31 +123,28 @@ public class SocketControl implements ISocketControl {
             Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]线程已关闭");
     }
 
-    @Override
     public void stop() {
         serverIsClose = true;
         close();
     }
 
-    @Override
     public boolean socketConnect() {
-        Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在连接酷Q");
+        Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在连接Minecraft_QQ_Cmd/Gui");
         try {
             socket = new Socket();
             socket.connect(new InetSocketAddress(Minecraft_QQ.Config.getSystem().getIP(),
                     Minecraft_QQ.Config.getSystem().getPort()), 5000);
             Thread.sleep(200);
             sendData(Placeholder.start, null, null, Minecraft_QQ.Config.getServerSet().getServerName());
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5酷Q已连接");
+            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui已连接");
             return true;
         } catch (Exception e) {
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c酷Q连接失败");
+            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§cMinecraft_QQ_Cmd/Gui连接失败");
             e.printStackTrace();
             return false;
         }
     }
 
-    @Override
     public boolean sendData(String data, String group, String player, String message) {
         SendOBJ send_bean = new SendOBJ(data, group, player, message);
         Gson send_gson = new Gson();
@@ -196,7 +190,6 @@ public class SocketControl implements ISocketControl {
         }
     }
 
-    @Override
     public boolean isRun() {
         return socketRun;
     }

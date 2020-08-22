@@ -47,7 +47,7 @@ public class CommandEX {
                     if (sendok)
                         Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§2已发送" + args[1]);
                 } else
-                    Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§c错误，酷Q未连接");
+                    Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§c错误，Minecraft_QQ_Cmd/Gui未连接");
             } else {
                 Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§c错误，请输入文本");
             }

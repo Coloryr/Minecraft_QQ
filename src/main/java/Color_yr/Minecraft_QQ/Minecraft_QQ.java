@@ -1,7 +1,6 @@
 package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
-import Color_yr.Minecraft_QQ.API.ISocketControl;
 import Color_yr.Minecraft_QQ.Config.ConfigOBJ;
 import Color_yr.Minecraft_QQ.Socket.SocketControl;
 import Color_yr.Minecraft_QQ.Utils.logs;
@@ -12,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.5.2.0";
-    public static ISocketControl control = new SocketControl();
+    public final static String Version = "2.5.4.0";
+    public static SocketControl control = new SocketControl();
     public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;
     private static File FileName;
