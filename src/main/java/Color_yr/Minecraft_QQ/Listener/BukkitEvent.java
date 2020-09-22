@@ -16,7 +16,7 @@ public class BukkitEvent implements Listener {
 
     private String message(String message, Player player) {
         if (Minecraft_QQBukkit.PAPI) {
-            message = PlaceholderAPI.setBracketPlaceholders(player, message);
+            message = PlaceholderAPI.setPlaceholders(player, message);
         }
         message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), player.getName());
         message = ChatColor.translateAlternateColorCodes('&', message);
@@ -65,7 +65,7 @@ public class BukkitEvent implements Listener {
         } else if (Minecraft_QQ.Config.getServerSet().getMode() == 2) {
             message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getMessage(), playerMessage);
             if (Minecraft_QQBukkit.PAPI) {
-                message = PlaceholderAPI.setBracketPlaceholders(player, message);
+                message = PlaceholderAPI.setPlaceholders(player, message);
             }
             sendok = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
         }
