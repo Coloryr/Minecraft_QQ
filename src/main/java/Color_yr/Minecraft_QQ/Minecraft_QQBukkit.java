@@ -26,9 +26,10 @@ public class Minecraft_QQBukkit extends JavaPlugin {
 
         if (!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
             Bukkit.getPluginManager().registerEvents(new BukkitEvent(), this);
-            Bukkit.getPluginCommand("qq").setExecutor(new CommandBukkit());
-            Bukkit.getPluginCommand("qq").setTabCompleter(new CommandBukkit());
         }
+
+        Bukkit.getPluginCommand("qq").setExecutor(new CommandBukkit());
+        Bukkit.getPluginCommand("qq").setTabCompleter(new CommandBukkit());
 
         new MetricsBukkit(this, 6608);
 
