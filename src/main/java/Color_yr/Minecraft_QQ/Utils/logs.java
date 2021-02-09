@@ -33,7 +33,7 @@ public class logs {
             pw.close();
             fw.close();
         } catch (Exception e) {
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
+            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e.getMessage());
         }
     }
 }

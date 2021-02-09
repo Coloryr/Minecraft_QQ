@@ -1,6 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
+import Color_yr.Minecraft_QQ.API.IMyLogger;
 import Color_yr.Minecraft_QQ.Config.ConfigOBJ;
 import Color_yr.Minecraft_QQ.Socket.SocketControl;
 import Color_yr.Minecraft_QQ.Utils.logs;
@@ -11,10 +12,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.5.4.0";
+    public final static String Version = "2.6.0.0";
     public static SocketControl control = new SocketControl();
     public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;
+    public static IMyLogger log;
     private static File FileName;
 
     public static void load() {
@@ -30,7 +32,7 @@ public class Minecraft_QQ {
                 throw (new Throwable("配置文件为空"));
             }
         } catch (Throwable e) {
-            Side.logError("§d[Minecraft_QQ]§c配置文件读取发生错误");
+            log.warning("§d[Minecraft_QQ]§c配置文件读取发生错误");
             e.printStackTrace();
         }
     }
@@ -47,25 +49,25 @@ public class Minecraft_QQ {
                 out.close();
             }
         } catch (Exception e) {
-            Side.logError("§d[Minecraft_QQ]§c配置文件保存错误");
+            log.warning("§d[Minecraft_QQ]§c配置文件保存错误");
             e.printStackTrace();
         }
     }
 
     public static void start() {
         control.start();
-        Side.logInfo("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
-        Side.logInfo("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
+        log.info("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
+        log.info("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
     }
 
     public static void stop() {
         control.stop();
-        Side.logInfo("§d[Minecraft_QQ]§e已停止，感谢使用");
+        log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 
     public void init(File file) {
         try {
-            Side.logInfo("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
+            log.info("§d[Minecraft_QQ]§e正在启动，感谢使用，本插件交流群：571239090");
             if (FileName == null) {
                 FileName = new File(file, "config.json");
                 if (!file.exists()) {
@@ -73,7 +75,7 @@ public class Minecraft_QQ {
                 }
             }
             if (!FileName.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/Minecraft_QQ.json"), FileName.toPath());
+                Files.copy(this.getClass().getResourceAsStream("/config.json"), FileName.toPath());
             }
             new logs(file);
             File wiki = new File(file, "wiki.txt");
@@ -82,7 +84,7 @@ public class Minecraft_QQ {
             }
             load();
         } catch (Exception e) {
-            Side.logError("§d[Minecraft_QQ]§c配置文件初始化错误");
+            log.warning("§d[Minecraft_QQ]§c配置文件初始化错误");
             e.printStackTrace();
         }
     }

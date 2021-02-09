@@ -17,22 +17,22 @@ public class ASide {
                 logs.logWrite("[group]查询服务器状态");
             }
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
+                Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
         } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.pause)) {
             boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
             if (!sendok)
-                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c心跳包发送失败");
+                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c心跳包发送失败");
         } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.config)) {
             String config = new Gson().toJson(Minecraft_QQ.Config);
             boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.getGroup(), "无", config);
             if (!sendok)
-                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c配置文件发送失败");
+                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c配置文件发送失败");
         } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.set)) {
             try {
                 Minecraft_QQ.Config = new Gson().fromJson(readobj.getMessage(), ConfigOBJ.class);
                 Minecraft_QQ.save();
             } catch (Exception e) {
-                Minecraft_QQ.Side.logError("配置文件动态更新失败");
+                Minecraft_QQ.log.warning("配置文件动态更新失败");
                 e.printStackTrace();
             }
         }

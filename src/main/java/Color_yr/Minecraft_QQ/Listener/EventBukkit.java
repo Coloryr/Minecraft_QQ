@@ -12,7 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class BukkitEvent implements Listener {
+public class EventBukkit implements Listener {
 
     private String message(String message, Player player) {
         if (Minecraft_QQBukkit.PAPI) {

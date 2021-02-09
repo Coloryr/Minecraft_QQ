@@ -24,58 +24,57 @@ public class SocketControl {
     private boolean isRestart = false;
     private Thread restartThread;
     private Thread readThread;
-    private final Runnable read = () -> {
-        while(isRestart) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        socketRun = true;
-        while (socketRun) {
-            try {
-                is = socket.getInputStream();
-                int len = is.read(buf);
-                if (len > 0) {
-                    String a = new String(buf, StandardCharsets.UTF_8);
-                    if (!a.isEmpty()) {
-                        if (Minecraft_QQ.Config.getSystem().isDebug())
-                            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
-                        Minecraft_QQ.Side.message(a);
-                    }
-                } else if (len == -1) {
-                    Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c连接中断");
-                    stopRestart();
-                    break;
-                }
-                Thread.sleep(Minecraft_QQ.Config.getSystem().getSleep());
-            } catch (Exception e) {
-                if (isRestart || serverIsClose)
-                    break;
-                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§c数据接受发生错误");
-                e.printStackTrace();
-                stopRestart();
-                break;
-            }
-        }
-        socketRun = false;
-        readThread = null;
-    };
     private final Runnable restart = () -> {
         isRestart = true;
         waitItStop();
         while (!serverIsClose) {
             try {
-                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在进行连接");
+                Minecraft_QQ.log.info("§d[Minecraft_QQ]§5正在进行连接");
                 if (socketConnect()) {
-                    readThread = new Thread(read);
+                    readThread = new Thread(() -> {
+                        while (isRestart) {
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        socketRun = true;
+                        while (socketRun) {
+                            try {
+                                is = socket.getInputStream();
+                                int len = is.read(buf);
+                                if (len > 0) {
+                                    String a = new String(buf, StandardCharsets.UTF_8);
+                                    if (!a.isEmpty()) {
+                                        if (Minecraft_QQ.Config.getSystem().isDebug())
+                                            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + a);
+                                        Minecraft_QQ.Side.message(a);
+                                    }
+                                } else if (len == -1) {
+                                    Minecraft_QQ.log.info("§d[Minecraft_QQ]§c连接中断");
+                                    stopRestart();
+                                    break;
+                                }
+                                Thread.sleep(Minecraft_QQ.Config.getSystem().getSleep());
+                            } catch (Exception e) {
+                                if (isRestart || serverIsClose)
+                                    break;
+                                Minecraft_QQ.log.info("§d[Minecraft_QQ]§c数据接受发生错误");
+                                e.printStackTrace();
+                                stopRestart();
+                                break;
+                            }
+                        }
+                        socketRun = false;
+                        readThread = null;
+                    });
                     readThread.start();
                     break;
                 } else if (!Minecraft_QQ.Config.getSystem().isAutoConnect()) {
                     break;
                 }
-                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5" +
+                Minecraft_QQ.log.info("§d[Minecraft_QQ]§5" +
                         Minecraft_QQ.Config.getSystem().getAutoConnectTime() + "毫秒后自动重连");
                 Thread.sleep(Minecraft_QQ.Config.getSystem().getAutoConnectTime());
             } catch (Exception e) {
@@ -117,10 +116,10 @@ public class SocketControl {
     }
 
     public void close() {
-        Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5连接已断开");
+        Minecraft_QQ.log.info("§d[Minecraft_QQ]§5连接已断开");
         waitItStop();
         if (Minecraft_QQ.Config.getSystem().isDebug())
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]线程已关闭");
+            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]线程已关闭");
     }
 
     public void stop() {
@@ -129,17 +128,17 @@ public class SocketControl {
     }
 
     public boolean socketConnect() {
-        Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5正在连接Minecraft_QQ_Cmd/Gui");
+        Minecraft_QQ.log.info("§d[Minecraft_QQ]§5正在连接Minecraft_QQ_Cmd/Gui");
         try {
             socket = new Socket();
             socket.connect(new InetSocketAddress(Minecraft_QQ.Config.getSystem().getIP(),
                     Minecraft_QQ.Config.getSystem().getPort()), 5000);
             Thread.sleep(200);
             sendData(Placeholder.start, null, null, Minecraft_QQ.Config.getServerSet().getServerName());
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui已连接");
+            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui已连接");
             return true;
         } catch (Exception e) {
-            Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§cMinecraft_QQ_Cmd/Gui连接失败");
+            Minecraft_QQ.log.info("§d[Minecraft_QQ]§cMinecraft_QQ_Cmd/Gui连接失败");
             e.printStackTrace();
             return false;
         }
@@ -162,12 +161,12 @@ public class SocketControl {
                 logs.logWrite("[Server]" + (Player == null ? "测试" : Player) + ":" + message);
             }
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                Minecraft_QQ.Side.logInfo("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
+                Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
             return true;
         } catch (Exception e) {
             if (isRestart || serverIsClose)
                 return true;
-            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
+            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
             e.printStackTrace();
             close();
         }
@@ -175,7 +174,7 @@ public class SocketControl {
     }
 
     public void socketRestart() {
-        if(isRestart)
+        if (isRestart)
             return;
         if (restartThread == null) {
             restartThread = new Thread(restart);

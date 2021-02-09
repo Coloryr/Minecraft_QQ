@@ -1,40 +1,24 @@
-package Color_yr.Minecraft_QQ.Side;
+package Color_yr.Minecraft_QQ.Side.SideBukkit;
 
 import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBukkit;
+import Color_yr.Minecraft_QQ.Side.ASide;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.Collection;
 
-public class IBukkit implements IMinecraft_QQ {
-
-    @Override
-    public void logInfo(String message) {
-        Minecraft_QQBukkit.log_b.info(message);
-    }
-
-    @Override
-    public void logError(String message) {
-        Minecraft_QQBukkit.log_b.warning(message);
-    }
-
+public class SideBukkit implements IMinecraft_QQ {
     @Override
     public void send(Object sender, String message) {
         CommandSender temp = (CommandSender) sender;
@@ -42,16 +26,11 @@ public class IBukkit implements IMinecraft_QQ {
     }
 
     @Override
-    public void run(Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(Minecraft_QQBukkit.plugin, runnable);
-    }
-
-    @Override
     public void message(String message) {
         try {
             String msg = message;
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                logInfo("处理数据：" + msg);
+                Minecraft_QQ.log.info("处理数据：" + msg);
             while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
                 String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
                 ReadOBJ readobj;
@@ -59,7 +38,7 @@ public class IBukkit implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
+                    Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c发生错误：");
                     e.printStackTrace();
                     return;
                 }
@@ -86,7 +65,7 @@ public class IBukkit implements IMinecraft_QQ {
                                         b.sendMessage(finalSay);
                                 }
                             } catch (Exception e) {
-                                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
+                                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c发生错误：");
                                 e.printStackTrace();
                             }
                         });
@@ -100,7 +79,7 @@ public class IBukkit implements IMinecraft_QQ {
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } catch (Exception e) {
-                                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
+                                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c发生错误：");
                                 e.printStackTrace();
                             }
                         } else {
@@ -122,14 +101,14 @@ public class IBukkit implements IMinecraft_QQ {
                         if (Minecraft_QQ.Config.getLogs().isGroup())
                             logs.logWrite("[group]查询在线人数");
                         if (Minecraft_QQ.Config.getSystem().isDebug())
-                            logInfo("§d[Minecraft_QQ]§5[Debug]查询在线人数");
+                            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
                         Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
                     } else {
                         ASide.globeCheck(readobj);
                     }
                 } else if (readobj.getIsCommand().equals("true")) {
                     StringBuilder send_message;
-                    Command send = new Command();
+                    BukkitCommander send = new BukkitCommander();
                     send.setPlayer(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
                         logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
@@ -139,7 +118,7 @@ public class IBukkit implements IMinecraft_QQ {
                                 Bukkit.dispatchCommand(send, readobj.getCommand())).get();
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
-                        logError("§d[Minecraft_QQ]§c指令执行出现错误");
+                        Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c指令执行出现错误");
                         e.printStackTrace();
                     }
                     if (send.getMessage().size() == 1) {
@@ -158,122 +137,8 @@ public class IBukkit implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发生错误：");
+            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c发生错误：");
             e.printStackTrace();
-        }
-    }
-
-    public class Command implements CommandSender {
-        public List<String> message = new ArrayList<String>();
-        public String player;
-
-        public void setPlayer(String player) {
-            this.player = player;
-        }
-
-        public List<String> getMessage() {
-            return message;
-        }
-
-        @Override
-        public void sendMessage(String message) {
-            this.message.add(message);
-        }
-
-        @Override
-        public void sendMessage(String[] messages) {
-            message.addAll(Arrays.asList(messages));
-        }
-
-        @Override
-        public Server getServer() {
-            return Bukkit.getServer();
-        }
-
-        @Override
-        public String getName() {
-            return player;
-        }
-
-        @Override
-        public Spigot spigot() {
-            return new Spigot() {
-                @Override
-                public void sendMessage(BaseComponent component) {
-                    message.add(component.toLegacyText());
-                }
-
-                @Override
-                public void sendMessage(BaseComponent... components) {
-                    for (BaseComponent temp : components)
-                        message.add(temp.toLegacyText());
-                }
-            };
-        }
-
-        @Override
-        public boolean isPermissionSet(String name) {
-            return true;
-        }
-
-        @Override
-        public boolean isPermissionSet(Permission perm) {
-            return true;
-        }
-
-        @Override
-        public boolean hasPermission(String name) {
-            return true;
-        }
-
-        @Override
-        public boolean hasPermission(Permission perm) {
-            return true;
-        }
-
-        @Override
-        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
-            return Bukkit.getConsoleSender().addAttachment(plugin, name, value);
-        }
-
-        @Override
-        public PermissionAttachment addAttachment(Plugin plugin) {
-            return Bukkit.getConsoleSender().addAttachment(plugin);
-        }
-
-        @Override
-        public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
-            return Bukkit.getConsoleSender().addAttachment(plugin, name, value, ticks);
-        }
-
-        @Override
-        public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
-            return Bukkit.getConsoleSender().addAttachment(plugin, ticks);
-        }
-
-        @Override
-        public void removeAttachment(PermissionAttachment attachment) {
-
-        }
-
-        @Override
-        public void recalculatePermissions() {
-
-        }
-
-        @Override
-        public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-            return Bukkit.getConsoleSender().getEffectivePermissions();
-        }
-
-        @Override
-        public boolean isOp() {
-            return true;
-        }
-
-        @Override
-        public void setOp(boolean value) {
-
         }
     }
 }

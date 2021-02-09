@@ -13,7 +13,7 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class BCEvent implements Listener {
+public class EventBC implements Listener {
 
     private String message(String message, String playerName) {
         message = message.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayer(), playerName);
@@ -28,7 +28,7 @@ public class BCEvent implements Listener {
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getJoin().getMessage(), playerName));
             if (!sendOk)
-                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
@@ -39,7 +39,7 @@ public class BCEvent implements Listener {
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.getQuit().getMessage(), playerName));
             if (!sendOk)
-                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 
@@ -58,7 +58,7 @@ public class BCEvent implements Listener {
             message = ChatColor.translateAlternateColorCodes('&', message);
             boolean sendOk = Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
             if (!sendOk)
-                Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c数据发送失败");
+                Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
         }
     }
 

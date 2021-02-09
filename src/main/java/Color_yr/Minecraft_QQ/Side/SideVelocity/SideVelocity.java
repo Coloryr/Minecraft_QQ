@@ -1,46 +1,27 @@
-package Color_yr.Minecraft_QQ.Side;
+package Color_yr.Minecraft_QQ.Side.SideVelocity;
 
 import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.ReadOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
-import Color_yr.Minecraft_QQ.Minecraft_QQBC;
+import Color_yr.Minecraft_QQ.Minecraft_QQVelocity;
+import Color_yr.Minecraft_QQ.Side.ASide;
 import Color_yr.Minecraft_QQ.Utils.Function;
 import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
+import net.kyori.adventure.text.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
-public class IBungeecord implements IMinecraft_QQ {
-    @Override
-    public void logInfo(String message) {
-        Minecraft_QQBC.log_b.info(message);
-    }
-
-    @Override
-    public void logError(String message) {
-        Minecraft_QQBC.log_b.warning(message);
-    }
-
+public class SideVelocity implements IMinecraft_QQ {
     @Override
     public void send(Object sender, String message) {
-        CommandSender temp = (CommandSender) sender;
-        temp.sendMessage(new TextComponent(message));
-    }
-
-    @Override
-    public void run(Runnable runnable) {
-        ProxyServer.getInstance().getScheduler().runAsync(Minecraft_QQBC.plugin, runnable);
+        CommandSource temp = (CommandSource) sender;
+        temp.sendMessage(Component.text(message));
     }
 
     @Override
@@ -48,8 +29,8 @@ public class IBungeecord implements IMinecraft_QQ {
         try {
             String msg = message;
             if (Minecraft_QQ.Config.getSystem().isDebug())
-                logInfo("处理数据：" + msg);
-            ProxyServer proxyserver = ProxyServer.getInstance();
+                Minecraft_QQ.log.info("处理数据：" + msg);
+            ProxyServer proxyserver = Minecraft_QQVelocity.plugin.server;
             while (msg.indexOf(Minecraft_QQ.Config.getSystem().getHead()) == 0 && msg.contains(Minecraft_QQ.Config.getSystem().getEnd())) {
                 String buff = Function.get_string(msg, Minecraft_QQ.Config.getSystem().getHead(), Minecraft_QQ.Config.getSystem().getEnd());
                 ReadOBJ readobj;
@@ -57,7 +38,7 @@ public class IBungeecord implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    logInfo("数据传输发生错误:" + e.getMessage());
+                    Minecraft_QQ.log.info("数据传输发生错误:" + e.getMessage());
                     return;
                 }
                 if (readobj.getIsCommand().equals("false")) {
@@ -66,28 +47,28 @@ public class IBungeecord implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
-                        say = ChatColor.translateAlternateColorCodes('&', say);
+                        say = say.replaceAll("&", "§");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);
                         }
-                        for (ProxiedPlayer player1 : ProxyServer.getInstance().getPlayers()) {
-                            if (!Minecraft_QQ.Config.getMute().contains(player1.getName()))
-                                player1.sendMessage(new TextComponent(say));
+                        for (Player player1 : proxyserver.getAllPlayers()) {
+                            if (!Minecraft_QQ.Config.getMute().contains(player1.getUsername()))
+                                player1.sendMessage(Component.text(say));
                         }
                     } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
                         int allPlayerNumber = 0;
                         StringBuilder allServerPlayer = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
                         if (Minecraft_QQ.Config.getServerSet().isSendOneByOne()) {
-                            for (final ServerInfo serverinfo : proxyserver.getServers().values()) {
+                            for (final RegisteredServer serverinfo : proxyserver.getAllServers()) {
                                 String oneServerPlayer;
                                 int oneServerNumber;
-                                final Collection<ProxiedPlayer> oneServerPlayers = serverinfo.getPlayers();
+                                final Collection<Player> oneServerPlayers = serverinfo.getPlayersConnected();
                                 if (oneServerPlayers.size() == 0) {
                                     if (!Minecraft_QQ.Config.getServerSet().isHideEmptyServer()) {
-                                        String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
+                                        String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getServerInfo().getName());
                                         if (serverName == null || serverName.isEmpty()) {
-                                            serverName = serverinfo.getName();
+                                            serverName = serverinfo.getServerInfo().getName();
                                         }
                                         oneServerPlayer = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
                                                 .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), serverName)
@@ -97,13 +78,13 @@ public class IBungeecord implements IMinecraft_QQ {
                                     }
                                 } else {
                                     oneServerNumber = oneServerPlayers.size();
-                                    String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getName());
+                                    String serverName = Minecraft_QQ.Config.getServers().get(serverinfo.getServerInfo().getName());
                                     if (serverName == null || serverName.isEmpty()) {
-                                        serverName = serverinfo.getName();
+                                        serverName = serverinfo.getServerInfo().getName();
                                     }
                                     StringBuilder players = new StringBuilder();
-                                    for (ProxiedPlayer player : oneServerPlayers) {
-                                        players.append(player.getName()).append(",");
+                                    for (Player player : oneServerPlayers) {
+                                        players.append(player.getUsername()).append(",");
                                     }
                                     String players1 = players.toString();
                                     oneServerPlayer = Minecraft_QQ.Config.getServerSet().getSendOneByOneMessage()
@@ -122,14 +103,14 @@ public class IBungeecord implements IMinecraft_QQ {
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), allServerPlayer.toString());
                             }
                         } else {
-                            final Collection<ProxiedPlayer> players = proxyserver.getPlayers();
+                            final Collection<Player> players = proxyserver.getAllPlayers();
                             if (players.size() == 0) {
                                 send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "0")
                                         .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), "无");
                             } else {
                                 StringBuilder temp = new StringBuilder();
-                                for (ProxiedPlayer player : players) {
-                                    temp.append(player.getName()).append(",");
+                                for (Player player : players) {
+                                    temp.append(player.getUsername()).append(",");
                                 }
                                 String players1 = temp.toString();
                                 send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerNumber(), "" + players.size())
@@ -139,7 +120,7 @@ public class IBungeecord implements IMinecraft_QQ {
                         send = send.replace(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
                         boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
                         if (!sendok)
-                            logError("§d[Minecraft_QQ]§c数据发送失败");
+                            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[group]查询在线人数");
                         }
@@ -148,16 +129,15 @@ public class IBungeecord implements IMinecraft_QQ {
                     }
                 } else if (readobj.getIsCommand().equals("true")) {
                     StringBuilder send_message;
-                    Command send = new Command();
-                    send.setPlayer(readobj.getPlayer());
+                    VelocityCommander send = new VelocityCommander(readobj.getPlayer());
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
                         logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
                     }
                     try {
-                        proxyserver.getPluginManager().dispatchCommand(send, readobj.getCommand());
+                        proxyserver.getCommandManager().executeImmediatelyAsync(send, readobj.getCommand());
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
-                        logInfo(e.toString());
+                        Minecraft_QQ.log.info(e.toString());
                     }
                     if (send.getMessage().size() == 1) {
                         send_message = new StringBuilder(send.getMessage().get(0));
@@ -176,76 +156,8 @@ public class IBungeecord implements IMinecraft_QQ {
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());
             }
         } catch (Exception e) {
-            Minecraft_QQ.Side.logError("§d[Minecraft_QQ]§c发送错误：");
+            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c发送错误：");
             e.printStackTrace();
-        }
-    }
-
-    public class Command implements CommandSender {
-        public List<String> message = new ArrayList<String>();
-        public String player;
-
-        public void setPlayer(String player) {
-            this.player = player;
-        }
-
-        public List<String> getMessage() {
-            return message;
-        }
-
-        @Override
-        public String getName() {
-            return player;
-        }
-
-        @Override
-        public void sendMessage(String message) {
-            this.message.add(message);
-        }
-
-        @Override
-        public void sendMessages(String... messages) {
-            message.addAll(Arrays.asList(messages));
-        }
-
-        @Override
-        public void sendMessage(BaseComponent... message) {
-            this.message.add(Arrays.toString(message));
-        }
-
-        @Override
-        public void sendMessage(BaseComponent message) {
-            this.message.add(message.toLegacyText());
-        }
-
-        @Override
-        public Collection<String> getGroups() {
-            return null;
-        }
-
-        @Override
-        public void addGroups(String... groups) {
-
-        }
-
-        @Override
-        public void removeGroups(String... groups) {
-
-        }
-
-        @Override
-        public boolean hasPermission(String permission) {
-            return true;
-        }
-
-        @Override
-        public void setPermission(String permission, boolean value) {
-
-        }
-
-        @Override
-        public Collection<String> getPermissions() {
-            return null;
         }
     }
 }

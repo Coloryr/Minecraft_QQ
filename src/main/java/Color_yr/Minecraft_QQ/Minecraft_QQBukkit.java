@@ -1,9 +1,10 @@
 package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.Command.CommandBukkit;
-import Color_yr.Minecraft_QQ.Listener.BukkitEvent;
-import Color_yr.Minecraft_QQ.Side.IBukkit;
-import Color_yr.Minecraft_QQ.bStats.MetricsBukkit;
+import Color_yr.Minecraft_QQ.Listener.EventBukkit;
+import Color_yr.Minecraft_QQ.Side.SideBukkit.BukkitLog;
+import Color_yr.Minecraft_QQ.Side.SideBukkit.MetricsBukkit;
+import Color_yr.Minecraft_QQ.Side.SideBukkit.SideBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,12 +21,12 @@ public class Minecraft_QQBukkit extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         log_b = getLogger();
-
-        Minecraft_QQ.Side = new IBukkit();
+        Minecraft_QQ.log = new BukkitLog(log_b);
+        Minecraft_QQ.Side = new SideBukkit();
         new Minecraft_QQ().init(getDataFolder());
 
         if (!Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
-            Bukkit.getPluginManager().registerEvents(new BukkitEvent(), this);
+            Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
         }
 
         Bukkit.getPluginCommand("qq").setExecutor(new CommandBukkit());
