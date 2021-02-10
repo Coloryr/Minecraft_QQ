@@ -1,14 +1,14 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class SystemOBJ {
-    private final String IP;
-    private final int Port;
-    private final boolean AutoConnect;
-    private final int AutoConnectTime;
-    private final boolean Debug;
-    private final String Head;
-    private final String End;
-    private final int Sleep;
+    private String IP;
+    private int Port;
+    private boolean AutoConnect;
+    private int AutoConnectTime;
+    private boolean Debug;
+    private String Head;
+    private String End;
+    private int Sleep;
 
     public SystemOBJ() {
         IP = "localhost";

@@ -1,8 +1,8 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class MessageOBJ {
-    private final String Message;
-    private final boolean sendQQ;
+    private String Message;
+    private boolean sendQQ;
 
     public MessageOBJ(String Message) {
         this.Message = Message;

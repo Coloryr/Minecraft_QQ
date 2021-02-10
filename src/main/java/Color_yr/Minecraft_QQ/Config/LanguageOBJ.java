@@ -1,9 +1,9 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class LanguageOBJ {
-    private final String MessageOFF;
-    private final String MessageON;
-    private final String SucceedMessage;
+    private String MessageOFF;
+    private String MessageON;
+    private String SucceedMessage;
 
     public LanguageOBJ() {
         MessageOFF = "§2你已不会在收到群消息";

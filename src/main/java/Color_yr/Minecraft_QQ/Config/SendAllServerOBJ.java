@@ -1,9 +1,9 @@
 package Color_yr.Minecraft_QQ.Config;
 
 public class SendAllServerOBJ {
-    private final boolean Enable;
-    private final String Message;
-    private final boolean OnlySideServer;
+    private boolean Enable;
+    private String Message;
+    private boolean OnlySideServer;
 
     public SendAllServerOBJ() {
         Enable = true;
