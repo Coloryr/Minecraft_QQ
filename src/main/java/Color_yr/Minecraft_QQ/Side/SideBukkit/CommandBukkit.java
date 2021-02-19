@@ -1,5 +1,6 @@
-package Color_yr.Minecraft_QQ.Command;
+package Color_yr.Minecraft_QQ.Side.SideBukkit;
 
+import Color_yr.Minecraft_QQ.Command.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,8 +1,10 @@
-package Color_yr.Minecraft_QQ.Command;
+package Color_yr.Minecraft_QQ.Side.SideBC;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+
+import Color_yr.Minecraft_QQ.Command.*;
 
 public class CommandBC extends Command implements TabExecutor {
 

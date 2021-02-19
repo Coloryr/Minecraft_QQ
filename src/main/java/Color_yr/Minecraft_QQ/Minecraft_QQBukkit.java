@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.CommandBukkit;
-import Color_yr.Minecraft_QQ.Listener.EventBukkit;
+import Color_yr.Minecraft_QQ.Side.SideBukkit.CommandBukkit;
+import Color_yr.Minecraft_QQ.Side.SideBukkit.EventBukkit;
 import Color_yr.Minecraft_QQ.Side.SideBukkit.BukkitLog;
 import Color_yr.Minecraft_QQ.Side.SideBukkit.MetricsBukkit;
 import Color_yr.Minecraft_QQ.Side.SideBukkit.SideBukkit;

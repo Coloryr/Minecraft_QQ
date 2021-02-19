@@ -1,8 +1,10 @@
-package Color_yr.Minecraft_QQ.Command;
+package Color_yr.Minecraft_QQ.Side.SideVelocity;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
+
+import Color_yr.Minecraft_QQ.Command.CommandEX;
 
 public class CommandVelocity implements SimpleCommand {
     @Override

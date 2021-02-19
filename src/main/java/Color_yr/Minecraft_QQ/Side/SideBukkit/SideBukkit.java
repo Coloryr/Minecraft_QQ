@@ -50,8 +50,9 @@ public class SideBukkit implements IMinecraft_QQ {
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
                         say = ChatColor.translateAlternateColorCodes('&', say);
                         if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            OfflinePlayer player = Bukkit.getOfflinePlayer(readobj.getPlayer());
-                            say = PlaceholderAPI.setBracketPlaceholders(player, say);
+                            OfflinePlayer player = Bukkit.getPlayer(readobj.getPlayer());
+                            if (player != null)
+                                say = PlaceholderAPI.setBracketPlaceholders(player, say);
                         }
                         final String finalSay = say;
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
@@ -95,8 +96,9 @@ public class SideBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player.substring(0, player.length() - 1));
                         }
                         if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            OfflinePlayer player = Bukkit.getOfflinePlayer(readobj.getPlayer());
-                            send = PlaceholderAPI.setBracketPlaceholders(player, send);
+                            OfflinePlayer player = Bukkit.getPlayer(readobj.getPlayer());
+                            if (player != null)
+                                send = PlaceholderAPI.setBracketPlaceholders(player, send);
                         }
                         if (Minecraft_QQ.Config.getLogs().isGroup())
                             logs.logWrite("[group]查询在线人数");

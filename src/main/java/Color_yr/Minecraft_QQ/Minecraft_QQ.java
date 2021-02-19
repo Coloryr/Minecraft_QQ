@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.6.0.0";
+    public final static String Version = "2.6.2";
     public static SocketControl control = new SocketControl();
     public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;

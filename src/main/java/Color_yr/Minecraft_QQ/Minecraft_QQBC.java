@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.CommandBC;
-import Color_yr.Minecraft_QQ.Listener.EventBC;
+import Color_yr.Minecraft_QQ.Side.SideBC.CommandBC;
+import Color_yr.Minecraft_QQ.Side.SideBC.EventBC;
 import Color_yr.Minecraft_QQ.Side.SideBC.BCLog;
 import Color_yr.Minecraft_QQ.Side.SideBC.MetricsBC;
 import Color_yr.Minecraft_QQ.Side.SideBC.SideBC;

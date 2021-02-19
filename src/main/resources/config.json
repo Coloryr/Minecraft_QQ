@@ -1,20 +1,20 @@
 {
   "Join": {
-    "Message": "%Player%加入了服务器",
+    "Message": "%player%加入了服务器",
     "sendQQ": true
   },
   "Quit": {
-    "Message": "%Player%退出了服务器",
+    "Message": "%player%退出了服务器",
     "sendQQ": true
   },
   "ChangeServer": {
-    "Message": "%Player%加入了子服%Server%",
+    "Message": "%player%加入了子服%Server%",
     "sendQQ": true
   },
   "ServerSet": {
     "ServerName": "[MC服务器]",
     "Check": "群：",
-    "Message": "%ServerName%-%Server%-%Player%:%Message%",
+    "Message": "%ServerName%-%Server%-%player%:%Message%",
     "Say": "[%ServerName%][群消息]%Player%:%Message%",
     "Mode": 1,
     "SendOneByOne": true,
@@ -54,7 +54,7 @@
   },
   "Placeholder": {
     "Message": "%Message%",
-    "Player": "%Player%",
+    "Player": "%player%",
     "Servername": "%ServerName%",
     "Server": "%Server%",
     "PlayerNumber": "%PlayerNumber%",

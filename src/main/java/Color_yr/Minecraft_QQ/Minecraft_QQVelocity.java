@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Command.CommandVelocity;
-import Color_yr.Minecraft_QQ.Listener.EventVelocity;
+import Color_yr.Minecraft_QQ.Side.SideVelocity.CommandVelocity;
+import Color_yr.Minecraft_QQ.Side.SideVelocity.EventVelocity;
 import Color_yr.Minecraft_QQ.Side.SideVelocity.MetricsVelocity;
 import Color_yr.Minecraft_QQ.Side.SideVelocity.SideVelocity;
 import Color_yr.Minecraft_QQ.Side.SideVelocity.VelocityLog;
