@@ -15,7 +15,7 @@
     "ServerName": "[MC服务器]",
     "Check": "群：",
     "Message": "%ServerName%-%Server%-%player%:%Message%",
-    "Say": "[%ServerName%][群消息]%Player%:%Message%",
+    "Say": "[%ServerName%][群消息]%player%:%Message%",
     "Mode": 1,
     "SendOneByOne": true,
     "SendOneByOneMessage": "[%Server%-%PlayerNumber%]-%PlayerList%",
@@ -31,7 +31,7 @@
   },
   "SendAllServer": {
     "Enable": true,
-    "Message": "[%ServerName%-%Server%]玩家：[%Player%]发送群消息：[%Message%]",
+    "Message": "[%ServerName%-%Server%]玩家：[%player%]发送群消息：[%Message%]",
     "OnlySideServer": true
   },
   "System": {
