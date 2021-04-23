@@ -1,9 +1,8 @@
-package Color_yr.Minecraft_QQ.Socket;
+package Color_yr.Minecraft_QQ.Utils;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Json.SendOBJ;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
-import Color_yr.Minecraft_QQ.Utils.logs;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-public class SocketControl {
+public class SocketUtils {
 
     private final byte[] buf = new byte[4096];
     private OutputStream os = null;

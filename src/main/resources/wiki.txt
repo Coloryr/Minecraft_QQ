@@ -127,4 +127,4 @@ Minecraft_QQ帮助手册
 "Mute": [],
 
 配置文件版本号
-"Version": "${version}"
+"Version": "2.6.3"

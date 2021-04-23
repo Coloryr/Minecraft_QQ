@@ -66,5 +66,5 @@
     "SucceedMessage": "§2已发送消息至群内"
   },
   "Mute": [],
-  "Version": "${version}"
+  "Version": "2.6.3"
 }

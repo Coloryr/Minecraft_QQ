@@ -27,8 +27,8 @@ import java.util.UUID;
 
 public class VelocityCommander implements Player {
     public List<String> message = new ArrayList<String>();
-    private String player;
-    private Player play;
+    public String player;
+    public Player play;
     private boolean havePlayer;
 
     public VelocityCommander(String player) {
@@ -37,10 +37,6 @@ public class VelocityCommander implements Player {
         if (havePlayer) {
             play = Minecraft_QQVelocity.plugin.server.getPlayer(player).get();
         }
-    }
-
-    public List<String> getMessage() {
-        return message;
     }
 
     @Override

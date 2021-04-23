@@ -42,15 +42,15 @@ public class SideBukkit implements IMinecraft_QQ {
                     e.printStackTrace();
                     return;
                 }
-                if (readobj.getIsCommand().equals("false") && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
-                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
+                if (!readobj.isCommand && !Minecraft_QQ.Config.getServerSet().isBungeeCord()) {
+                    if (readobj.command.equalsIgnoreCase(Placeholder.speak)) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.message)
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.player);
                         say = ChatColor.translateAlternateColorCodes('&', say);
-                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            OfflinePlayer player = Bukkit.getPlayer(readobj.getPlayer());
+                        if (Minecraft_QQBukkit.PAPI && readobj.player != null) {
+                            OfflinePlayer player = Bukkit.getPlayer(readobj.player);
                             if (player != null)
                                 say = PlaceholderAPI.setBracketPlaceholders(player, say);
                         }
@@ -70,7 +70,7 @@ public class SideBukkit implements IMinecraft_QQ {
                                 e.printStackTrace();
                             }
                         });
-                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
+                    } else if (readobj.command.equalsIgnoreCase(Placeholder.online)) {
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
                         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
                         if (players.size() == 0) {
@@ -95,8 +95,8 @@ public class SideBukkit implements IMinecraft_QQ {
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getServer(), "")
                                     .replaceAll(Minecraft_QQ.Config.getPlaceholder().getPlayerList(), player.substring(0, player.length() - 1));
                         }
-                        if (Minecraft_QQBukkit.PAPI && readobj.getPlayer() != null) {
-                            OfflinePlayer player = Bukkit.getPlayer(readobj.getPlayer());
+                        if (Minecraft_QQBukkit.PAPI && readobj.player != null) {
+                            OfflinePlayer player = Bukkit.getPlayer(readobj.player);
                             if (player != null)
                                 send = PlaceholderAPI.setBracketPlaceholders(player, send);
                         }
@@ -104,36 +104,36 @@ public class SideBukkit implements IMinecraft_QQ {
                             logs.logWrite("[group]查询在线人数");
                         if (Minecraft_QQ.Config.getSystem().isDebug())
                             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]查询在线人数");
-                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        Minecraft_QQ.control.sendData(Placeholder.data, readobj.group, "无", send);
                     } else {
                         ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIsCommand().equals("true")) {
+                } else {
                     StringBuilder send_message;
                     BukkitCommander send = new BukkitCommander();
-                    send.setPlayer(readobj.getPlayer());
+                    send.player = readobj.player;
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
+                        logs.logWrite("[Group]" + readobj.player + "执行命令" + readobj.command);
                     }
                     try {
                         Bukkit.getScheduler().callSyncMethod(Minecraft_QQBukkit.plugin, () ->
-                                Bukkit.dispatchCommand(send, readobj.getCommand())).get();
+                                Bukkit.dispatchCommand(send, readobj.command)).get();
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c指令执行出现错误");
                         e.printStackTrace();
                     }
-                    if (send.getMessage().size() == 1) {
-                        send_message = new StringBuilder(send.getMessage().get(0));
-                    } else if (send.getMessage().size() > 1) {
-                        send_message = new StringBuilder(send.getMessage().get(0));
-                        for (int i = 1; i < send.getMessage().size(); i++) {
+                    if (send.message.size() == 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                    } else if (send.message.size() > 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                        for (int i = 1; i < send.message.size(); i++) {
                             send_message.append("\n");
-                            send_message.append(send.getMessage().get(i));
+                            send_message.append(send.message.get(i));
                         }
                     } else
                         send_message = new StringBuilder("已执行，指令无返回");
-                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "控制台", send_message.toString());
+                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.group, "控制台", send_message.toString());
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());
                 msg = msg.substring(i + Minecraft_QQ.Config.getSystem().getEnd().length());

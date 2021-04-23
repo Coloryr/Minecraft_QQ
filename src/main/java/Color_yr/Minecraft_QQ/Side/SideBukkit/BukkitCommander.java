@@ -18,14 +18,6 @@ public class BukkitCommander implements CommandSender {
     public List<String> message = new ArrayList<>();
     public String player;
 
-    public void setPlayer(String player) {
-        this.player = player;
-    }
-
-    public List<String> getMessage() {
-        return message;
-    }
-
     @Override
     public void sendMessage(String message) {
         this.message.add(message);

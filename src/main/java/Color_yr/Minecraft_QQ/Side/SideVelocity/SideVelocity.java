@@ -38,15 +38,16 @@ public class SideVelocity implements IMinecraft_QQ {
                     Gson read_gson = new Gson();
                     readobj = read_gson.fromJson(buff, ReadOBJ.class);
                 } catch (Exception e) {
-                    Minecraft_QQ.log.info("数据传输发生错误:" + e.getMessage());
+                    Minecraft_QQ.log.info("数据传输发生错误:");
+                    e.printStackTrace();
                     return;
                 }
-                if (readobj.getIsCommand().equals("false")) {
-                    if (readobj.getCommand().equalsIgnoreCase(Placeholder.speak)) {
+                if (!readobj.isCommand) {
+                    if (readobj.command.equalsIgnoreCase(Placeholder.speak)) {
                         String say = Minecraft_QQ.Config.getServerSet().getSay()
                                 .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.getMessage())
-                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.getPlayer());
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getMessage(), readobj.message)
+                                .replaceFirst(Minecraft_QQ.Config.getPlaceholder().getPlayer(), readobj.player);
                         say = say.replaceAll("&", "§");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
                             logs.logWrite("[Group]" + say);
@@ -55,7 +56,7 @@ public class SideVelocity implements IMinecraft_QQ {
                             if (!Minecraft_QQ.Config.getMute().contains(player1.getUsername()))
                                 player1.sendMessage(Component.text(say));
                         }
-                    } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.online)) {
+                    } else if (readobj.command.equalsIgnoreCase(Placeholder.online)) {
                         int allPlayerNumber = 0;
                         StringBuilder allServerPlayer = new StringBuilder();
                         String send = Minecraft_QQ.Config.getServerSet().getPlayerListMessage();
@@ -118,7 +119,7 @@ public class SideVelocity implements IMinecraft_QQ {
                             }
                         }
                         send = send.replace(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+                        boolean sendok = Minecraft_QQ.control.sendData(Placeholder.data, readobj.group, "无", send);
                         if (!sendok)
                             Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c数据发送失败");
                         if (Minecraft_QQ.Config.getLogs().isGroup()) {
@@ -127,29 +128,29 @@ public class SideVelocity implements IMinecraft_QQ {
                     } else {
                         ASide.globeCheck(readobj);
                     }
-                } else if (readobj.getIsCommand().equals("true")) {
+                } else {
                     StringBuilder send_message;
-                    VelocityCommander send = new VelocityCommander(readobj.getPlayer());
+                    VelocityCommander send = new VelocityCommander(readobj.player);
                     if (Minecraft_QQ.Config.getLogs().isGroup()) {
-                        logs.logWrite("[Group]" + readobj.getPlayer() + "执行命令" + readobj.getCommand());
+                        logs.logWrite("[Group]" + readobj.player + "执行命令" + readobj.command);
                     }
                     try {
-                        proxyserver.getCommandManager().executeImmediatelyAsync(send, readobj.getCommand());
+                        proxyserver.getCommandManager().executeImmediatelyAsync(send, readobj.command);
                         Thread.sleep(Minecraft_QQ.Config.getServerSet().getCommandDelay());
                     } catch (Exception e) {
                         Minecraft_QQ.log.info(e.toString());
                     }
-                    if (send.getMessage().size() == 1) {
-                        send_message = new StringBuilder(send.getMessage().get(0));
-                    } else if (send.getMessage().size() > 1) {
-                        send_message = new StringBuilder(send.getMessage().get(0));
-                        for (int i = 1; i < send.getMessage().size(); i++) {
+                    if (send.message.size() == 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                    } else if (send.message.size() > 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                        for (int i = 1; i < send.message.size(); i++) {
                             send_message.append("\n");
-                            send_message.append(send.getMessage().get(i));
+                            send_message.append(send.message.get(i));
                         }
                     } else
                         send_message = new StringBuilder("已执行，指令无返回");
-                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(),
+                    Minecraft_QQ.control.sendData(Placeholder.data, readobj.group,
                             "控制台", send_message.toString());
                 }
                 int i = msg.indexOf(Minecraft_QQ.Config.getSystem().getEnd());

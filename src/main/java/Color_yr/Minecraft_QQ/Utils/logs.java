@@ -11,7 +11,7 @@ import java.util.Date;
 public class logs {
     public static File file;
 
-    public logs(File file) throws IOException {
+    public static void init(File file) throws IOException {
         logs.file = new File(file, "logs.log");
         if (!logs.file.exists()) {
             file.createNewFile();

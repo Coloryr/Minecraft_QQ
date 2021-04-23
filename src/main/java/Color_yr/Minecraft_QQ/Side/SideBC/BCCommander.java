@@ -12,14 +12,6 @@ public class BCCommander implements CommandSender {
     public List<String> message = new ArrayList<String>();
     public String player;
 
-    public void setPlayer(String player) {
-        this.player = player;
-    }
-
-    public List<String> getMessage() {
-        return message;
-    }
-
     @Override
     public String getName() {
         return player;

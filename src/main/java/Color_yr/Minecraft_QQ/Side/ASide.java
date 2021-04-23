@@ -9,27 +9,27 @@ import com.google.gson.Gson;
 
 public class ASide {
     public static void globeCheck(ReadOBJ readobj) {
-        if (readobj.getCommand().equalsIgnoreCase(Placeholder.server)) {
+        if (readobj.command.equalsIgnoreCase(Placeholder.server)) {
             String send = Minecraft_QQ.Config.getServerSet().getServerOnlineMessage();
             send = send.replaceAll(Minecraft_QQ.Config.getPlaceholder().getServerName(), Minecraft_QQ.Config.getServerSet().getServerName());
-            Minecraft_QQ.control.sendData(Placeholder.data, readobj.getGroup(), "无", send);
+            Minecraft_QQ.control.sendData(Placeholder.data, readobj.group, "无", send);
             if (Minecraft_QQ.Config.getLogs().isGroup()) {
                 logs.logWrite("[group]查询服务器状态");
             }
             if (Minecraft_QQ.Config.getSystem().isDebug())
                 Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]查询服务器状态");
-        } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.pause)) {
-            boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.getGroup(), "无", "data");
+        } else if (readobj.command.equalsIgnoreCase(Placeholder.pause)) {
+            boolean sendok = Minecraft_QQ.control.sendData(Placeholder.pause, readobj.group, "无", "data");
             if (!sendok)
                 Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c心跳包发送失败");
-        } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.config)) {
+        } else if (readobj.command.equalsIgnoreCase(Placeholder.config)) {
             String config = new Gson().toJson(Minecraft_QQ.Config);
-            boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.getGroup(), "无", config);
+            boolean sendok = Minecraft_QQ.control.sendData(Placeholder.config, readobj.group, "无", config);
             if (!sendok)
                 Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c配置文件发送失败");
-        } else if (readobj.getCommand().equalsIgnoreCase(Placeholder.set)) {
+        } else if (readobj.command.equalsIgnoreCase(Placeholder.set)) {
             try {
-                Minecraft_QQ.Config = new Gson().fromJson(readobj.getMessage(), ConfigOBJ.class);
+                Minecraft_QQ.Config = new Gson().fromJson(readobj.message, ConfigOBJ.class);
                 Minecraft_QQ.save();
             } catch (Exception e) {
                 Minecraft_QQ.log.warning("配置文件动态更新失败");
