@@ -15,7 +15,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
         if (command.getName().equalsIgnoreCase("qq")) {
             CommandEX.Ex(sender, sender.getName(), args, sender.isOp());
         }
-        return false;
+        return true;
     }
 
     @Override

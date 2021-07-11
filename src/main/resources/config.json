@@ -55,7 +55,7 @@
   "Placeholder": {
     "Message": "%Message%",
     "Player": "%player%",
-    "Servername": "%ServerName%",
+    "ServerName": "%ServerName%",
     "Server": "%Server%",
     "PlayerNumber": "%PlayerNumber%",
     "PlayerList": "%PlayerList%"
@@ -66,5 +66,5 @@
     "SucceedMessage": "§2已发送消息至群内"
   },
   "Mute": [],
-  "Version": "2.6.3"
+  "Version": "2.6.4"
 }

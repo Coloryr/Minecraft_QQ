@@ -3,19 +3,19 @@ Minecraft_QQ帮助手册
 配置文件说明：
 玩家加入服务器后会往群里发送消息，Forge无这个功能
   "Join": {
-    "Message": "%Player%加入了服务器",
+    "Message": "%player%加入了服务器",
     "sendQQ": true
   },
 
 玩家退出服务器后会往群里发送消息，Forge无这个功能
   "Quit": {
-    "Message": "%Player%退出了服务器",
+    "Message": "%player%退出了服务器",
     "sendQQ": true
   },
 
 玩家切换子服后会往群里发送消息，仅BC有这个功能
   "ChangeServer": {
-    "Message": "%Player%加入了子服%Server%",
+    "Message": "%player%加入了子服%Server%",
     "sendQQ": true
   },
 
@@ -26,9 +26,9 @@ Minecraft_QQ帮助手册
     对话检测头
     "Check": "群：",
     发送至群的格式，%Server%变量为BC专属，其他端会删掉
-    "Message": "%ServerName%-%Server%-%Player%:%Message%",
+    "Message": "%ServerName%-%Server%-%player%:%Message%",
     发送至服务器的格式
-    "Say": "[%ServerName%][群消息]%Player%:%Message%",
+    "Say": "[%ServerName%][群消息]%player%:%Message%",
     机器人模式，0：不发送玩家消息到群，1：检测是否有检测头，若玩家聊天的第一个字符存在检测头，则会把这句话发送到群，2：无论玩家说什么都会完整的发送到群
     "Mode": 1,
     单独显示子服的人数而不是混在一起显示，仅BC有这个功能
@@ -102,9 +102,9 @@ Minecraft_QQ帮助手册
     消息
     "Message": "%Message%",
     玩家名字
-    "Player": "%Player%",
+    "Player": "%player%",
     服务器名字
-    "Servername": "%ServerName%",
+    "ServerName": "%ServerName%",
     子服名字
     "Server": "%Server%",
     玩家数量
@@ -127,4 +127,4 @@ Minecraft_QQ帮助手册
 "Mute": [],
 
 配置文件版本号
-"Version": "2.6.3"
+"Version": "2.6.4"
