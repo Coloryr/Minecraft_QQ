@@ -1,10 +1,10 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Side.SideBC.CommandBC;
-import Color_yr.Minecraft_QQ.Side.SideBC.EventBC;
-import Color_yr.Minecraft_QQ.Side.SideBC.BCLog;
-import Color_yr.Minecraft_QQ.Side.SideBC.MetricsBC;
-import Color_yr.Minecraft_QQ.Side.SideBC.SideBC;
+import Color_yr.Minecraft_QQ.side.bc.CommandBC;
+import Color_yr.Minecraft_QQ.side.bc.EventBC;
+import Color_yr.Minecraft_QQ.side.bc.BCLog;
+import Color_yr.Minecraft_QQ.side.bc.MetricsBC;
+import Color_yr.Minecraft_QQ.side.bc.SideBC;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 

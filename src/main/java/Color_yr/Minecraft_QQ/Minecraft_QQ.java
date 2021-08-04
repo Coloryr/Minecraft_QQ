@@ -2,9 +2,9 @@ package Color_yr.Minecraft_QQ;
 
 import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
 import Color_yr.Minecraft_QQ.API.IMyLogger;
-import Color_yr.Minecraft_QQ.Config.ConfigOBJ;
-import Color_yr.Minecraft_QQ.Utils.SocketUtils;
-import Color_yr.Minecraft_QQ.Utils.logs;
+import Color_yr.Minecraft_QQ.config.ConfigOBJ;
+import Color_yr.Minecraft_QQ.utils.SocketUtils;
+import Color_yr.Minecraft_QQ.utils.logs;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Minecraft_QQ {
-    public final static String Version = "2.6.4";
+    public final static String Version = "2.7.0";
     public static SocketUtils control = new SocketUtils();
     public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;
@@ -24,10 +24,10 @@ public class Minecraft_QQ {
             InputStreamReader reader = new InputStreamReader(new FileInputStream(FileName), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
             Config = new Gson().fromJson(bf, ConfigOBJ.class);
-            if (Config == null || Config.getSystem() == null
-                    || Config.getServerSet() == null || Config.getMute() == null
-                    || Config.getLanguage() == null || Config.getUser() == null
-                    || Config.getSendAllServer() == null || Config.getJoin() == null) {
+            if (Config == null || Config.System == null
+                    || Config.ServerSet == null || Config.Mute == null
+                    || Config.Language == null || Config.User == null
+                    || Config.SendAllServer == null || Config.Join == null) {
                 Config = new ConfigOBJ();
                 throw (new Throwable("配置文件为空"));
             }
@@ -57,7 +57,7 @@ public class Minecraft_QQ {
     public static void start() {
         control.start();
         log.info("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
-        log.info("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.getSystem().isDebug());
+        log.info("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.System.Debug);
     }
 
     public static void stop() {

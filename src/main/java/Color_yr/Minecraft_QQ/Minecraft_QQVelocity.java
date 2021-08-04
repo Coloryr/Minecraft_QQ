@@ -1,10 +1,10 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.Side.SideVelocity.CommandVelocity;
-import Color_yr.Minecraft_QQ.Side.SideVelocity.EventVelocity;
-import Color_yr.Minecraft_QQ.Side.SideVelocity.MetricsVelocity;
-import Color_yr.Minecraft_QQ.Side.SideVelocity.SideVelocity;
-import Color_yr.Minecraft_QQ.Side.SideVelocity.VelocityLog;
+import Color_yr.Minecraft_QQ.side.velocity.CommandVelocity;
+import Color_yr.Minecraft_QQ.side.velocity.EventVelocity;
+import Color_yr.Minecraft_QQ.side.velocity.MetricsVelocity;
+import Color_yr.Minecraft_QQ.side.velocity.SideVelocity;
+import Color_yr.Minecraft_QQ.side.velocity.VelocityLog;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
