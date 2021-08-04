@@ -86,6 +86,7 @@ public class SocketUtils {
             }
         });
         ReadThread.start();
+        isRun = true;
     }
 
     private void ReConnect() {
