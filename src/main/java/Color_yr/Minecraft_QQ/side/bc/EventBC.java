@@ -2,6 +2,7 @@ package Color_yr.Minecraft_QQ.side.bc;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
+import Color_yr.Minecraft_QQ.utils.SocketUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,25 +24,25 @@ public class EventBC implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.Join.sendQQ) {
+        if (SocketUtils.isRun() && Minecraft_QQ.Config.Join.sendQQ) {
             String playerName = event.getPlayer().getName();
-            Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
+            SocketUtils.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.Join.Message, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerquit(PlayerDisconnectEvent event) {
-        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.Quit.sendQQ) {
+        if (SocketUtils.isRun() && Minecraft_QQ.Config.Quit.sendQQ) {
             String playerName = event.getPlayer().getName();
-           Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group,
+           SocketUtils.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.Config.Quit.Message, playerName));
         }
     }
 
     @EventHandler
     public void onPlayerChangeServer(ServerSwitchEvent event) {
-        if (Minecraft_QQ.control.isRun() && Minecraft_QQ.Config.ChangeServer.sendQQ) {
+        if (SocketUtils.isRun() && Minecraft_QQ.Config.ChangeServer.sendQQ) {
             String message = Minecraft_QQ.Config.ChangeServer.Message;
             ProxiedPlayer player = event.getPlayer();
             String playerName = player.getName();
@@ -52,7 +53,7 @@ public class EventBC implements Listener {
             message = message.replaceAll(Minecraft_QQ.Config.Placeholder.Player, playerName)
                     .replaceAll(Minecraft_QQ.Config.Placeholder.Server, server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-           Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
+           SocketUtils.sendData(Placeholder.data, Placeholder.group, playerName, message);
         }
     }
 
@@ -65,7 +66,7 @@ public class EventBC implements Listener {
                 return;
         } else if (Minecraft_QQ.Config.Mute.contains(player.getName()))
             return;
-        if (Minecraft_QQ.Config.ServerSet.Mode != 0 && Minecraft_QQ.control.isRun()) {
+        if (Minecraft_QQ.Config.ServerSet.Mode != 0 && SocketUtils.isRun()) {
             String message = Minecraft_QQ.Config.ServerSet.Message;
             String playerName = player.getName();
             String Server = Minecraft_QQ.Config.Servers.get(player.getServer().getInfo().getName());
@@ -80,10 +81,10 @@ public class EventBC implements Listener {
                     && playerMessage.indexOf(Minecraft_QQ.Config.ServerSet.Check) == 0) {
                 playerMessage = playerMessage.replaceFirst(Minecraft_QQ.Config.ServerSet.Check, "");
                 message = message.replaceAll(Minecraft_QQ.Config.Placeholder.Message, playerMessage);
-                Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
+                SocketUtils.sendData(Placeholder.data, Placeholder.group, playerName, message);
             } else if (Minecraft_QQ.Config.ServerSet.Mode == 2) {
                 message = message.replaceAll(Minecraft_QQ.Config.Placeholder.Message, playerMessage);
-                Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, playerName, message);
+                SocketUtils.sendData(Placeholder.data, Placeholder.group, playerName, message);
             }
             if (Minecraft_QQ.Config.SendAllServer.Enable) {
                 String SendAllServer_send = Minecraft_QQ.Config.SendAllServer.Message;

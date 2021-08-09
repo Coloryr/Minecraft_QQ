@@ -13,7 +13,6 @@ import java.nio.file.Files;
 
 public class Minecraft_QQ {
     public final static String Version = "2.7.0";
-    public static SocketUtils control = new SocketUtils();
     public static IMinecraft_QQ Side;
     public static ConfigOBJ Config;
     public static IMyLogger log;
@@ -55,13 +54,13 @@ public class Minecraft_QQ {
     }
 
     public static void start() {
-        control.start();
+        SocketUtils.start();
         log.info("§d[Minecraft_QQ]§e已启动-" + Minecraft_QQ.Version);
         log.info("§d[Minecraft_QQ]§eDebug模式" + Minecraft_QQ.Config.System.Debug);
     }
 
     public static void stop() {
-        control.stop();
+        SocketUtils.stop();
         log.info("§d[Minecraft_QQ]§e已停止，感谢使用");
     }
 

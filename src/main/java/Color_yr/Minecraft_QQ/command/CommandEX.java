@@ -2,6 +2,7 @@ package Color_yr.Minecraft_QQ.command;
 
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
+import Color_yr.Minecraft_QQ.utils.SocketUtils;
 
 public class CommandEX {
 
@@ -24,12 +25,12 @@ public class CommandEX {
                     Minecraft_QQ.load();
                     reload(sender);
                 } else if (args[1].equalsIgnoreCase("socket")) {
-                    Minecraft_QQ.control.socketRestart();
+                    SocketUtils.socketRestart();
                 }
             } else {
                 Minecraft_QQ.load();
                 reload(sender);
-                Minecraft_QQ.control.socketRestart();
+                SocketUtils.socketRestart();
             }
         } else if (args[0].equalsIgnoreCase("help")) {
             Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§2帮助手册");
@@ -42,8 +43,8 @@ public class CommandEX {
             }
         } else if (args[0].equalsIgnoreCase("say") && hasPermission) {
             if (args.length > 1) {
-                if (Minecraft_QQ.control.isRun()) {
-                    Minecraft_QQ.control.sendData(Placeholder.data, Placeholder.group, "无", args[1]);
+                if (SocketUtils.isRun()) {
+                    SocketUtils.sendData(Placeholder.data, Placeholder.group, "无", args[1]);
                 } else
                     Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§c错误，Minecraft_QQ_Cmd/Gui未连接");
             } else {

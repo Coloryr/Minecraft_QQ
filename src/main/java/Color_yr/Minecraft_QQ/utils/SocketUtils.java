@@ -14,24 +14,25 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SocketUtils {
 
-    private Socket socket = null;
-    private final Queue<String> QueueRead = new ConcurrentLinkedQueue<>();
-    private final Queue<byte[]> QueueSend = new ConcurrentLinkedQueue<>();
-    private Thread ReadThread;
-    private Thread DoThread;
-    private boolean isRun;
-    private boolean IsConnect;
-    private int Times = 0;
+    private static Socket socket = null;
+    private static final Queue<String> QueueRead = new ConcurrentLinkedQueue<>();
+    private static final Queue<byte[]> QueueSend = new ConcurrentLinkedQueue<>();
+    private static Thread ReadThread;
+    private static Thread DoThread;
+    private static boolean isRun;
+    private static boolean IsConnect;
+    private static final Gson gson = new Gson();
 
-    public void start() {
+    public static void start() {
         DoThread = new Thread(() -> {
             while (isRun) {
                 try {
-                    String temp = QueueRead.peek();
+                    String temp = QueueRead.poll();
                     if (temp != null) {
                         if (Minecraft_QQ.Config.System.Debug)
                             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + temp);
-                        Minecraft_QQ.Side.message(temp);
+                        if (!temp.equals("test"))
+                            Minecraft_QQ.Side.message(temp);
                     }
                     Thread.sleep(10);
                 } catch (Exception e) {
@@ -49,11 +50,16 @@ public class SocketUtils {
             }
             DoThread.start();
             byte[] data;
+            int b = 0;
             while (isRun) {
                 try {
+                    b++;
+                    if (b > 100) {
+                        b = 0;
+                        QueueSend.add("test".getBytes(StandardCharsets.UTF_8));
+                    }
                     if (!IsConnect) {
                         ReConnect();
-                        Times = 0;
                     } else if (socket.getInputStream().available() > 0) {
                         data = new byte[socket.getInputStream().available()];
                         socket.getInputStream().read(data);
@@ -89,7 +95,7 @@ public class SocketUtils {
         isRun = true;
     }
 
-    private void ReConnect() {
+    private static void ReConnect() {
         try {
             if (socket != null)
                 socket.close();
@@ -99,10 +105,9 @@ public class SocketUtils {
             socket.connect(new InetSocketAddress(Minecraft_QQ.Config.System.IP,
                     Minecraft_QQ.Config.System.Port), 5000);
             Thread.sleep(200);
-            sendData(Placeholder.start, null, null, Minecraft_QQ.Config.ServerSet.ServerName);
-            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui已连接");
             QueueRead.clear();
             QueueSend.clear();
+            sendData(Placeholder.start, null, null, Minecraft_QQ.Config.ServerSet.ServerName);
             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui已连接");
             IsConnect = true;
         } catch (Exception e) {
@@ -111,7 +116,7 @@ public class SocketUtils {
         }
     }
 
-    public void stop() {
+    public static void stop() {
         Minecraft_QQ.log.info("§d[Minecraft_QQ]§5连接已断开");
         isRun = false;
         if (socket != null) {
@@ -125,24 +130,21 @@ public class SocketUtils {
             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]线程已关闭");
     }
 
-    public void sendData(String data, String group, String player, String message) {
+    public static void sendData(String data, String group, String player, String message) {
         SendOBJ send_bean = new SendOBJ(data, group, player, message);
-        Gson send_gson = new Gson();
-        socketSend(send_gson.toJson(send_bean), player, message);
+        socketSend(gson.toJson(send_bean), player, message);
     }
 
-    private void socketSend(String send, String Player, String message) {
-            send = Minecraft_QQ.Config.System.Head + send
-                    + Minecraft_QQ.Config.System.End;
-            QueueSend.add(send.getBytes(StandardCharsets.UTF_8));
-            if (Minecraft_QQ.Config.Logs.Server) {
-                logs.logWrite("[Server]" + (Player == null ? "测试" : Player) + ":" + message);
-            }
-            if (Minecraft_QQ.Config.System.Debug)
-                Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
+    private static void socketSend(String send, String Player, String message) {
+        QueueSend.add(send.getBytes(StandardCharsets.UTF_8));
+        if (Minecraft_QQ.Config.Logs.Server) {
+            logs.logWrite("[Server]" + (Player == null ? "测试" : Player) + ":" + message);
+        }
+        if (Minecraft_QQ.Config.System.Debug)
+            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
     }
 
-    public void socketRestart() {
+    public static void socketRestart() {
         if (socket != null) {
             try {
                 socket.close();
@@ -152,7 +154,7 @@ public class SocketUtils {
         }
     }
 
-    public boolean isRun() {
+    public static boolean isRun() {
         return IsConnect;
     }
 }

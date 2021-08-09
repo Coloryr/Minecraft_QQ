@@ -6,8 +6,6 @@ public class SystemOBJ {
     public boolean AutoConnect;
     public int AutoConnectTime;
     public boolean Debug;
-    public String Head;
-    public String End;
     public int Sleep;
 
     public SystemOBJ() {
@@ -16,8 +14,6 @@ public class SystemOBJ {
         AutoConnect = false;
         AutoConnectTime = 10000;
         Debug = false;
-        Head = "[Head]";
-        End = "[End]";
         Sleep = 50;
     }
 }
