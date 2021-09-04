@@ -135,6 +135,20 @@ public class SocketUtils {
         socketSend(gson.toJson(send_bean), player, message);
     }
 
+    private static String build(String[] arg) {
+        StringBuilder builder = new StringBuilder();
+        for (int a = 1; a < arg.length; a++) {
+            builder.append(arg[a]).append(" ");
+        }
+        return builder.toString();
+    }
+
+    public static void sendData(String data, String group, String player, String[] arg) {
+        String message = build(arg);
+        SendOBJ send_bean = new SendOBJ(data, group, player, message);
+        socketSend(gson.toJson(send_bean), player, message);
+    }
+
     private static void socketSend(String send, String Player, String message) {
         QueueSend.add(send.getBytes(StandardCharsets.UTF_8));
         if (Minecraft_QQ.Config.Logs.Server) {

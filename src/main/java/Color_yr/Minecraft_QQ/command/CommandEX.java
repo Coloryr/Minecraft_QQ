@@ -44,7 +44,7 @@ public class CommandEX {
         } else if (args[0].equalsIgnoreCase("say") && hasPermission) {
             if (args.length > 1) {
                 if (SocketUtils.isRun()) {
-                    SocketUtils.sendData(Placeholder.data, Placeholder.group, "无", args[1]);
+                    SocketUtils.sendData(Placeholder.data, Placeholder.group, "无", args);
                 } else
                     Minecraft_QQ.Side.send(sender, "§d[Minecraft_QQ]§c错误，Minecraft_QQ_Cmd/Gui未连接");
             } else {
