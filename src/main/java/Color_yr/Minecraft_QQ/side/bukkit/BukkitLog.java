@@ -1,10 +1,10 @@
 package Color_yr.Minecraft_QQ.side.bukkit;
 
-import Color_yr.Minecraft_QQ.API.IMyLogger;
+import Color_yr.Minecraft_QQ.API.ILogger;
 
 import java.util.logging.Logger;
 
-public class BukkitLog implements IMyLogger {
+public class BukkitLog implements ILogger {
     private final Logger Logger;
 
     public BukkitLog(Logger Logger) {

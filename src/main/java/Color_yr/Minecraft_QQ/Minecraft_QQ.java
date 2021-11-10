@@ -1,7 +1,7 @@
 package Color_yr.Minecraft_QQ;
 
-import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
-import Color_yr.Minecraft_QQ.API.IMyLogger;
+import Color_yr.Minecraft_QQ.API.ISide;
+import Color_yr.Minecraft_QQ.API.ILogger;
 import Color_yr.Minecraft_QQ.config.ConfigOBJ;
 import Color_yr.Minecraft_QQ.utils.SocketUtils;
 import Color_yr.Minecraft_QQ.utils.logs;
@@ -13,9 +13,9 @@ import java.nio.file.Files;
 
 public class Minecraft_QQ {
     public final static String Version = "2.7.0";
-    public static IMinecraft_QQ Side;
+    public static ISide Side;
     public static ConfigOBJ Config;
-    public static IMyLogger log;
+    public static ILogger log;
     private static File FileName;
 
     public static void load() {

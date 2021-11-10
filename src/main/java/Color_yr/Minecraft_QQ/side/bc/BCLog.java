@@ -1,10 +1,10 @@
 package Color_yr.Minecraft_QQ.side.bc;
 
-import Color_yr.Minecraft_QQ.API.IMyLogger;
+import Color_yr.Minecraft_QQ.API.ILogger;
 
 import java.util.logging.Logger;
 
-public class BCLog implements IMyLogger {
+public class BCLog implements ILogger {
     private final Logger Logger;
 
     public BCLog(Logger Logger) {

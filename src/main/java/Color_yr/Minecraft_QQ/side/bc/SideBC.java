@@ -1,6 +1,6 @@
 package Color_yr.Minecraft_QQ.side.bc;
 
-import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
+import Color_yr.Minecraft_QQ.API.ISide;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.json.ReadOBJ;
@@ -17,7 +17,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Collection;
 
-public class SideBC implements IMinecraft_QQ {
+public class SideBC implements ISide {
 
     @Override
     public void send(Object sender, String message) {

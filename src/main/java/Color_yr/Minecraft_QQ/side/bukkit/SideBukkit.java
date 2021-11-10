@@ -1,6 +1,6 @@
 package Color_yr.Minecraft_QQ.side.bukkit;
 
-import Color_yr.Minecraft_QQ.API.IMinecraft_QQ;
+import Color_yr.Minecraft_QQ.API.ISide;
 import Color_yr.Minecraft_QQ.API.Placeholder;
 import Color_yr.Minecraft_QQ.Minecraft_QQ;
 import Color_yr.Minecraft_QQ.Minecraft_QQBukkit;
@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-public class SideBukkit implements IMinecraft_QQ {
+public class SideBukkit implements ISide {
     @Override
     public void send(Object sender, String message) {
         CommandSender temp = (CommandSender) sender;

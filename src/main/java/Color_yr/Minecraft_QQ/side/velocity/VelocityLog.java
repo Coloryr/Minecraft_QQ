@@ -1,9 +1,9 @@
 package Color_yr.Minecraft_QQ.side.velocity;
 
-import Color_yr.Minecraft_QQ.API.IMyLogger;
+import Color_yr.Minecraft_QQ.API.ILogger;
 import org.slf4j.Logger;
 
-public class VelocityLog implements IMyLogger {
+public class VelocityLog implements ILogger {
     private final Logger logger;
 
     public VelocityLog(Logger logger) {
