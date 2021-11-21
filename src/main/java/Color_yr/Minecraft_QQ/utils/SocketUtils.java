@@ -41,6 +41,7 @@ public class SocketUtils {
             }
         });
         ReadThread = new Thread(() -> {
+            boolean first = true;
             try {
                 while (!isRun) {
                     Thread.sleep(100);
@@ -59,35 +60,42 @@ public class SocketUtils {
                         QueueSend.add("test".getBytes(StandardCharsets.UTF_8));
                     }
                     if (!IsConnect) {
-                        ReConnect();
-                    } else if (socket.getInputStream().available() > 0) {
-                        data = new byte[socket.getInputStream().available()];
-                        socket.getInputStream().read(data);
-                        QueueRead.add(new String(data, StandardCharsets.UTF_8));
-                    } else if (socket.getInputStream().available() < 0) {
-                        Minecraft_QQ.log.info("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui连接中断");
-                        IsConnect = false;
-                    } else if (!QueueSend.isEmpty()) {
-                        data = QueueSend.poll();
-                        socket.getOutputStream().write(data);
-                        socket.getOutputStream().flush();
+                        if (first) {
+                            first = false;
+                            ReConnect();
+                        } else if (Minecraft_QQ.Config.System.AutoConnect) {
+                            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5" + Minecraft_QQ.Config.System.AutoConnectTime + "秒后重连");
+                            try {
+                                int a = Minecraft_QQ.Config.System.AutoConnectTime;
+                                while (isRun && a > 0) {
+                                    Thread.sleep(1000);
+                                    a--;
+                                }
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
+                            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui重连中");
+                            ReConnect();
+                        }
+                    } else {
+                        if (socket.getInputStream().available() > 0) {
+                            data = new byte[socket.getInputStream().available()];
+                            socket.getInputStream().read(data);
+                            QueueRead.add(new String(data, StandardCharsets.UTF_8));
+                        } else if (socket.getInputStream().available() < 0) {
+                            Minecraft_QQ.log.info("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui连接中断");
+                            IsConnect = false;
+                        } else if (!QueueSend.isEmpty()) {
+                            data = QueueSend.poll();
+                            socket.getOutputStream().write(data);
+                            socket.getOutputStream().flush();
+                        }
                     }
                     Thread.sleep(50);
                 } catch (Exception e) {
                     Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui连接失败");
                     e.printStackTrace();
                     IsConnect = false;
-                    Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5" + Minecraft_QQ.Config.System.AutoConnectTime + "秒后重连");
-                    try {
-                        int a = Minecraft_QQ.Config.System.AutoConnectTime;
-                        while (isRun && a > 0) {
-                            Thread.sleep(1000);
-                            a--;
-                        }
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                    Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui重连中");
                 }
             }
         });

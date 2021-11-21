@@ -130,21 +130,23 @@ public class SideVelocity implements ISide {
                     logs.logWrite("[Group]" + readobj.player + "执行命令" + readobj.command);
                 }
                 try {
-                    proxyserver.getCommandManager().executeImmediatelyAsync(send, readobj.command);
+                    proxyserver.getCommandManager().executeAsync(send, readobj.command).get();
                     Thread.sleep(Minecraft_QQ.Config.ServerSet.CommandDelay);
+                    if (send.message.size() == 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                    } else if (send.message.size() > 1) {
+                        send_message = new StringBuilder(send.message.get(0));
+                        for (int i = 1; i < send.message.size(); i++) {
+                            send_message.append("\n");
+                            send_message.append(send.message.get(i));
+                        }
+                    } else
+                        send_message = new StringBuilder("已执行，指令无返回");
                 } catch (Exception e) {
-                    Minecraft_QQ.log.info(e.toString());
+                    send_message = new StringBuilder("执行发生错误");
+                    Minecraft_QQ.log.warning("指令执行发生错误");
+                    e.printStackTrace();
                 }
-                if (send.message.size() == 1) {
-                    send_message = new StringBuilder(send.message.get(0));
-                } else if (send.message.size() > 1) {
-                    send_message = new StringBuilder(send.message.get(0));
-                    for (int i = 1; i < send.message.size(); i++) {
-                        send_message.append("\n");
-                        send_message.append(send.message.get(i));
-                    }
-                } else
-                    send_message = new StringBuilder("已执行，指令无返回");
                 SocketUtils.sendData(Placeholder.data, readobj.group,
                         "控制台", send_message.toString());
             }

@@ -14,10 +14,12 @@ import com.velocitypowered.api.util.GameProfile;
 import com.velocitypowered.api.util.MessagePosition;
 import com.velocitypowered.api.util.ModInfo;
 import com.velocitypowered.api.util.title.Title;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -88,12 +90,15 @@ public class VelocityCommander implements Player {
     }
 
     @Override
+    public void sendMessage(@NonNull Identity identity, net.kyori.adventure.text.@NotNull Component message1, @NonNull MessageType type) {
+        net.kyori.adventure.text.TextComponent obj = (net.kyori.adventure.text.TextComponent) message1;
+        message.add(obj.content());
+    }
+
+    @Override
     public void sendMessage(Component component) {
         if (component instanceof TextComponent) {
             TextComponent obj = (TextComponent) component;
-            message.add(obj.content());
-        } else if (component instanceof net.kyori.text.TextComponent) {
-            net.kyori.text.TextComponent obj = (net.kyori.text.TextComponent) component;
             message.add(obj.content());
         }
     }
@@ -102,9 +107,6 @@ public class VelocityCommander implements Player {
     public void sendMessage(Component component, MessagePosition position) {
         if (component instanceof TextComponent) {
             TextComponent obj = (TextComponent) component;
-            message.add(obj.content());
-        } else if (component instanceof net.kyori.text.TextComponent) {
-            net.kyori.text.TextComponent obj = (net.kyori.text.TextComponent) component;
             message.add(obj.content());
         }
     }
