@@ -29,12 +29,14 @@ public class Commander implements CommandSender {
 
     @Override
     public void sendMessage(BaseComponent... message) {
-        this.message.add(Arrays.toString(message));
+        for (BaseComponent component : message) {
+            sendMessage(component);
+        }
     }
 
     @Override
     public void sendMessage(BaseComponent message) {
-        this.message.add(message.toLegacyText());
+        this.message.add(message.toPlainText());
     }
 
     @Override
