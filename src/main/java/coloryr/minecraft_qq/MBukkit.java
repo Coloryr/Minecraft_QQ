@@ -1,10 +1,6 @@
 package coloryr.minecraft_qq;
 
-import coloryr.minecraft_qq.side.bukkit.Command;
-import coloryr.minecraft_qq.side.bukkit.EventListener;
-import coloryr.minecraft_qq.side.bukkit.Log;
-import coloryr.minecraft_qq.side.bukkit.Metrics;
-import coloryr.minecraft_qq.side.bukkit.Side;
+import coloryr.minecraft_qq.side.bukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;

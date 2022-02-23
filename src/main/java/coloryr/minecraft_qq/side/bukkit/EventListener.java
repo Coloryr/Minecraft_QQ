@@ -1,8 +1,8 @@
 package coloryr.minecraft_qq.side.bukkit;
 
-import coloryr.minecraft_qq.api.Placeholder;
-import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.MBukkit;
+import coloryr.minecraft_qq.Minecraft_QQ;
+import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.utils.SocketUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;

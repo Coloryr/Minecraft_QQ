@@ -1,10 +1,6 @@
 package coloryr.minecraft_qq;
 
-import coloryr.minecraft_qq.side.bc.Command;
-import coloryr.minecraft_qq.side.bc.EventListener;
-import coloryr.minecraft_qq.side.bc.Log;
-import coloryr.minecraft_qq.side.bc.Metrics;
-import coloryr.minecraft_qq.side.bc.Side;
+import coloryr.minecraft_qq.side.bc.*;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 

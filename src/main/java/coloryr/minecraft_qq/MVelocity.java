@@ -1,10 +1,6 @@
 package coloryr.minecraft_qq;
 
-import coloryr.minecraft_qq.side.velocity.Command;
-import coloryr.minecraft_qq.side.velocity.EventListener;
-import coloryr.minecraft_qq.side.velocity.Metrics;
-import coloryr.minecraft_qq.side.velocity.Side;
-import coloryr.minecraft_qq.side.velocity.Log;
+import coloryr.minecraft_qq.side.velocity.*;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;

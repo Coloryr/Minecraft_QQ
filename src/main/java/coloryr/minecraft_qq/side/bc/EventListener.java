@@ -1,7 +1,7 @@
 package coloryr.minecraft_qq.side.bc;
 
-import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.Minecraft_QQ;
+import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.utils.SocketUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -35,7 +35,7 @@ public class EventListener implements Listener {
     public void onPlayerquit(PlayerDisconnectEvent event) {
         if (SocketUtils.isRun() && Minecraft_QQ.config.Quit.sendQQ) {
             String playerName = event.getPlayer().getName();
-           SocketUtils.sendData(Placeholder.data, Placeholder.group,
+            SocketUtils.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.config.Quit.Message, playerName));
         }
     }
@@ -53,7 +53,7 @@ public class EventListener implements Listener {
             message = message.replaceAll(Minecraft_QQ.config.Placeholder.Player, playerName)
                     .replaceAll(Minecraft_QQ.config.Placeholder.Server, server);
             message = ChatColor.translateAlternateColorCodes('&', message);
-           SocketUtils.sendData(Placeholder.data, Placeholder.group, playerName, message);
+            SocketUtils.sendData(Placeholder.data, Placeholder.group, playerName, message);
         }
     }
 

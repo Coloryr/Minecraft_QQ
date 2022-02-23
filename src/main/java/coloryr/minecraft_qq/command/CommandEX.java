@@ -1,7 +1,7 @@
 package coloryr.minecraft_qq.command;
 
-import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.Minecraft_QQ;
+import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.utils.SocketUtils;
 
 public class CommandEX {
@@ -20,26 +20,20 @@ public class CommandEX {
             return;
         }
         if (args[0].equalsIgnoreCase("reload") && hasPermission) {
-            if (args.length > 1) {
-                if (args[1].equalsIgnoreCase("config")) {
-                    Minecraft_QQ.load();
-                    reload(sender);
-                } else if (args[1].equalsIgnoreCase("socket")) {
-                    SocketUtils.socketRestart();
-                }
-            } else {
-                Minecraft_QQ.load();
-                reload(sender);
-                SocketUtils.socketRestart();
-            }
+            Minecraft_QQ.load();
+            reload(sender);
+        } else if (args[0].equalsIgnoreCase("socket") && hasPermission) {
+            SocketUtils.socketReset();
+        } else if (args[0].equalsIgnoreCase("drop") && hasPermission) {
+            SocketUtils.socketClose();
         } else if (args[0].equalsIgnoreCase("help")) {
             Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2帮助手册");
             Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq chat 来启用关闭群聊天");
             if (hasPermission) {
                 Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq say 内容 往群里发送测试消息");
-                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件和重新连接");
-                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq reload config 来重读插件配置文件");
-                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq reload socket 来重新连接");
+                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq reload 来重读插件配置文件");
+                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq socket 来重置连接超时次数");
+                Minecraft_QQ.side.send(sender, "§d[Minecraft_QQ]§2使用/qq drop 强制断开当前连接");
             }
         } else if (args[0].equalsIgnoreCase("say") && hasPermission) {
             if (args.length > 1) {

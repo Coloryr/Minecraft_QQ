@@ -37,12 +37,10 @@
   "System": {
     "IP": "localhost",
     "Port": 25555,
-    "AutoConnect": false,
     "AutoConnectTime": 10,
     "Debug": false,
     "Head": "[Head]",
-    "End": "[End]",
-    "Sleep": 50
+    "End": "[End]"
   },
   "User": {
     "SendSucceed": true,
@@ -65,5 +63,5 @@
     "MessageON": "§2你开始接受群消息"
   },
   "Mute": [],
-  "Version": "2.7.3"
+  "Version": "2.7.4"
 }
