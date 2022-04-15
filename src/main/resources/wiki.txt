@@ -42,7 +42,7 @@ Minecraft_QQ帮助手册
 
 发送消息到其他子服，仅BC有这个功能
   SendAllServer
-    Enable: true,
+    Enable
     Message
     OnlySideServer
 
@@ -52,18 +52,10 @@ Minecraft_QQ帮助手册
      IP
      Minecraft_QQ_Gui/Cmd端口
      Port
-     是否自动重连
-     AutoConnect
      自动重连间隔
      AutoConnectTime
      调试模式
      Debug
-     数据包头
-     Head
-     数据包尾
-     End
-     线程休眠
-     Sleep
 
 玩家相关设置
     不发送玩家输入的指令到群里

@@ -1,10 +1,10 @@
 package coloryr.minecraft_qq;
 
-import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.api.ILogger;
+import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.config.ConfigOBJ;
-import coloryr.minecraft_qq.utils.SocketUtils;
 import coloryr.minecraft_qq.utils.Logs;
+import coloryr.minecraft_qq.utils.SocketUtils;
 import com.google.gson.Gson;
 
 import java.io.*;

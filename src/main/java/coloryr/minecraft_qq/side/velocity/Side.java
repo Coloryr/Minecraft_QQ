@@ -1,13 +1,13 @@
 package coloryr.minecraft_qq.side.velocity;
 
+import coloryr.minecraft_qq.MVelocity;
+import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.api.Placeholder;
-import coloryr.minecraft_qq.Minecraft_QQ;
-import coloryr.minecraft_qq.MVelocity;
 import coloryr.minecraft_qq.json.ReadOBJ;
 import coloryr.minecraft_qq.side.ASide;
-import coloryr.minecraft_qq.utils.SocketUtils;
 import coloryr.minecraft_qq.utils.Logs;
+import coloryr.minecraft_qq.utils.SocketUtils;
 import com.google.gson.Gson;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
@@ -34,7 +34,7 @@ public class Side implements ISide {
             try {
                 Gson read_gson = new Gson();
                 readobj = read_gson.fromJson(message, ReadOBJ.class);
-                MVelocity.plugin.server.getScheduler().buildTask(MVelocity.plugin, ()->{
+                MVelocity.plugin.server.getScheduler().buildTask(MVelocity.plugin, () -> {
                     GroupEvent eventVelocity = new GroupEvent(readobj);
                     MVelocity.plugin.server.getEventManager().fireAndForget(eventVelocity);
                 }).schedule();

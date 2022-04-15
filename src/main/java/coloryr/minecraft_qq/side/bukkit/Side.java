@@ -1,13 +1,13 @@
 package coloryr.minecraft_qq.side.bukkit;
 
+import coloryr.minecraft_qq.MBukkit;
+import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.api.Placeholder;
-import coloryr.minecraft_qq.Minecraft_QQ;
-import coloryr.minecraft_qq.MBukkit;
 import coloryr.minecraft_qq.json.ReadOBJ;
 import coloryr.minecraft_qq.side.ASide;
-import coloryr.minecraft_qq.utils.SocketUtils;
 import coloryr.minecraft_qq.utils.Logs;
+import coloryr.minecraft_qq.utils.SocketUtils;
 import com.google.gson.Gson;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -34,7 +34,7 @@ public class Side implements ISide {
             try {
                 Gson read_gson = new Gson();
                 readobj = read_gson.fromJson(message, ReadOBJ.class);
-                Bukkit.getScheduler().runTask(MBukkit.plugin, ()->{
+                Bukkit.getScheduler().runTask(MBukkit.plugin, () -> {
                     GroupEvent eventBukkit = new GroupEvent(readobj);
                     Bukkit.getPluginManager().callEvent(eventBukkit);
                 });

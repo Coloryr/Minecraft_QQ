@@ -1,7 +1,7 @@
 package coloryr.minecraft_qq.utils;
 
-import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.Minecraft_QQ;
+import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.json.SendOBJ;
 import com.google.gson.Gson;
 
@@ -17,14 +17,13 @@ public class SocketUtils {
     private static Socket socket = null;
     private static final Queue<String> queueRead = new ConcurrentLinkedQueue<>();
     private static final Queue<byte[]> queueSend = new ConcurrentLinkedQueue<>();
-    private static Thread readThread;
-    private static Thread doThread;
     private static boolean isRun;
     private static boolean isConnect;
     private static final Gson gson = new Gson();
+    private static int timeout;
 
     public static void start() {
-        doThread = new Thread(() -> {
+        Thread doThread = new Thread(() -> {
             while (isRun) {
                 try {
                     String temp = queueRead.poll();
@@ -40,8 +39,7 @@ public class SocketUtils {
                 }
             }
         });
-        readThread = new Thread(() -> {
-            boolean first = true;
+        Thread readThread = new Thread(() -> {
             try {
                 while (!isRun) {
                     Thread.sleep(100);
@@ -60,10 +58,7 @@ public class SocketUtils {
                         queueSend.add("test".getBytes(StandardCharsets.UTF_8));
                     }
                     if (!isConnect) {
-                        if (first) {
-                            first = false;
-                            reConnect();
-                        } else if (Minecraft_QQ.config.System.AutoConnect) {
+                        if (timeout < 10) {
                             Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5" + Minecraft_QQ.config.System.AutoConnectTime + "秒后重连");
                             try {
                                 int a = Minecraft_QQ.config.System.AutoConnectTime;
@@ -71,11 +66,14 @@ public class SocketUtils {
                                     Thread.sleep(1000);
                                     a--;
                                 }
-                            } catch (InterruptedException interruptedException) {
-                                interruptedException.printStackTrace();
+                            } catch (InterruptedException ignored) {
+
                             }
                             Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui重连中");
                             reConnect();
+                        } else if (timeout == 10) {
+                            Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5自动重连失败次数过多，输入/qq socket 来重置连接超时次数");
+                            timeout = 12;
                         }
                     } else {
                         if (socket.getInputStream().available() > 0) {
@@ -93,7 +91,7 @@ public class SocketUtils {
                     }
                     Thread.sleep(50);
                 } catch (Exception e) {
-                    Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Minecraft_QQ_Cmd/Gui连接失败");
+                    Minecraft_QQ.log.warning("§d[Minecraft_QQ]§5Socket错误");
                     e.printStackTrace();
                     isConnect = false;
                 }
@@ -120,6 +118,7 @@ public class SocketUtils {
             isConnect = true;
         } catch (Exception e) {
             Minecraft_QQ.log.info("§d[Minecraft_QQ]§cMinecraft_QQ_Cmd/Gui连接失败");
+            timeout++;
             e.printStackTrace();
         }
     }
@@ -166,8 +165,8 @@ public class SocketUtils {
             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]发送数据：" + send);
     }
 
-    public static void socketRestart() {
-        if (socket != null) {
+    public static void socketClose() {
+        if (socket != null && isConnect) {
             try {
                 socket.close();
             } catch (IOException e) {
@@ -178,5 +177,9 @@ public class SocketUtils {
 
     public static boolean isRun() {
         return isConnect;
+    }
+
+    public static void socketReset() {
+        timeout = 0;
     }
 }

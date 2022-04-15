@@ -1,13 +1,12 @@
 plugins {
     id 'java'
-    id 'maven-publish'
 }
 
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
-version = "2.7.3"
+version = "2.7.4"
 
 repositories {
 
@@ -28,12 +27,11 @@ dependencies {
     compile 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
     compile 'net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.10.9'
-    compileOnly 'com.velocitypowered:velocity-api:1.1.4'
+    compileOnly 'com.velocitypowered:velocity-api:3.0.1'
 
-    annotationProcessor 'com.velocitypowered:velocity-api:1.1.4'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.0.1'
 
 }
-
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
