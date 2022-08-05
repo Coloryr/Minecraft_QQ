@@ -1,15 +1,15 @@
 {
   "Join": {
     "Message": "%player%加入了服务器",
-    "sendQQ": true
+    "Send": true
   },
   "Quit": {
     "Message": "%player%退出了服务器",
-    "sendQQ": true
+    "Send": true
   },
   "ChangeServer": {
     "Message": "%player%加入了子服%server%",
-    "sendQQ": true
+    "Send": true
   },
   "ServerSet": {
     "ServerName": "[MC服务器]",
@@ -22,7 +22,7 @@
     "HideEmptyServer": true,
     "PlayerListMessage": "%servername%当前在线人数：%playernumber%，玩家列表：%playerlist%",
     "ServerOnlineMessage": "%servername%服务器在线",
-    "BungeeCord": false,
+    "TopMode": false,
     "CommandDelay": 2000
   },
   "Servers": {
@@ -41,7 +41,6 @@
     "Debug": false
   },
   "User": {
-    "SendSucceed": true,
     "NotSendCommand": true
   },
   "Logs": {
