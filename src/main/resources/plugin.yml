@@ -1,7 +1,7 @@
 name: Minecraft_QQ
 main: coloryr.minecraft_qq.MBukkit
 author: Color_yr
-version: 2.7.4
+version: 3.0.0
 
 loadbefore: [PlaceholderAPI]
 softdepend: [PlaceholderAPI]

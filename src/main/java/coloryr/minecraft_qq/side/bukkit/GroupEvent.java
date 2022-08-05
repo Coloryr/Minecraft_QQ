@@ -1,7 +1,7 @@
 package coloryr.minecraft_qq.side.bukkit;
 
 import coloryr.minecraft_qq.api.IGroupEvent;
-import coloryr.minecraft_qq.json.ReadOBJ;
+import coloryr.minecraft_qq.json.ReadObj;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ public class GroupEvent extends Event implements IGroupEvent {
     private boolean isCommand;
     private String command;
 
-    public GroupEvent(ReadOBJ obj) {
+    public GroupEvent(ReadObj obj) {
         this.group = obj.group;
         this.message = obj.message;
         this.player = obj.player;

@@ -26,7 +26,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (SocketUtils.isRun() && Minecraft_QQ.config.Join.sendQQ) {
+        if (SocketUtils.isRun() && Minecraft_QQ.config.Join.Send) {
             String playerName = event.getPlayer().getName();
             SocketUtils.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.config.Join.Message, event.getPlayer()));
@@ -35,7 +35,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (SocketUtils.isRun() && Minecraft_QQ.config.Quit.sendQQ) {
+        if (SocketUtils.isRun() && Minecraft_QQ.config.Quit.Send) {
             String playerName = event.getPlayer().getName();
             SocketUtils.sendData(Placeholder.data, Placeholder.group,
                     playerName, message(Minecraft_QQ.config.Quit.Message, event.getPlayer()));

@@ -1,12 +1,12 @@
 package coloryr.minecraft_qq.json;
 
-public class SendOBJ {
+public class SendObj {
     public String group;
     public String message;
     public String data;
     public String player;
 
-    public SendOBJ(String data, String group, String player, String message) {
+    public SendObj(String data, String group, String player, String message) {
         this.data = data;
         this.group = group;
         this.message = message;

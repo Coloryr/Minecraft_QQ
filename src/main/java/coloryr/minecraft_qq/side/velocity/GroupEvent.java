@@ -1,7 +1,7 @@
 package coloryr.minecraft_qq.side.velocity;
 
 import coloryr.minecraft_qq.api.IGroupEvent;
-import coloryr.minecraft_qq.json.ReadOBJ;
+import coloryr.minecraft_qq.json.ReadObj;
 
 public class GroupEvent implements IGroupEvent {
     private String group;
@@ -10,7 +10,7 @@ public class GroupEvent implements IGroupEvent {
     private boolean isCommand;
     private String command;
 
-    public GroupEvent(ReadOBJ obj) {
+    public GroupEvent(ReadObj obj) {
         this.group = obj.group;
         this.message = obj.message;
         this.player = obj.player;

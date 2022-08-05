@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Minecraft_QQ {
-    public final static String version = "2.7.3";
+    public final static String version = "3.0.0";
     public static ISide side;
     public static ConfigOBJ config;
     public static ILogger log;
@@ -20,7 +20,7 @@ public class Minecraft_QQ {
 
     public static void load() {
         try {
-            InputStreamReader reader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+            InputStreamReader reader = new InputStreamReader(Files.newInputStream(fileName.toPath()), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
             config = new Gson().fromJson(bf, ConfigOBJ.class);
             if (config == null || config.System == null

@@ -1,6 +1,6 @@
 package coloryr.minecraft_qq.json;
 
-public class ReadOBJ {
+public class ReadObj {
     public String group;
     public String message;
     public String player;

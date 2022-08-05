@@ -21,7 +21,7 @@ public class MBukkit extends JavaPlugin {
         Minecraft_QQ.side = new Side();
         new Minecraft_QQ().init(getDataFolder());
 
-        if (!Minecraft_QQ.config.ServerSet.BungeeCord) {
+        if (!Minecraft_QQ.config.ServerSet.TopMode) {
             Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         }
 

@@ -3,13 +3,13 @@ package coloryr.minecraft_qq.side;
 import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.api.Placeholder;
 import coloryr.minecraft_qq.config.ConfigOBJ;
-import coloryr.minecraft_qq.json.ReadOBJ;
+import coloryr.minecraft_qq.json.ReadObj;
 import coloryr.minecraft_qq.utils.Logs;
 import coloryr.minecraft_qq.utils.SocketUtils;
 import com.google.gson.Gson;
 
 public class ASide {
-    public static void globeCheck(ReadOBJ readobj) {
+    public static void globeCheck(ReadObj readobj) {
         if (readobj.command.equalsIgnoreCase(Placeholder.server)) {
             String send = Minecraft_QQ.config.ServerSet.ServerOnlineMessage;
             send = send.replaceAll(Minecraft_QQ.config.Placeholder.ServerName, Minecraft_QQ.config.ServerSet.ServerName);

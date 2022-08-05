@@ -11,7 +11,7 @@ public class ServerSetOBJ {
     public boolean HideEmptyServer;
     public String PlayerListMessage;
     public String ServerOnlineMessage;
-    public boolean BungeeCord;
+    public boolean TopMode;
     public int CommandDelay;
 
     public ServerSetOBJ() {
@@ -25,7 +25,7 @@ public class ServerSetOBJ {
         HideEmptyServer = true;
         PlayerListMessage = "%servername%当前在线人数：%playernumber%，玩家列表：%playerlist%";
         ServerOnlineMessage = "%servername%服务器在线";
-        BungeeCord = false;
+        TopMode = false;
         CommandDelay = 2000;
     }
 }

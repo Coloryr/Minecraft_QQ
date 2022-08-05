@@ -4,11 +4,10 @@ import coloryr.minecraft_qq.MBukkit;
 import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.api.Placeholder;
-import coloryr.minecraft_qq.json.ReadOBJ;
+import coloryr.minecraft_qq.json.ReadObj;
 import coloryr.minecraft_qq.side.ASide;
 import coloryr.minecraft_qq.utils.Logs;
 import coloryr.minecraft_qq.utils.SocketUtils;
-import com.google.gson.Gson;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,14 +25,11 @@ public class Side implements ISide {
     }
 
     @Override
-    public void message(String message) {
+    public void message(ReadObj readobj) {
         try {
             if (Minecraft_QQ.config.System.Debug)
-                Minecraft_QQ.log.info("处理数据：" + message);
-            ReadOBJ readobj;
+                Minecraft_QQ.log.info("处理数据：" + readobj.message);
             try {
-                Gson read_gson = new Gson();
-                readobj = read_gson.fromJson(message, ReadOBJ.class);
                 Bukkit.getScheduler().runTask(MBukkit.plugin, () -> {
                     GroupEvent eventBukkit = new GroupEvent(readobj);
                     Bukkit.getPluginManager().callEvent(eventBukkit);
@@ -43,7 +39,7 @@ public class Side implements ISide {
                 e.printStackTrace();
                 return;
             }
-            if (!readobj.isCommand && !Minecraft_QQ.config.ServerSet.BungeeCord) {
+            if (!readobj.isCommand && !Minecraft_QQ.config.ServerSet.TopMode) {
                 if (readobj.command.equalsIgnoreCase(Placeholder.speak)) {
                     String say = Minecraft_QQ.config.ServerSet.Say
                             .replaceFirst(Minecraft_QQ.config.Placeholder.ServerName, Minecraft_QQ.config.ServerSet.ServerName)

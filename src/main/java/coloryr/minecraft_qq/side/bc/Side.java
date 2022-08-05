@@ -4,7 +4,7 @@ import coloryr.minecraft_qq.MBC;
 import coloryr.minecraft_qq.Minecraft_QQ;
 import coloryr.minecraft_qq.api.ISide;
 import coloryr.minecraft_qq.api.Placeholder;
-import coloryr.minecraft_qq.json.ReadOBJ;
+import coloryr.minecraft_qq.json.ReadObj;
 import coloryr.minecraft_qq.side.ASide;
 import coloryr.minecraft_qq.utils.Logs;
 import coloryr.minecraft_qq.utils.SocketUtils;
@@ -27,15 +27,12 @@ public class Side implements ISide {
     }
 
     @Override
-    public void message(String message) {
+    public void message(ReadObj readobj) {
         try {
             if (Minecraft_QQ.config.System.Debug)
-                Minecraft_QQ.log.info("处理数据：" + message);
+                Minecraft_QQ.log.info("处理数据：" + readobj.message);
             ProxyServer proxyserver = ProxyServer.getInstance();
-            ReadOBJ readobj;
             try {
-                Gson read_gson = new Gson();
-                readobj = read_gson.fromJson(message, ReadOBJ.class);
                 MBC.plugin.getProxy().getScheduler().runAsync(MBC.plugin, () -> {
                     GroupEvent eventBC = new GroupEvent(readobj);
                     MBC.plugin.getProxy().getPluginManager().callEvent(eventBC);
