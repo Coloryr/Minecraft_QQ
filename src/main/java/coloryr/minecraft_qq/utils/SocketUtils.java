@@ -110,6 +110,10 @@ public class SocketUtils {
         try {
             Minecraft_QQ.log.info("§d[Minecraft_QQ]§5正在连接Minecraft_QQ_Cmd/Gui");
 
+            if(client!=null && client.isOpen()){
+                client.close().sync();
+            }
+
             client = bootstrap.connect(Minecraft_QQ.config.System.IP, Minecraft_QQ.config.System.Port).await().channel();
             if (client.isActive()) {
                 Thread.sleep(200);
@@ -212,6 +216,7 @@ public class SocketUtils {
 
         @Override
         public void exceptionCaught(ChannelHandlerContext context, Throwable cause) {
+            cause.printStackTrace();
             isConnect = false;
             context.close();
         }
