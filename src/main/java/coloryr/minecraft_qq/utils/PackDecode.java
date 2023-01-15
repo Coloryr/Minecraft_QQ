@@ -9,7 +9,7 @@ public class PackDecode {
     public static String readString(ByteBuf buff) {
         int length = buff.readInt();
         byte[] temp = new byte[length];
-        buff.readBytes(temp);
+        buff.readBytes(temp, 0, length);
         return new String(temp, StandardCharsets.UTF_8);
     }
 
