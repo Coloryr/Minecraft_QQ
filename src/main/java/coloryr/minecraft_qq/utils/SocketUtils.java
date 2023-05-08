@@ -79,6 +79,7 @@ public class SocketUtils {
                             if (Minecraft_QQ.config.System.Debug)
                                 Minecraft_QQ.log.info("§d[Minecraft_QQ]§5[Debug]收到数据：" + temp);
                             ReadObj obj = PackDecode.ToObj(temp);
+                            temp.release();
                             Minecraft_QQ.side.message(obj);
                         }
 
